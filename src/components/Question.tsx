@@ -65,6 +65,7 @@ const Question: React.FC<Question> = ({ question }) => {
       {/* </Box> */}
       <CardContent>
         <Box display="flex" justifyContent="space-between">
+          {/*Start Question Title and body */}
           <Box>
             <Link to={`${question.question_id}`}>
               <Typography
@@ -86,7 +87,9 @@ const Question: React.FC<Question> = ({ question }) => {
               {question.question_body}
             </Typography>
           </Box>
-          {/* up votes and other */}
+          {/*End Question Title and body */}
+          {/*Start  UpVotes and other */}
+          {/*TODO edit upvotes Styling*/}
           <Box>
             <Stack direction="row" mb={1}>
               <Box display="flex" alignItems="center" color="success.main">
@@ -109,16 +112,20 @@ const Question: React.FC<Question> = ({ question }) => {
               <Visibility fontSize="small" />
             </Box>
           </Box>
+          {/*End of UpVotes */}
         </Box>
+
+        {/*Start of Tags And User Display*/}
+        {/*TODO ADD  User Display Here  */}
         <Box sx={{ display: "flex", flexWrap: "wrap" }}>
           {question.tags.map((tag) => (
             <Box key={tag.tag_id} sx={{ mt: 1, mr: 2 }}>
               <Typography
+                component="span"
                 sx={{
                   p: "1px 6px",
                   fontSize: "14px",
                   borderRadius: "4px",
-                  width: "auto",
                   bgcolor: "hsl(205deg 46% 92%)",
                   color: "hsl(205deg 47% 42%)",
                 }}
@@ -128,6 +135,7 @@ const Question: React.FC<Question> = ({ question }) => {
             </Box>
           ))}
         </Box>
+        {/*End of Tags And User Display*/}
       </CardContent>
     </Card>
   );

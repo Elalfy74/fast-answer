@@ -1,8 +1,8 @@
 import { Logo } from "./";
 
 import {
-  Avatar,
   Box,
+  Button,
   IconButton,
   List,
   ListItem,
@@ -51,8 +51,6 @@ const LeftSideBar: React.FC = () => {
     <Box>
       <List
         sx={{
-          width: "100%",
-          maxWidth: 360,
           bgcolor: "background.paper",
           borderRadius: "8px",
         }}
@@ -61,13 +59,46 @@ const LeftSideBar: React.FC = () => {
           <Logo />
         </ListItem>
         {LeftSideBarList.map((item, index) => (
-          <ListItem key={item.label}>
-            <Tooltip title={item.label} open={false}>
-              <ListItemIcon>
-                <IconButton>{item.icon}</IconButton>
+          <ListItem
+            key={item.label}
+            sx={{ px: { xs: 0, xl: "16px" }, mb: "10px" }}
+          >
+            <Button
+              color="info"
+              component="div"
+              variant="text"
+              sx={{
+                borderRadius: "20px",
+                px: 2,
+                display: { xs: "none", xl: "flex" },
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: "auto",
+                  mr: 1,
+                  color: "primary.main",
+                }}
+              >
+                {item.icon}
               </ListItemIcon>
-            </Tooltip>
-            <ListItemText primary={item.label} />
+              <ListItemText
+                primary={item.label}
+                sx={{ fontWeight: "500" }}
+                disableTypography={true}
+              />
+            </Button>
+            <ListItemIcon
+              sx={{
+                width: "100%",
+                display: { xs: "none", sm: "flex", xl: "none" },
+                justifyContent: "center",
+              }}
+            >
+              <Tooltip title={item.label}>
+                <IconButton color="primary">{item.icon}</IconButton>
+              </Tooltip>
+            </ListItemIcon>
           </ListItem>
         ))}
       </List>
