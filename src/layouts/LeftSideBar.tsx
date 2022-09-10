@@ -1,4 +1,4 @@
-import { Logo } from "./";
+import { Logo } from "../components";
 
 import {
   Box,
@@ -46,9 +46,10 @@ const LeftSideBarList = [
     icon: <Person />,
   },
 ];
-const LeftSideBar: React.FC = () => {
+
+const LeftSideBar = () => {
   return (
-    <Box>
+    <Box component="nav">
       <List
         sx={{
           bgcolor: "background.paper",

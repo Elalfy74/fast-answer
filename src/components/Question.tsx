@@ -1,5 +1,6 @@
 // Start MUI Components
 import { Link } from "react-router-dom";
+import { QuestionType } from "./Question.types";
 import {
   Card,
   CardContent,
@@ -16,24 +17,7 @@ import {
   Visibility,
 } from "@mui/icons-material";
 
-interface Question {
-  question: {
-    question_id: number;
-    question_title: string;
-    question_body: string;
-    creation_time: string;
-    owner: {
-      user_first_name: string;
-      avatar?: string;
-    };
-    tags: {
-      tag_id: number;
-      tag_name: string;
-    }[];
-  };
-}
-
-const Question: React.FC<Question> = ({ question }) => {
+const Question = ({ question }: QuestionType) => {
   return (
     <Card variant="outlined" sx={{ width: "100%", mb: 4 }}>
       {/* <Box sx={{ display: "flex", p: "12px" }}> */}
@@ -64,7 +48,7 @@ const Question: React.FC<Question> = ({ question }) => {
         </Box> */}
       {/* </Box> */}
       <CardContent>
-        <Box display="flex" justifyContent="space-between">
+        <Stack direction="row" justifyContent="space-between">
           {/*Start Question Title and body */}
           <Box>
             <Link to={`${question.question_id}`}>
@@ -113,11 +97,11 @@ const Question: React.FC<Question> = ({ question }) => {
             </Box>
           </Box>
           {/*End of UpVotes */}
-        </Box>
+        </Stack>
 
         {/*Start of Tags And User Display*/}
         {/*TODO ADD  User Display Here  */}
-        <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+        <Stack direction="row">
           {question.tags.map((tag) => (
             <Box key={tag.tag_id} sx={{ mt: 1, mr: 2 }}>
               <Typography
@@ -134,7 +118,7 @@ const Question: React.FC<Question> = ({ question }) => {
               </Typography>
             </Box>
           ))}
-        </Box>
+        </Stack>
         {/*End of Tags And User Display*/}
       </CardContent>
     </Card>
