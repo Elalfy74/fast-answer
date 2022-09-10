@@ -1,6 +1,20 @@
 // Start MUI Components
-import { Card, CardContent, Typography, Box, Avatar } from "@mui/material";
 import { Link } from "react-router-dom";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Box,
+  Avatar,
+  Stack,
+  Paper,
+} from "@mui/material";
+import {
+  ArrowUpward,
+  ArrowDownward,
+  Forum,
+  Visibility,
+} from "@mui/icons-material";
 
 interface Question {
   question: {
@@ -21,17 +35,17 @@ interface Question {
 
 const Question: React.FC<Question> = ({ question }) => {
   return (
-    <Card sx={{ width: "100%", mb: 1 }}>
-      <Box sx={{ display: "flex", p: "12px" }}>
-        <Avatar
+    <Card variant="outlined" sx={{ width: "100%", mb: 4 }}>
+      {/* <Box sx={{ display: "flex", p: "12px" }}> */}
+      {/* <Avatar
           alt="user avatar"
           src={
             question.owner.avatar ||
             "https://www.pinclipart.com/picdir/big/547-5474602_character-avatar-clipart.png"
           }
           sx={{ width: 45, height: 45, mr: "5px" }}
-        />
-        <Box sx={{ display: "flex", flexDirection: "column" }}>
+        /> */}
+      {/* <Box sx={{ display: "flex", flexDirection: "column" }}>
           <Typography
             gutterBottom
             variant="body1"
@@ -47,27 +61,55 @@ const Question: React.FC<Question> = ({ question }) => {
           >
             {question.creation_time}
           </Typography>
+        </Box> */}
+      {/* </Box> */}
+      <CardContent>
+        <Box display="flex" justifyContent="space-between">
+          <Box>
+            <Link to={`${question.question_id}`}>
+              <Typography
+                component="h3"
+                color="secondary.main"
+                variant="h6"
+                gutterBottom
+                sx={{
+                  transition: "all 0.2s ",
+                  "&:hover": {
+                    color: "secondary.100",
+                  },
+                }}
+              >
+                {question.question_title || "This is Title"}
+              </Typography>
+            </Link>
+            <Typography noWrap variant="body2">
+              {question.question_body}
+            </Typography>
+          </Box>
+          {/* up votes and other */}
+          <Box>
+            <Stack direction="row" mb={1}>
+              <Box display="flex" alignItems="center" color="success.main">
+                <Typography component="span">{"13"}</Typography>
+                <ArrowUpward fontSize="small" />
+              </Box>
+              <Box display="flex" alignItems="center" color="error.main">
+                <Typography>{"13"}</Typography>
+                <ArrowDownward fontSize="small" />
+              </Box>
+            </Stack>
+
+            <Box mb={1} display="flex" alignItems="center" color="info.main">
+              <Typography>{"13"}</Typography>
+              <Forum fontSize="small" />
+            </Box>
+
+            <Box display="flex" alignItems="center" color="warning.light">
+              <Typography>{"13"}</Typography>
+              <Visibility fontSize="small" />
+            </Box>
+          </Box>
         </Box>
-      </Box>
-      <CardContent sx={{ pt: 0 }}>
-        <Link to={`${question.question_id}`}>
-          <Typography
-            component="h3"
-            sx={{
-              color: "hsl(206deg 100% 40%)",
-              fontSize: "1.3rem",
-              mb: 0.5,
-              "&:hover": {
-                color: "hsl(206,100%,52%)",
-              },
-            }}
-          >
-            {question.question_title || "This is Title"}
-          </Typography>
-        </Link>
-        <Typography noWrap variant="body2">
-          {question.question_body}
-        </Typography>
         <Box sx={{ display: "flex", flexWrap: "wrap" }}>
           {question.tags.map((tag) => (
             <Box key={tag.tag_id} sx={{ mt: 1, mr: 2 }}>

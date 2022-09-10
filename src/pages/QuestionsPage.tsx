@@ -22,45 +22,35 @@ const QuestionsPage: React.FC = () => {
   // }, [dispatch, token, page]);
 
   return (
-    <Container
-      maxWidth="xl"
+    <Box
       sx={{
-        pt: 10,
         display: "flex",
-        justifyContent: "center",
+        flexDirection: "column",
+        alignItems: "center",
+        width: "100%",
       }}
     >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          maxWidth: 600,
-          width: "100%",
-        }}
-      >
-        <QuestionHeader />
-        {isLoading ? (
-          <CircularProgress color="primary" />
-        ) : (
-          <>
-            {questions &&
-              questions.map((question) => (
-                <Question key={question.question_id} question={question} />
-              ))}
-            <Pagination
-              count={3}
-              page={page}
-              onChange={(e, value) => {
-                setPage(value);
-              }}
-              color="primary"
-              shape="rounded"
-            />
-          </>
-        )}
-      </Box>
-    </Container>
+      {/* <QuestionHeader /> */}
+      {isLoading ? (
+        <CircularProgress color="primary" />
+      ) : (
+        <>
+          {questions &&
+            questions.map((question) => (
+              <Question key={question.question_id} question={question} />
+            ))}
+          <Pagination
+            count={3}
+            page={page}
+            onChange={(e, value) => {
+              setPage(value);
+            }}
+            color="primary"
+            shape="rounded"
+          />
+        </>
+      )}
+    </Box>
   );
 };
 
