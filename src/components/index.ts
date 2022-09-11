@@ -1,5 +1,5 @@
 import Question from "./Question";
 import QuestionHeader from "./QuestionHeader";
-import LeftDrawer from "./LeftDrawer";
+import Logo from "./Logo";
 
-export { Question, QuestionHeader, LeftDrawer };
+export { Question, QuestionHeader, Logo };

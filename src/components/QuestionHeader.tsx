@@ -1,7 +1,7 @@
 import { Typography, Button, Box } from "@mui/material";
 const title = "All Questions";
 
-const QuestionHeader: React.FC = () => {
+const QuestionHeader = () => {
   return (
     <Box
       sx={{
