@@ -1,16 +1,17 @@
 export type QuestionType = {
-  question: {
-    question_id: number;
-    question_title: string;
-    question_body: string;
-    creation_time: string;
-    owner: {
-      user_first_name: string;
-      avatar?: string;
-    };
-    tags: {
-      tag_id: number;
-      tag_name: string;
-    }[];
+  id: string;
+  title: string;
+  body: string;
+  creationTime: string;
+  author: {
+    authorId: string;
+    authorName: string;
+    avatar?: string;
   };
+  tags: Tag[];
+};
+
+export type Tag = {
+  id: string;
+  name: string;
 };

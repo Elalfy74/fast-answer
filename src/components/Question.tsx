@@ -17,7 +17,10 @@ import {
   Visibility,
 } from "@mui/icons-material";
 
-const Question = ({ question }: QuestionType) => {
+type QuestionProps = {
+  question: QuestionType;
+};
+const Question = ({ question }: QuestionProps) => {
   return (
     <Card variant="outlined" sx={{ width: "100%", mb: 4 }}>
       {/* <Box sx={{ display: "flex", p: "12px" }}> */}
@@ -50,8 +53,8 @@ const Question = ({ question }: QuestionType) => {
       <CardContent>
         <Stack direction="row" justifyContent="space-between">
           {/*Start Question Title and body */}
-          <Box>
-            <Link to={`${question.question_id}`}>
+          <Box overflow="hidden">
+            <Link to={`${question.id}`}>
               <Typography
                 component="h3"
                 color="secondary.main"
@@ -64,11 +67,11 @@ const Question = ({ question }: QuestionType) => {
                   },
                 }}
               >
-                {question.question_title || "This is Title"}
+                {question.title}
               </Typography>
             </Link>
             <Typography noWrap variant="body2">
-              {question.question_body}
+              {question.body}
             </Typography>
           </Box>
           {/*End Question Title and body */}
@@ -103,7 +106,7 @@ const Question = ({ question }: QuestionType) => {
         {/*TODO ADD  User Display Here  */}
         <Stack direction="row">
           {question.tags.map((tag) => (
-            <Box key={tag.tag_id} sx={{ mt: 1, mr: 2 }}>
+            <Box key={tag.id} sx={{ mt: 1, mr: 2 }}>
               <Typography
                 component="span"
                 sx={{
@@ -114,7 +117,7 @@ const Question = ({ question }: QuestionType) => {
                   color: "hsl(205deg 47% 42%)",
                 }}
               >
-                {tag.tag_name}
+                {tag.name}
               </Typography>
             </Box>
           ))}

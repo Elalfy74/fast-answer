@@ -1,25 +1,22 @@
-// Start Custom Components
 import { useEffect, useState } from "react";
-import { questions } from "../data/questions";
-// End Custom Components
-import { Box, Container, Pagination, CircularProgress } from "@mui/material";
+
+import { Box, Pagination, CircularProgress, Skeleton } from "@mui/material";
 import { Question, QuestionHeader } from "../components";
-// import { asyncGetAllQuestions } from "../../redux/actions/questions_actions";
-// import { asyncGetAllTags } from "../../redux/actions/tags_actions";
-const QuestionsPage: React.FC = () => {
-  // const token = useSelector((state) => state.auth.token);
-  // const questions = useSelector((state) => state.questions.questions);
+import { QuestionType } from "../components/Question.types";
+import { getAllQuestions } from "../services/questions";
 
-  // const isLoading = useSelector((state) => state.questions.isLoading);
-  // const error = useSelector((state) => state.questions.error);
-  let isLoading = false;
-  const [page, setPage] = useState(1);
+const QuestionsPage = () => {
+  const [questions, setQuestions] = useState([] as QuestionType[]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   dispatch(asyncGetAllQuestions(token, page));
-  //   dispatch(asyncGetAllTags);
-  // }, [dispatch, token, page]);
+  useEffect(() => {
+    getAllQuestions().then((questions) => {
+      setIsLoading(false);
+      setQuestions(questions);
+    });
+  }, []);
+
+  // const [page, setPage] = useState(1);
 
   return (
     <Box
@@ -32,14 +29,14 @@ const QuestionsPage: React.FC = () => {
     >
       {/* <QuestionHeader /> */}
       {isLoading ? (
-        <CircularProgress color="primary" />
+        <Skeleton variant="rounded" width={"100%"} height={118} />
       ) : (
         <>
           {questions &&
             questions.map((question) => (
-              <Question key={question.question_id} question={question} />
+              <Question key={question.id} question={question} />
             ))}
-          <Pagination
+          {/* <Pagination
             count={3}
             page={page}
             onChange={(e, value) => {
@@ -47,7 +44,7 @@ const QuestionsPage: React.FC = () => {
             }}
             color="primary"
             shape="rounded"
-          />
+          /> */}
         </>
       )}
     </Box>
