@@ -18,7 +18,10 @@ import {
   Visibility,
 } from "@mui/icons-material";
 
-const Question = ({ question }: QuestionType) => {
+type QuestionProps = {
+  question: QuestionType;
+};
+const Question = ({ question }: QuestionProps) => {
   return (
     <Card variant="outlined" sx={{ width: "100%", mb: 4 }}>
       {/* <Box sx={{ display: "flex", p: "12px" }}> */}
@@ -51,8 +54,13 @@ const Question = ({ question }: QuestionType) => {
       <CardContent>
         <Stack direction="row" justifyContent="space-between">
           {/*Start Question Title and body */}
+<<<<<<< HEAD
           <Box sx={{ mb: 1, ml: 1 }}>
             <Link to={`${question.question_id}`}>
+=======
+          <Box overflow="hidden">
+            <Link to={`${question.id}`}>
+>>>>>>> c82f1d405702f3aa40017e39bc25e579bfa8091d
               <Typography
                 component="h3"
                 color="#3B6893"
@@ -64,11 +72,16 @@ const Question = ({ question }: QuestionType) => {
                   },
                 }}
               >
-                {question.question_title || "This is Title"}
+                {question.title}
               </Typography>
             </Link>
+<<<<<<< HEAD
             <Typography variant="body2" color="#989898">
               {question.question_body}
+=======
+            <Typography noWrap variant="body2">
+              {question.body}
+>>>>>>> c82f1d405702f3aa40017e39bc25e579bfa8091d
             </Typography>
           </Box>
           {/*End Question Title and body */}
@@ -101,12 +114,30 @@ const Question = ({ question }: QuestionType) => {
 
         {/*Start of Tags And User Display*/}
         {/*TODO ADD  User Display Here  */}
+<<<<<<< HEAD
 
         {/* User and Datetime */}
         <Box display='flex' justifyContent='space-between' sx={{ ml: 1 }} >
           <Box sx={{ display: 'flex', gap: 0.7, flexWrap: 'wrap' }} >
             <Box sx={{borderRadius: '50%'}}>
               <img src={avatar} alt="user avatar" width="25px" height="25px"/>
+=======
+        <Stack direction="row">
+          {question.tags.map((tag) => (
+            <Box key={tag.id} sx={{ mt: 1, mr: 2 }}>
+              <Typography
+                component="span"
+                sx={{
+                  p: "1px 6px",
+                  fontSize: "14px",
+                  borderRadius: "4px",
+                  bgcolor: "hsl(205deg 46% 92%)",
+                  color: "hsl(205deg 47% 42%)",
+                }}
+              >
+                {tag.name}
+              </Typography>
+>>>>>>> c82f1d405702f3aa40017e39bc25e579bfa8091d
             </Box>
             <Typography color="#6AA5FF">{question.owner.user_first_name}</Typography>
             <Typography>asked</Typography>
