@@ -1,6 +1,7 @@
 // Start MUI Components
 import { Link } from "react-router-dom";
 import { QuestionType } from "./Question.types";
+import avatar from "../assets/avatar.jpg"
 import {
   Card,
   CardContent,
@@ -50,13 +51,12 @@ const Question = ({ question }: QuestionType) => {
       <CardContent>
         <Stack direction="row" justifyContent="space-between">
           {/*Start Question Title and body */}
-          <Box>
+          <Box sx={{ mb: 1, ml: 1 }}>
             <Link to={`${question.question_id}`}>
               <Typography
                 component="h3"
-                color="secondary.main"
+                color="#3B6893"
                 variant="h6"
-                gutterBottom
                 sx={{
                   transition: "all 0.2s ",
                   "&:hover": {
@@ -67,32 +67,32 @@ const Question = ({ question }: QuestionType) => {
                 {question.question_title || "This is Title"}
               </Typography>
             </Link>
-            <Typography noWrap variant="body2">
+            <Typography variant="body2" color="#989898">
               {question.question_body}
             </Typography>
           </Box>
           {/*End Question Title and body */}
           {/*Start  UpVotes and other */}
-          {/*TODO edit upvotes Styling*/}
+          {/*TODO edit up votes Styling*/}
           <Box>
-            <Stack direction="row" mb={1}>
-              <Box display="flex" alignItems="center" color="success.main">
-                <Typography component="span">{"13"}</Typography>
+            <Stack direction="row" spacing={1} mb={1} >
+              <Box display="flex" alignItems="center" color="#151515">
+                <Typography sx={{ mr: 0.5 }} component="span">{"13"}</Typography>
                 <ArrowUpward fontSize="small" />
               </Box>
-              <Box display="flex" alignItems="center" color="error.main">
-                <Typography>{"13"}</Typography>
+              <Box display="flex" alignItems="center" color="#F24E1E">
+                <Typography sx={{ mr: 0.5 }}>{"13"}</Typography>
                 <ArrowDownward fontSize="small" />
               </Box>
             </Stack>
 
-            <Box mb={1} display="flex" alignItems="center" color="info.main">
-              <Typography>{"13"}</Typography>
+            <Box mb={1} display="flex" alignItems="center" color="#0FA958">
+              <Typography sx={{ mr: 0.5 }}>{"13"}</Typography>
               <Forum fontSize="small" />
             </Box>
 
-            <Box display="flex" alignItems="center" color="warning.light">
-              <Typography>{"13"}</Typography>
+            <Box display="flex" alignItems="center" color="#E4A951">
+              <Typography sx={{ mr: 0.5 }}>{"13"}</Typography>
               <Visibility fontSize="small" />
             </Box>
           </Box>
@@ -101,24 +101,38 @@ const Question = ({ question }: QuestionType) => {
 
         {/*Start of Tags And User Display*/}
         {/*TODO ADD  User Display Here  */}
-        <Stack direction="row">
-          {question.tags.map((tag) => (
-            <Box key={tag.tag_id} sx={{ mt: 1, mr: 2 }}>
-              <Typography
-                component="span"
-                sx={{
-                  p: "1px 6px",
-                  fontSize: "14px",
-                  borderRadius: "4px",
-                  bgcolor: "hsl(205deg 46% 92%)",
-                  color: "hsl(205deg 47% 42%)",
-                }}
-              >
-                {tag.tag_name}
-              </Typography>
+
+        {/* User and Datetime */}
+        <Box display='flex' justifyContent='space-between' sx={{ ml: 1 }} >
+          <Box sx={{ display: 'flex', gap: 0.7, flexWrap: 'wrap' }} >
+            <Box sx={{borderRadius: '50%'}}>
+              <img src={avatar} alt="user avatar" width="25px" height="25px"/>
             </Box>
-          ))}
-        </Stack>
+            <Typography color="#6AA5FF">{question.owner.user_first_name}</Typography>
+            <Typography>asked</Typography>
+            <Typography color='#616161' variant="caption" sx={{mt: 0.5}}>{question.creation_time}</Typography>
+          </Box>
+
+          {/* Tags */}
+          <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
+            {question.tags.map((tag) => (
+              <Box key={tag.tag_id} sx={{ mr: 2 }}>
+                <Typography
+                  component="span"
+                  sx={{
+                    p: "1px 6px",
+                    fontSize: "14px",
+                    borderRadius: "4px",
+                    bgcolor: "hsl(205deg 46% 92%)",
+                    color: "hsl(205deg 47% 42%)",
+                  }}
+                >
+                  {tag.tag_name}
+                </Typography>
+              </Box>
+            ))}
+          </Box>
+        </Box>
         {/*End of Tags And User Display*/}
       </CardContent>
     </Card>
