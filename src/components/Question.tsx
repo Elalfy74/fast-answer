@@ -1,4 +1,3 @@
-// Start MUI Components
 import { Link } from "react-router-dom";
 import { QuestionType, Tag } from "./Question.types";
 import {
@@ -21,8 +20,6 @@ type QuestionProps = {
   question: QuestionType;
 };
 const Question = ({ question }: QuestionProps) => {
-  // console.log(question.tags);
-  console.log(question.tags[0]);
   return (
     <Card variant="outlined" sx={{ width: "100%", minHeight: "163px" }}>
       {/* <Box sx={{ display: "flex", p: "12px" }}> */}
@@ -53,6 +50,7 @@ const Question = ({ question }: QuestionProps) => {
         </Box> */}
       {/* </Box> */}
       <CardContent>
+        {/*Start Question Info */}
         <Stack direction="row" justifyContent="space-between">
           {/*Start Question Title and body */}
           <Box overflow="hidden">
@@ -78,32 +76,33 @@ const Question = ({ question }: QuestionProps) => {
           </Box>
           {/*End Question Title and body */}
           {/*Start  UpVotes and other */}
-          {/*TODO edit upvotes Styling*/}
           <Box>
-            <Stack direction="row" mb={1}>
-              <Box display="flex" alignItems="center" color="success.main">
-                <Typography component="span">{"13"}</Typography>
+            <Stack direction="row" spacing={1} mb={1}>
+              <Box display="flex" alignItems="center" color="#151515">
+                <Typography sx={{ mr: 0.5 }} component="span">
+                  {"13"}
+                </Typography>
                 <ArrowUpward fontSize="small" />
               </Box>
-              <Box display="flex" alignItems="center" color="error.main">
-                <Typography>{"13"}</Typography>
+              <Box display="flex" alignItems="center" color="#F24E1E">
+                <Typography sx={{ mr: 0.5 }}>{"13"}</Typography>
                 <ArrowDownward fontSize="small" />
               </Box>
             </Stack>
 
-            <Box mb={1} display="flex" alignItems="center" color="info.main">
-              <Typography>{"13"}</Typography>
+            <Box mb={1} display="flex" alignItems="center" color="#0FA958">
+              <Typography sx={{ mr: 0.5 }}>{"13"}</Typography>
               <Forum fontSize="small" />
             </Box>
 
-            <Box display="flex" alignItems="center" color="warning.light">
-              <Typography>{"13"}</Typography>
+            <Box display="flex" alignItems="center" color="#E4A951">
+              <Typography sx={{ mr: 0.5 }}>{"13"}</Typography>
               <Visibility fontSize="small" />
             </Box>
           </Box>
           {/*End of UpVotes */}
         </Stack>
-
+        {/*End Question Info */}
         {/*Start of Tags And User Display*/}
         {/*TODO ADD  User Display Here  */}
         <Stack direction="row">

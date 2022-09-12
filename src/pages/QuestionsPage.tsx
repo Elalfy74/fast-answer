@@ -10,7 +10,7 @@ import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 const QuestionsPage = () => {
   const [questions, setQuestions] = useState([] as QuestionType[]);
   const [loading, setLoading] = useState("idle" as Loading);
-  const [reachedBottom, setReachedBottom] = useState(false);
+  const [paginationTrigger, setPaginationTrigger] = useState(false);
   const [lastDoc, setLastDoc] = useState(
     null as QueryDocumentSnapshot<DocumentData> | null
   );
@@ -23,24 +23,21 @@ const QuestionsPage = () => {
 
   useEffect(() => {
     getNextQuestions();
-  }, [reachedBottom]);
+  }, [paginationTrigger]);
 
   window.onscroll = () => {
     if (
-      window.innerHeight + document.documentElement.scrollTop ===
-      document.documentElement.offsetHeight
+      window.innerHeight + document.documentElement.scrollTop + 70 >=
+        document.documentElement.offsetHeight &&
+      loading !== "finished" &&
+      loading !== "pending"
     ) {
-      setReachedBottom(true);
+      setPaginationTrigger(!paginationTrigger);
     }
   };
 
   return (
-    <Stack
-      className="stack-container"
-      direction="column"
-      alignItems="center"
-      spacing={4}
-    >
+    <Stack direction="column" alignItems="center" spacing={4}>
       {/* <QuestionHeader /> */}
 
       {questions.length > 0 &&

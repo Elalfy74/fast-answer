@@ -3,13 +3,13 @@ import {
   collection,
   getDocs,
   getDoc,
-  QuerySnapshot,
   DocumentData,
   limit,
   orderBy,
   query,
   QueryDocumentSnapshot,
   startAfter,
+  DocumentReference,
 } from "firebase/firestore";
 
 import { Loading } from "../data/types";
@@ -28,52 +28,75 @@ export const getAllQuestions = async (
   >,
   setLoading: React.Dispatch<React.SetStateAction<Loading>>
 ) => {
-  let q;
+  let numberOfQuestions = 6;
+  let requestQuery;
 
   if (lastDoc) {
-    q = query(
+    requestQuery = query(
       questionsCollectionRef,
       orderBy("creationTime"),
       startAfter(lastDoc),
-      limit(6)
+      limit(numberOfQuestions)
     );
   } else {
-    q = query(questionsCollectionRef, orderBy("creationTime"), limit(6));
+    requestQuery = query(
+      questionsCollectionRef,
+      orderBy("creationTime"),
+      limit(numberOfQuestions)
+    );
   }
 
   setLoading("pending");
 
-  const questionsFromServer = await getDocs(q);
+  const questionsFromServer = await getDocs(requestQuery);
 
   setLastDoc(questionsFromServer.docs[questionsFromServer.docs.length - 1]);
 
-  if (questionsFromServer.empty) {
-    setLoading("finished");
-    return [];
-  }
-
-  let questionsList: QuestionType[] = await convertQuestions(
-    questionsFromServer
+  const questionsList: QuestionType[] = await formatQuestions(
+    questionsFromServer.docs
   );
 
-  setLoading("succeeded");
+  if (questionsFromServer.docs.length < numberOfQuestions) {
+    setLoading("finished");
+  } else {
+    setLoading("succeeded");
+  }
+
   return questionsList;
 };
 
-const convertQuestions = async (questions: QuerySnapshot<DocumentData>) => {
+const formatQuestions = async (
+  questions: QueryDocumentSnapshot<DocumentData>[]
+) => {
   let result: QuestionType[] = [];
 
-  for (const q of questions.docs) {
-    let question = { ...q.data(), id: q.id } as receivedQuestionType;
+  for (const ques of questions) {
+    const question = await formatQuestion(ques);
 
-    let tags: Tag[] = [];
-
-    for (const tag of question.tags) {
-      let tagData = await getDoc(tag);
-      tags.push({ ...tagData.data(), id: tagData.id } as Tag);
-    }
-
-    result.push({ ...question, tags: tags });
+    result.push(question);
   }
   return result;
+};
+
+const formatQuestion = async (
+  question: QueryDocumentSnapshot<DocumentData>
+) => {
+  let questionData = {
+    ...question.data(),
+    id: question.id,
+  } as receivedQuestionType;
+
+  let tags: Tag[] = await getTags(questionData.tags);
+
+  return { ...questionData, tags: tags };
+};
+
+const getTags = async (tagsRef: DocumentReference<DocumentData>[]) => {
+  let tags: Tag[] = [];
+
+  for (const tagRef of tagsRef) {
+    let tagDoc = await getDoc(tagRef);
+    tags.push({ ...tagDoc.data(), id: tagDoc.id } as Tag);
+  }
+  return tags;
 };
