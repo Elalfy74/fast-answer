@@ -4,6 +4,7 @@ import { theme } from "./contexts/theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { QuestionsPage } from "./pages";
 import { Wrapper } from "./layouts";
+import DummyScript from "./pages/DummyScript";
 
 const App = () => {
   return (
@@ -11,6 +12,7 @@ const App = () => {
       <AuthProvider>
         <CssBaseline />
         <Wrapper>
+          {/* <DummyScript /> */}
           <Routes>
             <Route path="/" element={<QuestionsPage />} />
           </Routes>

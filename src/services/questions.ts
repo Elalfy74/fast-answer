@@ -2,14 +2,15 @@ import { db } from "../firebase-config";
 import {
   collection,
   getDocs,
-  getDoc,
   DocumentData,
   limit,
   orderBy,
   query,
   QueryDocumentSnapshot,
   startAfter,
-  DocumentReference,
+  addDoc,
+  Timestamp,
+  doc,
 } from "firebase/firestore";
 
 import { Loading } from "../data/types";
@@ -19,6 +20,7 @@ import {
   Tag,
 } from "../components/Question.types";
 
+import { getTags } from "./tags";
 const questionsCollectionRef = collection(db, "questions");
 
 export const getAllQuestions = async (
@@ -91,12 +93,13 @@ const formatQuestion = async (
   return { ...questionData, tags: tags };
 };
 
-const getTags = async (tagsRef: DocumentReference<DocumentData>[]) => {
-  let tags: Tag[] = [];
+export const saveQuestion = async (uId: string, question: any, tags: any) => {
+  let formatedQuestion = {
+    ...question,
+    creationTime: Timestamp.fromDate(new Date()),
+    tags: tags.map((tag: string) => doc(db, "tags", tag)),
+    authorId: doc(db, "users", uId),
+  };
 
-  for (const tagRef of tagsRef) {
-    let tagDoc = await getDoc(tagRef);
-    tags.push({ ...tagDoc.data(), id: tagDoc.id } as Tag);
-  }
-  return tags;
+  await addDoc(questionsCollectionRef, formatedQuestion);
 };

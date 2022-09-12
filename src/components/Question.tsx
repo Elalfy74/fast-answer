@@ -1,3 +1,4 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import { QuestionType, Tag } from "./Question.types";
 import {
@@ -20,6 +21,7 @@ type QuestionProps = {
   question: QuestionType;
 };
 const Question = ({ question }: QuestionProps) => {
+  console.log(question);
   return (
     <Card variant="outlined" sx={{ width: "100%", minHeight: "163px" }}>
       {/* <Box sx={{ display: "flex", p: "12px" }}> */}
@@ -128,4 +130,4 @@ const Question = ({ question }: QuestionProps) => {
     </Card>
   );
 };
-export default Question;
+export default React.memo(Question);

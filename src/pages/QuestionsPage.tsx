@@ -20,7 +20,6 @@ const QuestionsPage = () => {
 
     setQuestions((oldQuestions) => [...oldQuestions, ...data]);
   };
-
   useEffect(() => {
     getNextQuestions();
   }, [paginationTrigger]);
@@ -32,7 +31,7 @@ const QuestionsPage = () => {
       loading !== "finished" &&
       loading !== "pending"
     ) {
-      setPaginationTrigger(!paginationTrigger);
+      setPaginationTrigger((prevState) => !prevState);
     }
   };
 
