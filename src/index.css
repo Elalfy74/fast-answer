@@ -1,3 +1,7 @@
 a {
   text-decoration: none;
 }
+
+.stack-container::-webkit-scrollbar {
+  display: none;
+}
