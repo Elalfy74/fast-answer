@@ -1,3 +1,5 @@
+import { DocumentData, DocumentReference } from "firebase/firestore";
+
 export type QuestionType = {
   id: string;
   title: string;
@@ -14,4 +16,8 @@ export type QuestionType = {
 export type Tag = {
   id: string;
   name: string;
+};
+
+export type receivedQuestionType = Omit<QuestionType, "tags"> & {
+  tags: DocumentReference<DocumentData>[];
 };

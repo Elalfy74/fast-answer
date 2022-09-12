@@ -1,6 +1,6 @@
 // Start MUI Components
 import { Link } from "react-router-dom";
-import { QuestionType } from "./Question.types";
+import { QuestionType, Tag } from "./Question.types";
 import {
   Card,
   CardContent,
@@ -21,8 +21,10 @@ type QuestionProps = {
   question: QuestionType;
 };
 const Question = ({ question }: QuestionProps) => {
+  // console.log(question.tags);
+  console.log(question.tags[0]);
   return (
-    <Card variant="outlined" sx={{ width: "100%", mb: 4 }}>
+    <Card variant="outlined" sx={{ width: "100%", minHeight: "163px" }}>
       {/* <Box sx={{ display: "flex", p: "12px" }}> */}
       {/* <Avatar
           alt="user avatar"
@@ -105,7 +107,7 @@ const Question = ({ question }: QuestionProps) => {
         {/*Start of Tags And User Display*/}
         {/*TODO ADD  User Display Here  */}
         <Stack direction="row">
-          {question.tags.map((tag) => (
+          {question.tags.map((tag: Tag) => (
             <Box key={tag.id} sx={{ mt: 1, mr: 2 }}>
               <Typography
                 component="span"
