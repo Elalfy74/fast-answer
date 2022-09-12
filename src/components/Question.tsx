@@ -21,7 +21,8 @@ type QuestionProps = {
   question: QuestionType;
 };
 const Question = ({ question }: QuestionProps) => {
-  console.log(question.tags);
+  // console.log(question.tags);
+  console.log(question.tags[0]);
   return (
     <Card variant="outlined" sx={{ width: "100%", minHeight: "163px" }}>
       {/* <Box sx={{ display: "flex", p: "12px" }}> */}

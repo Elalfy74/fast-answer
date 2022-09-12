@@ -1,8 +1,9 @@
 import { db } from "../firebase-config";
-import { collection, getDocs, getDoc } from "firebase/firestore";
-import { Loading } from "../data/types";
-import { QuestionType, Tag } from "../components/Question.types";
 import {
+  collection,
+  getDocs,
+  getDoc,
+  QuerySnapshot,
   DocumentData,
   limit,
   orderBy,
@@ -10,6 +11,13 @@ import {
   QueryDocumentSnapshot,
   startAfter,
 } from "firebase/firestore";
+
+import { Loading } from "../data/types";
+import {
+  QuestionType,
+  receivedQuestionType,
+  Tag,
+} from "../components/Question.types";
 
 const questionsCollectionRef = collection(db, "questions");
 
@@ -44,20 +52,28 @@ export const getAllQuestions = async (
     return [];
   }
 
-  const questionsList: QuestionType[] = questionsFromServer.docs.map((doc) => {
-    const question = { ...doc.data(), id: doc.id } as QuestionType;
-    const tags: Tag[] = [];
+  let questionsList: QuestionType[] = await convertQuestions(
+    questionsFromServer
+  );
 
-    question.tags.map(async (tag: any) => {
-      let tagData = await getDoc(tag);
-
-      tags.push({ ...(tagData.data() as Object), id: doc.id } as Tag);
-    });
-
-    question.tags = tags;
-
-    return question;
-  });
   setLoading("succeeded");
   return questionsList;
+};
+
+const convertQuestions = async (questions: QuerySnapshot<DocumentData>) => {
+  let result: QuestionType[] = [];
+
+  for (const q of questions.docs) {
+    let question = { ...q.data(), id: q.id } as receivedQuestionType;
+
+    let tags: Tag[] = [];
+
+    for (const tag of question.tags) {
+      let tagData = await getDoc(tag);
+      tags.push({ ...tagData.data(), id: tagData.id } as Tag);
+    }
+
+    result.push({ ...question, tags: tags });
+  }
+  return result;
 };
