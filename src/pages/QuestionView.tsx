@@ -1,12 +1,12 @@
 import { useEffect } from "react";
+import { CircularProgress, Stack } from "@mui/material";
 import { getQuestionById } from "../services/questions";
 import useHttp from "../hooks/use-http";
-import { CircularProgress, Stack } from "@mui/material";
 import { Loading } from "../data/types";
 import { Question } from "../components";
 import { QuestionType } from "../components/Question.types";
 
-const QuestionView = () => {
+function QuestionView() {
   const {
     sendRequest,
     loading,
@@ -19,16 +19,17 @@ const QuestionView = () => {
       await sendRequest("");
     };
     getQuestion();
-  }, []);
+  }, [sendRequest]);
   return (
     <Stack alignItems="center">
       {loading === "pending" && <CircularProgress />}
       {loading === "succeeded" && (
+        // eslint-disable-next-line prettier/prettier
         <Question question={question as QuestionType} />
       )}
       {loading === "failed" && <p>{error}</p>}
     </Stack>
   );
-};
+}
 
 export default QuestionView;

@@ -1,21 +1,21 @@
-import { useEffect, useState } from "react";
-import { useAuth } from "../contexts/AuthContext";
+import { useEffect, useState } from 'react';
+import { useAuth } from '../contexts/AuthContext';
 
-import { getAllTagsId, saveTag } from "../services/tags";
+import { getAllTagsId, saveTag } from '../services/tags';
 // import { tags } from "../data/tags";
 
-import { getAllUsersIds, saveUserData } from "../services/users";
+import { getAllUsersIds, saveUserData } from '../services/users';
 // import { users } from "../data/user";
 
-import { questions } from "../data/questions";
-import { saveQuestion } from "../services/questions";
+import { questions } from '../data/questions';
+import { saveQuestion } from '../services/questions';
 
-const DummyScript = () => {
+function DummyScript() {
   const { signup } = useAuth();
 
-  let i = 0;
+  const i = 0;
 
-  //Add User
+  // Add User
 
   // useEffect(() => {
   //   const saveUsers = async (num: number) => {
@@ -33,7 +33,7 @@ const DummyScript = () => {
   //   }, 2000);
   // }, []);
 
-  //Add Tags
+  // Add Tags
   // useEffect(() => {
   //   const saveTagFunc = async (num: number) => {
   //     saveTag(tags[num]);
@@ -47,14 +47,14 @@ const DummyScript = () => {
   //   }, 2000);
   // }, []);
 
-  //Add Questions
+  // Add Questions
   // 1- Get All Users ID
   // 2. Gel All Tags ID
 
   // 3- Assign random User Id
   // 4- assign random tags
 
-  //Save the  questions
+  // Save the  questions
 
   // function generateRandomNumber(max: number, startfromZero: boolean) {
   //   if (startfromZero) {
@@ -102,9 +102,9 @@ const DummyScript = () => {
   //   }, 2000);
   // }, []);
   return <div>DummyScript</div>;
-};
+}
 
 export default DummyScript;
 function getAllUser() {
-  throw new Error("Function not implemented.");
+  throw new Error('Function not implemented.');
 }

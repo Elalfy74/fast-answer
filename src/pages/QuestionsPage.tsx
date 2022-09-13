@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 import { CircularProgress, Stack } from "@mui/material";
+import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 import { Question, QuestionHeader } from "../components";
 import { QuestionType } from "../components/Question.types";
 import { Loading } from "../data/types";
 import { getAllQuestions } from "../services/questions";
-import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 
-const QuestionsPage = () => {
+function QuestionsPage() {
   const [questions, setQuestions] = useState([] as QuestionType[]);
   const [loading, setLoading] = useState("idle" as Loading);
   const [paginationTrigger, setPaginationTrigger] = useState(false);
@@ -15,19 +15,22 @@ const QuestionsPage = () => {
     null as QueryDocumentSnapshot<DocumentData> | null
   );
 
-  const getNextQuestions = async () => {
+  const getNextQuestions = useCallback(async () => {
     const data = await getAllQuestions(lastDoc, setLastDoc, setLoading);
 
     setQuestions((oldQuestions) => [...oldQuestions, ...data]);
-  };
+  }, [lastDoc]);
+
   useEffect(() => {
     getNextQuestions();
-  }, [paginationTrigger]);
+  }, [paginationTrigger, getNextQuestions]);
 
   window.onscroll = () => {
+    const scrollHeight =
+      window.innerHeight + document.documentElement.scrollTop + 70;
+    const offSet = document.documentElement.offsetHeight;
     if (
-      window.innerHeight + document.documentElement.scrollTop + 70 >=
-        document.documentElement.offsetHeight &&
+      scrollHeight >= offSet &&
       loading !== "finished" &&
       loading !== "pending"
     ) {
@@ -47,6 +50,6 @@ const QuestionsPage = () => {
       {loading === "pending" && <CircularProgress />}
     </Stack>
   );
-};
+}
 
 export default QuestionsPage;

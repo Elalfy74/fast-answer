@@ -26,7 +26,7 @@ function httpReducer(state: HttpState, action: HttpAction): HttpState {
   switch (type) {
     case HttpActionKind.SEND:
       return {
-        data: null,
+        data: state.data,
         error: null,
         loading: "pending",
       };
@@ -48,6 +48,7 @@ function httpReducer(state: HttpState, action: HttpAction): HttpState {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 function useHttp(requestFunction: Function, startWithPending = false) {
   const [httpState, dispatch] = useReducer(httpReducer, {
     loading: startWithPending ? "pending" : "idle",

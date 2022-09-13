@@ -1,13 +1,12 @@
-import { Route, Routes } from "react-router-dom";
-import AuthProvider from "./contexts/AuthContext";
-import { theme } from "./contexts/theme";
-import { CssBaseline, ThemeProvider } from "@mui/material";
-import { QuestionsPage } from "./pages";
-import { QuestionView } from "./pages";
-import { Wrapper } from "./layouts";
-import DummyScript from "./pages/DummyScript";
+import React, { Route, Routes } from 'react-router-dom';
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import AuthProvider from './contexts/AuthContext';
+import { theme } from './contexts/theme';
+import { QuestionsPage, QuestionView } from './pages';
+import { Wrapper } from './layouts';
+import DummyScript from './pages/DummyScript';
 
-const App = () => {
+function App() {
   return (
     <ThemeProvider theme={theme}>
       <AuthProvider>
@@ -22,6 +21,6 @@ const App = () => {
       </AuthProvider>
     </ThemeProvider>
   );
-};
+}
 
 export default App;

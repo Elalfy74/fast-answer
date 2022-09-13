@@ -1,26 +1,26 @@
 import {
   addDoc,
   collection,
-  doc,
   DocumentData,
   DocumentReference,
   getDoc,
   getDocs,
-} from "firebase/firestore";
-import { Tag } from "../components/Question.types";
-import { db } from "../firebase-config";
+} from 'firebase/firestore';
+import { Tag } from '../components/Question.types';
+import { db } from '../firebase-config';
 
-const tagsCollectionRef = collection(db, "tags");
+const tagsCollectionRef = collection(db, 'tags');
 
 export const saveTag = async (tag: { name: string }) => {
   await addDoc(tagsCollectionRef, tag);
 };
 
 export const getTags = async (tagsRef: DocumentReference<DocumentData>[]) => {
-  let tags: Tag[] = [];
+  const tags: Tag[] = [];
 
-  for (const tagRef of tagsRef) {
-    let tagDoc = await getDoc(tagRef);
+  for (let i = 0; i < tagsRef.length; i++) {
+    const tagDoc = await getDoc(tagsRef[i]);
+    // eslint-disable-next-line prettier/prettier
     tags.push({ ...tagDoc.data(), id: tagDoc.id } as Tag);
   }
   return tags;

@@ -1,6 +1,6 @@
-import { createContext, useContext, useState, useEffect } from "react";
-import { auth } from "../firebase-config";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import * as Auth from "firebase/auth";
+import { auth } from "../firebase-config";
 
 type AuthContextTypes = {
   currentUser: Auth.User | null;
@@ -8,10 +8,11 @@ type AuthContextTypes = {
   signup: (email: string, password: string) => Promise<Auth.UserCredential>;
   logout: () => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
-  updateEmail: (email: string) => Promise<void>;
-  updatePassword: (password: string) => Promise<void>;
+  updateEmail: (email: string) => Promise<void> | undefined;
+  updatePassword: (password: string) => Promise<void> | undefined;
 };
 
+// eslint-disable-next-line prettier/prettier
 const AuthContext = createContext<AuthContextTypes>({} as AuthContextTypes);
 
 export function useAuth() {
@@ -22,7 +23,7 @@ type AuthProviderProps = {
   children: React.ReactNode;
 };
 
-const AuthProvider = ({ children }: AuthProviderProps) => {
+function AuthProvider({ children }: AuthProviderProps) {
   const [currentUser, setCurrentUser] = useState<Auth.User | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -42,12 +43,18 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     return Auth.sendPasswordResetEmail(auth, email);
   }
 
+  // eslint-disable-next-line consistent-return
   function updateEmail(email: string) {
-    return Auth.updateEmail(currentUser!, email);
+    if (currentUser) {
+      return Auth.updateEmail(currentUser, email);
+    }
   }
 
+  // eslint-disable-next-line consistent-return
   function updatePassword(password: string) {
-    return Auth.updatePassword(currentUser!, password);
+    if (currentUser) {
+      return Auth.updatePassword(currentUser, password);
+    }
   }
 
   useEffect(() => {
@@ -59,6 +66,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     return unsubscribe;
   }, []);
 
+  // eslint-disable-next-line react/jsx-no-constructed-context-values
   const value: AuthContextTypes = {
     currentUser,
     login,
@@ -74,6 +82,6 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
       {!loading && children}
     </AuthContext.Provider>
   );
-};
+}
 
 export default AuthProvider;

@@ -1,4 +1,3 @@
-import { db } from "../firebase-config";
 import {
   collection,
   getDocs,
@@ -12,18 +11,15 @@ import {
   Timestamp,
   doc,
   getDoc,
-  DocumentSnapshot,
-} from "firebase/firestore";
+  Query,
+} from 'firebase/firestore';
+import { db } from '../firebase-config';
 
-import { Loading } from "../data/types";
-import {
-  QuestionType,
-  receivedQuestionType,
-  Tag,
-} from "../components/Question.types";
+import { Loading } from '../data/types';
+import { QuestionType } from '../components/Question.types';
+import { formatQuestion, formatQuestions } from './questions-helpers';
 
-import { getTags } from "./tags";
-const questionsCollectionRef = collection(db, "questions");
+const questionsCollectionRef = collection(db, 'questions');
 
 // Start Of APIS
 
@@ -35,25 +31,25 @@ export const getAllQuestions = async (
   >,
   setLoading: React.Dispatch<React.SetStateAction<Loading>>
 ) => {
-  let numberOfQuestions = 6;
-  let requestQuery;
+  const numberOfQuestions = 6;
+  let requestQuery: Query<DocumentData>;
 
   if (lastDoc) {
     requestQuery = query(
       questionsCollectionRef,
-      orderBy("creationTime"),
+      orderBy('creationTime'),
       startAfter(lastDoc),
       limit(numberOfQuestions)
     );
   } else {
     requestQuery = query(
       questionsCollectionRef,
-      orderBy("creationTime"),
+      orderBy('creationTime'),
       limit(numberOfQuestions)
     );
   }
 
-  setLoading("pending");
+  setLoading('pending');
 
   const questionsFromServer = await getDocs(requestQuery);
 
@@ -64,9 +60,9 @@ export const getAllQuestions = async (
   );
 
   if (questionsFromServer.docs.length < numberOfQuestions) {
-    setLoading("finished");
+    setLoading('finished');
   } else {
-    setLoading("succeeded");
+    setLoading('succeeded');
   }
 
   return questionsList;
@@ -74,11 +70,11 @@ export const getAllQuestions = async (
 
 // Save Question API
 export const saveQuestion = async (uId: string, question: any, tags: any) => {
-  let formatedQuestion = {
+  const formatedQuestion = {
     ...question,
     creationTime: Timestamp.fromDate(new Date()),
-    tags: tags.map((tag: string) => doc(db, "tags", tag)),
-    authorId: doc(db, "users", uId),
+    tags: tags.map((tag: string) => doc(db, 'tags', tag)),
+    authorId: doc(db, 'users', uId),
   };
 
   await addDoc(questionsCollectionRef, formatedQuestion);
@@ -86,40 +82,13 @@ export const saveQuestion = async (uId: string, question: any, tags: any) => {
 
 // Get Question By Id API
 export const getQuestionById = async (id: string) => {
-  const questionDoc = doc(db, "questions", id);
+  const questionDoc = doc(db, 'questions', id);
 
   const questionFromServer = await getDoc(questionDoc);
   if (!questionFromServer.data()) {
-    throw new Error("Question Not Found");
+    throw new Error('Question Not Found');
   }
   const question = await formatQuestion(questionFromServer);
   return question;
 };
 // End Of APIS
-
-// Start Of Helper Functions
-const formatQuestions = async (
-  questions: QueryDocumentSnapshot<DocumentData>[]
-) => {
-  let result: QuestionType[] = [];
-
-  for (const ques of questions) {
-    const question = await formatQuestion(ques);
-
-    result.push(question);
-  }
-  return result;
-};
-
-const formatQuestion = async (
-  question: QueryDocumentSnapshot<DocumentData> | DocumentSnapshot<DocumentData>
-) => {
-  let questionData = {
-    ...question.data(),
-    id: question.id,
-  } as receivedQuestionType;
-
-  let tags: Tag[] = await getTags(questionData.tags);
-
-  return { ...questionData, tags: tags };
-};

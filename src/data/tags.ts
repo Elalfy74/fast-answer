@@ -1,419 +1,420 @@
+// eslint-disable-next-line import/prefer-default-export
 export const tags = [
   {
-    name: "compilation",
+    name: 'compilation',
   },
   {
-    name: "rows",
+    name: 'rows',
   },
   {
-    name: "boolean",
+    name: 'boolean',
   },
   {
-    name: "windows",
+    name: 'windows',
   },
   {
-    name: "css",
+    name: 'css',
   },
   {
-    name: "regression",
+    name: 'regression',
   },
   {
-    name: "x86",
+    name: 'x86',
   },
   {
-    name: "chalk",
+    name: 'chalk',
   },
   {
-    name: "assembly",
+    name: 'assembly',
   },
   {
-    name: "optimization",
+    name: 'optimization',
   },
   {
-    name: "sh",
+    name: 'sh',
   },
   {
-    name: "flexbox",
+    name: 'flexbox',
   },
   {
-    name: "service-worker",
+    name: 'service-worker',
   },
   {
-    name: "sfinae",
+    name: 'sfinae',
   },
   {
-    name: "data-wrangling",
+    name: 'data-wrangling',
   },
   {
-    name: "port",
+    name: 'port',
   },
   {
-    name: "variable-expansion",
+    name: 'variable-expansion',
   },
   {
-    name: "pep",
+    name: 'pep',
   },
   {
-    name: "serverless",
+    name: 'serverless',
   },
   {
-    name: "ajax",
+    name: 'ajax',
   },
   {
-    name: "terminal",
+    name: 'terminal',
   },
   {
-    name: "jquery",
+    name: 'jquery',
   },
   {
-    name: "mongodb",
+    name: 'mongodb',
   },
   {
-    name: "2d",
+    name: '2d',
   },
   {
-    name: "c++17",
+    name: 'c++17',
   },
   {
-    name: "swift",
+    name: 'swift',
   },
   {
-    name: "python-3.x",
+    name: 'python-3.x',
   },
   {
-    name: "numpy",
+    name: 'numpy',
   },
   {
-    name: ".net",
+    name: '.net',
   },
   {
-    name: "if-statement",
+    name: 'if-statement',
   },
   {
-    name: "dictionary",
+    name: 'dictionary',
   },
   {
-    name: "multidimensional-array",
+    name: 'multidimensional-array',
   },
   {
-    name: "rust",
+    name: 'rust',
   },
   {
-    name: "dom",
+    name: 'dom',
   },
   {
-    name: "join",
+    name: 'join',
   },
   {
-    name: "element",
+    name: 'element',
   },
   {
-    name: "node.js",
+    name: 'node.js',
   },
   {
-    name: "faas",
+    name: 'faas',
   },
   {
-    name: "character",
+    name: 'character',
   },
   {
-    name: "c2664",
+    name: 'c2664',
   },
   {
-    name: "ggplot2",
+    name: 'ggplot2',
   },
   {
-    name: "winapi",
+    name: 'winapi',
   },
   {
-    name: "windows-10",
+    name: 'windows-10',
   },
   {
-    name: "long-format-data",
+    name: 'long-format-data',
   },
   {
-    name: "fs",
+    name: 'fs',
   },
   {
-    name: "arrays",
+    name: 'arrays',
   },
   {
-    name: "polynomials",
+    name: 'polynomials',
   },
   {
-    name: "c#",
+    name: 'c#',
   },
   {
-    name: "react-native",
+    name: 'react-native',
   },
   {
-    name: "compiler-construction",
+    name: 'compiler-construction',
   },
   {
-    name: "gnu-assembler",
+    name: 'gnu-assembler',
   },
   {
-    name: "android",
+    name: 'android',
   },
   {
-    name: "map-function",
+    name: 'map-function',
   },
   {
-    name: "concatenation",
+    name: 'concatenation',
   },
   {
-    name: "date",
+    name: 'date',
   },
   {
-    name: "clang",
+    name: 'clang',
   },
   {
-    name: "require",
+    name: 'require',
   },
   {
-    name: "npm",
+    name: 'npm',
   },
   {
-    name: "combine",
+    name: 'combine',
   },
   {
-    name: "iterator",
+    name: 'iterator',
   },
   {
-    name: "machine-learning",
+    name: 'machine-learning',
   },
   {
-    name: "linux",
+    name: 'linux',
   },
   {
-    name: "visual-studio-2019",
+    name: 'visual-studio-2019',
   },
   {
-    name: "jinja2",
+    name: 'jinja2',
   },
   {
-    name: "match",
+    name: 'match',
   },
   {
-    name: "constexpr",
+    name: 'constexpr',
   },
   {
-    name: "regex",
+    name: 'regex',
   },
   {
-    name: "sql",
+    name: 'sql',
   },
   {
-    name: "autofac",
+    name: 'autofac',
   },
   {
-    name: "drop",
+    name: 'drop',
   },
   {
-    name: "json.net",
+    name: 'json.net',
   },
   {
-    name: "template-meta-programming",
+    name: 'template-meta-programming',
   },
   {
-    name: "c",
+    name: 'c',
   },
   {
-    name: "bash",
+    name: 'bash',
   },
   {
-    name: "boolean-logic",
+    name: 'boolean-logic',
   },
   {
-    name: "return",
+    name: 'return',
   },
   {
-    name: "recursion",
+    name: 'recursion',
   },
   {
-    name: "append",
+    name: 'append',
   },
   {
-    name: "mongoose",
+    name: 'mongoose',
   },
   {
-    name: "loops",
+    name: 'loops',
   },
   {
-    name: "x86-16",
+    name: 'x86-16',
   },
   {
-    name: "discord.js",
+    name: 'discord.js',
   },
   {
-    name: "shell",
+    name: 'shell',
   },
   {
-    name: "cloudflare-workers",
+    name: 'cloudflare-workers',
   },
   {
-    name: "vector",
+    name: 'vector',
   },
   {
-    name: "databricks",
+    name: 'databricks',
   },
   {
-    name: "php",
+    name: 'php',
   },
   {
-    name: "swing",
+    name: 'swing',
   },
   {
-    name: "compiler-errors",
+    name: 'compiler-errors',
   },
   {
-    name: "templates",
+    name: 'templates',
   },
   {
-    name: "algorithm",
+    name: 'algorithm',
   },
   {
-    name: "reactjs",
+    name: 'reactjs',
   },
   {
-    name: "polynomial-math",
+    name: 'polynomial-math',
   },
   {
-    name: "dataframe",
+    name: 'dataframe',
   },
   {
-    name: "web-scraping",
+    name: 'web-scraping',
   },
   {
-    name: "serialization",
+    name: 'serialization',
   },
   {
-    name: "mysql",
+    name: 'mysql',
   },
   {
-    name: "html",
+    name: 'html',
   },
   {
-    name: "import",
+    name: 'import',
   },
   {
-    name: "return-type",
+    name: 'return-type',
   },
   {
-    name: "css-grid",
+    name: 'css-grid',
   },
   {
-    name: "generics",
+    name: 'generics',
   },
   {
-    name: "image",
+    name: 'image',
   },
   {
-    name: "switch-statement",
+    name: 'switch-statement',
   },
   {
-    name: "typescript",
+    name: 'typescript',
   },
   {
-    name: "performance",
+    name: 'performance',
   },
   {
-    name: "deno",
+    name: 'deno',
   },
   {
-    name: "java",
+    name: 'java',
   },
   {
-    name: "google-chrome-extension",
+    name: 'google-chrome-extension',
   },
   {
-    name: "sed",
+    name: 'sed',
   },
   {
-    name: "django",
+    name: 'django',
   },
   {
-    name: "r",
+    name: 'r',
   },
   {
-    name: "stringr",
+    name: 'stringr',
   },
   {
-    name: "raylib",
+    name: 'raylib',
   },
   {
-    name: "python",
+    name: 'python',
   },
   {
-    name: "variables",
+    name: 'variables',
   },
   {
-    name: "sql-server",
+    name: 'sql-server',
   },
   {
-    name: "firebase",
+    name: 'firebase',
   },
   {
-    name: "actionlistener",
+    name: 'actionlistener',
   },
   {
-    name: "express",
+    name: 'express',
   },
   {
-    name: "postgresql",
+    name: 'postgresql',
   },
   {
-    name: "google-sheets",
+    name: 'google-sheets',
   },
   {
-    name: "c++",
+    name: 'c++',
   },
   {
-    name: "javascript",
+    name: 'javascript',
   },
   {
-    name: "google-sheets-formula",
+    name: 'google-sheets-formula',
   },
   {
-    name: "drag",
+    name: 'drag',
   },
   {
-    name: "pyscript",
+    name: 'pyscript',
   },
   {
-    name: "list",
+    name: 'list',
   },
   {
-    name: "dll",
+    name: 'dll',
   },
   {
-    name: "types",
+    name: 'types',
   },
   {
-    name: "panel",
+    name: 'panel',
   },
   {
-    name: "function",
+    name: 'function',
   },
   {
-    name: "use-effect",
+    name: 'use-effect',
   },
   {
-    name: "ios",
+    name: 'ios',
   },
   {
-    name: "dplyr",
+    name: 'dplyr',
   },
   {
-    name: "package.json",
+    name: 'package.json',
   },
   {
-    name: "att",
+    name: 'att',
   },
   {
-    name: "pandas",
+    name: 'pandas',
   },
   {
-    name: "parsing",
+    name: 'parsing',
   },
 ];
