@@ -11,6 +11,8 @@ import {
   addDoc,
   Timestamp,
   doc,
+  getDoc,
+  DocumentSnapshot,
 } from "firebase/firestore";
 
 import { Loading } from "../data/types";
@@ -23,6 +25,9 @@ import {
 import { getTags } from "./tags";
 const questionsCollectionRef = collection(db, "questions");
 
+// Start Of APIS
+
+// Get All Questions API
 export const getAllQuestions = async (
   lastDoc: QueryDocumentSnapshot<DocumentData> | null,
   setLastDoc: React.Dispatch<
@@ -67,6 +72,32 @@ export const getAllQuestions = async (
   return questionsList;
 };
 
+// Save Question API
+export const saveQuestion = async (uId: string, question: any, tags: any) => {
+  let formatedQuestion = {
+    ...question,
+    creationTime: Timestamp.fromDate(new Date()),
+    tags: tags.map((tag: string) => doc(db, "tags", tag)),
+    authorId: doc(db, "users", uId),
+  };
+
+  await addDoc(questionsCollectionRef, formatedQuestion);
+};
+
+// Get Question By Id API
+export const getQuestionById = async (id: string) => {
+  const questionDoc = doc(db, "questions", id);
+
+  const questionFromServer = await getDoc(questionDoc);
+  if (!questionFromServer.data()) {
+    throw new Error("Question Not Found");
+  }
+  const question = await formatQuestion(questionFromServer);
+  return question;
+};
+// End Of APIS
+
+// Start Of Helper Functions
 const formatQuestions = async (
   questions: QueryDocumentSnapshot<DocumentData>[]
 ) => {
@@ -81,7 +112,7 @@ const formatQuestions = async (
 };
 
 const formatQuestion = async (
-  question: QueryDocumentSnapshot<DocumentData>
+  question: QueryDocumentSnapshot<DocumentData> | DocumentSnapshot<DocumentData>
 ) => {
   let questionData = {
     ...question.data(),
@@ -91,15 +122,4 @@ const formatQuestion = async (
   let tags: Tag[] = await getTags(questionData.tags);
 
   return { ...questionData, tags: tags };
-};
-
-export const saveQuestion = async (uId: string, question: any, tags: any) => {
-  let formatedQuestion = {
-    ...question,
-    creationTime: Timestamp.fromDate(new Date()),
-    tags: tags.map((tag: string) => doc(db, "tags", tag)),
-    authorId: doc(db, "users", uId),
-  };
-
-  await addDoc(questionsCollectionRef, formatedQuestion);
 };

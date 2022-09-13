@@ -3,6 +3,7 @@ import AuthProvider from "./contexts/AuthContext";
 import { theme } from "./contexts/theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { QuestionsPage } from "./pages";
+import { QuestionView } from "./pages";
 import { Wrapper } from "./layouts";
 import DummyScript from "./pages/DummyScript";
 
@@ -12,6 +13,7 @@ const App = () => {
       <AuthProvider>
         <CssBaseline />
         <Wrapper>
+          {/* <QuestionView /> */}
           {/* <DummyScript /> */}
           <Routes>
             <Route path="/" element={<QuestionsPage />} />
