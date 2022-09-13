@@ -54,13 +54,8 @@ const Question = ({ question }: QuestionProps) => {
       <CardContent>
         <Stack direction="row" justifyContent="space-between">
           {/*Start Question Title and body */}
-<<<<<<< HEAD
           <Box sx={{ mb: 1, ml: 1 }}>
-            <Link to={`${question.question_id}`}>
-=======
-          <Box overflow="hidden">
             <Link to={`${question.id}`}>
->>>>>>> c82f1d405702f3aa40017e39bc25e579bfa8091d
               <Typography
                 component="h3"
                 color="#3B6893"
@@ -75,13 +70,8 @@ const Question = ({ question }: QuestionProps) => {
                 {question.title}
               </Typography>
             </Link>
-<<<<<<< HEAD
             <Typography variant="body2" color="#989898">
-              {question.question_body}
-=======
-            <Typography noWrap variant="body2">
               {question.body}
->>>>>>> c82f1d405702f3aa40017e39bc25e579bfa8091d
             </Typography>
           </Box>
           {/*End Question Title and body */}
@@ -112,42 +102,23 @@ const Question = ({ question }: QuestionProps) => {
           {/*End of UpVotes */}
         </Stack>
 
-        {/*Start of Tags And User Display*/}
-        {/*TODO ADD  User Display Here  */}
-<<<<<<< HEAD
-
-        {/* User and Datetime */}
+        {/*Start of Tags And User Display*/}    
         <Box display='flex' justifyContent='space-between' sx={{ ml: 1 }} >
+
+          {/* User and Datetime */}
           <Box sx={{ display: 'flex', gap: 0.7, flexWrap: 'wrap' }} >
             <Box sx={{borderRadius: '50%'}}>
               <img src={avatar} alt="user avatar" width="25px" height="25px"/>
-=======
-        <Stack direction="row">
-          {question.tags.map((tag) => (
-            <Box key={tag.id} sx={{ mt: 1, mr: 2 }}>
-              <Typography
-                component="span"
-                sx={{
-                  p: "1px 6px",
-                  fontSize: "14px",
-                  borderRadius: "4px",
-                  bgcolor: "hsl(205deg 46% 92%)",
-                  color: "hsl(205deg 47% 42%)",
-                }}
-              >
-                {tag.name}
-              </Typography>
->>>>>>> c82f1d405702f3aa40017e39bc25e579bfa8091d
             </Box>
-            <Typography color="#6AA5FF">{question.owner.user_first_name}</Typography>
+            <Typography color="#6AA5FF">{question.author.authorName}</Typography>
             <Typography>asked</Typography>
-            <Typography color='#616161' variant="caption" sx={{mt: 0.5}}>{question.creation_time}</Typography>
+            <Typography color='#616161' variant="caption" sx={{mt: 0.5}}>{question.creationTime}</Typography>
           </Box>
 
           {/* Tags */}
           <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
             {question.tags.map((tag) => (
-              <Box key={tag.tag_id} sx={{ mr: 2 }}>
+              <Box key={tag.id} sx={{ mr: 2 }}>
                 <Typography
                   component="span"
                   sx={{
@@ -158,7 +129,7 @@ const Question = ({ question }: QuestionProps) => {
                     color: "hsl(205deg 47% 42%)",
                   }}
                 >
-                  {tag.tag_name}
+                  {tag.name}
                 </Typography>
               </Box>
             ))}
