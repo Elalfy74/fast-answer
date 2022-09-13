@@ -56,7 +56,7 @@ const Question = ({ question }: QuestionProps) => {
         {/*Start Question Info */}
         <Stack direction="row" justifyContent="space-between">
           {/*Start Question Title and body */}
-          <Box sx={{ mb: 1, ml: 1 }}>
+          <Box sx={{ mb: 1, ml: 1, overflow: 'hidden'}}>
             <Link to={`${question.id}`}>
               <Typography
                 component="h3"
@@ -72,7 +72,7 @@ const Question = ({ question }: QuestionProps) => {
                 {question.title}
               </Typography>
             </Link>
-            <Typography variant="body2" color="#989898">
+            <Typography noWrap variant="body2" color="#989898">
               {question.body}
             </Typography>
           </Box>
@@ -112,15 +112,17 @@ const Question = ({ question }: QuestionProps) => {
             <Box sx={{borderRadius: '50%'}}>
               <img src={avatar} alt="user avatar" width="25px" height="25px"/>
             </Box>
-            <Typography color="#6AA5FF">{question.author.authorName}</Typography>
-            <Typography>asked</Typography>
-            <Typography color='#616161' variant="caption" sx={{mt: 0.5}}>{question.creationTime}</Typography>
+            {/* <Typography color="#6AA5FF">{question.author.authorName}</Typography> */}
+            <Typography color="#6AA5FF">Mahmoud Ramadan</Typography>
+            {/* <Typography>asked</Typography>
+            <Typography color='#616161' variant="caption" sx={{mt: 0.5}}>{question.creationTime}</Typography> */}
+            <Typography color='#616161' variant="caption" sx={{mt: 0.5}}>1 min ago</Typography>
           </Box>
 
           {/* Tags */}
           <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
             {question.tags.map((tag) => (
-              <Box key={tag.id} sx={{ mr: 2 }}>
+              <Box key={tag.id} sx={{ mr: 1 }}>
                 <Typography
                   component="span"
                   sx={{
