@@ -1,53 +1,51 @@
 import { useEffect, useState } from "react";
 
-import { Box, Pagination, CircularProgress, Skeleton } from "@mui/material";
+import { CircularProgress, Stack } from "@mui/material";
 import { Question, QuestionHeader } from "../components";
 import { QuestionType } from "../components/Question.types";
+import { Loading } from "../data/types";
 import { getAllQuestions } from "../services/questions";
+import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 
 const QuestionsPage = () => {
   const [questions, setQuestions] = useState([] as QuestionType[]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState("idle" as Loading);
+  const [paginationTrigger, setPaginationTrigger] = useState(false);
+  const [lastDoc, setLastDoc] = useState(
+    null as QueryDocumentSnapshot<DocumentData> | null
+  );
 
+  const getNextQuestions = async () => {
+    const data = await getAllQuestions(lastDoc, setLastDoc, setLoading);
+
+    setQuestions((oldQuestions) => [...oldQuestions, ...data]);
+  };
   useEffect(() => {
-    getAllQuestions().then((questions) => {
-      setIsLoading(false);
-      setQuestions(questions);
-    });
-  }, []);
+    getNextQuestions();
+  }, [paginationTrigger]);
 
-  // const [page, setPage] = useState(1);
+  window.onscroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop + 70 >=
+        document.documentElement.offsetHeight &&
+      loading !== "finished" &&
+      loading !== "pending"
+    ) {
+      setPaginationTrigger((prevState) => !prevState);
+    }
+  };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        width: "100%",
-      }}
-    >
+    <Stack direction="column" alignItems="center" spacing={4}>
       {/* <QuestionHeader /> */}
-      {isLoading ? (
-        <Skeleton variant="rounded" width={"100%"} height={118} />
-      ) : (
-        <>
-          {questions &&
-            questions.map((question) => (
-              <Question key={question.id} question={question} />
-            ))}
-          {/* <Pagination
-            count={3}
-            page={page}
-            onChange={(e, value) => {
-              setPage(value);
-            }}
-            color="primary"
-            shape="rounded"
-          /> */}
-        </>
-      )}
-    </Box>
+
+      {questions.length > 0 &&
+        questions.map((question) => (
+          <Question key={question.id} question={question} />
+        ))}
+
+      {loading === "pending" && <CircularProgress />}
+    </Stack>
   );
 };
 

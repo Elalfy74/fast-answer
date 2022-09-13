@@ -10,6 +10,9 @@ export const theme = createTheme({
       "100": colors.blue[400],
       "200": colors.blueGrey[700],
     },
+    success:{
+      "400" : "#0FA958"
+    }
   },
   components: {
     MuiButton: {

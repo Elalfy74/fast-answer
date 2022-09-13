@@ -1,7 +1,7 @@
-// Start MUI Components
+import React from "react";
 import { Link } from "react-router-dom";
-import { QuestionType } from "./Question.types";
-import avatar from "../assets/avatar.jpg"
+import avatar from '../assets/avatar.jpg';
+import { QuestionType, Tag } from "./Question.types";
 import {
   Card,
   CardContent,
@@ -22,8 +22,9 @@ type QuestionProps = {
   question: QuestionType;
 };
 const Question = ({ question }: QuestionProps) => {
+  console.log(question);
   return (
-    <Card variant="outlined" sx={{ width: "100%", mb: 4 }}>
+    <Card variant="outlined" sx={{ width: "100%", minHeight: "163px" }}>
       {/* <Box sx={{ display: "flex", p: "12px" }}> */}
       {/* <Avatar
           alt="user avatar"
@@ -52,6 +53,7 @@ const Question = ({ question }: QuestionProps) => {
         </Box> */}
       {/* </Box> */}
       <CardContent>
+        {/*Start Question Info */}
         <Stack direction="row" justifyContent="space-between">
           {/*Start Question Title and body */}
           <Box sx={{ mb: 1, ml: 1 }}>
@@ -89,7 +91,7 @@ const Question = ({ question }: QuestionProps) => {
               </Box>
             </Stack>
 
-            <Box mb={1} display="flex" alignItems="center" color="#0FA958">
+            <Box mb={1} display="flex" alignItems="center" color="success.400">
               <Typography sx={{ mr: 0.5 }}>{"13"}</Typography>
               <Forum fontSize="small" />
             </Box>
@@ -140,4 +142,4 @@ const Question = ({ question }: QuestionProps) => {
     </Card>
   );
 };
-export default Question;
+export default React.memo(Question);
