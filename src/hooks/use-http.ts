@@ -1,6 +1,7 @@
 import { useReducer, useCallback } from "react";
 import { QuestionType, Tag } from "../components/Question.types";
 import { Loading } from "../data/types";
+type Data = QuestionType[] | QuestionType | Tag[];
 
 enum HttpActionKind {
   SEND = "SEND",
@@ -10,7 +11,7 @@ enum HttpActionKind {
 
 type HttpAction = {
   type: HttpActionKind;
-  responseData?: any;
+  responseData?: QuestionType[] | QuestionType | Tag[];
   error?: string | null;
 };
 
@@ -21,7 +22,7 @@ type HttpState = {
 };
 
 function httpReducer(state: HttpState, action: HttpAction): HttpState {
-  const { type, responseData, error = null } = action;
+  const { type, responseData, error } = action;
   switch (type) {
     case HttpActionKind.SEND:
       return {
@@ -31,14 +32,14 @@ function httpReducer(state: HttpState, action: HttpAction): HttpState {
       };
     case HttpActionKind.SUCCESSED:
       return {
-        data: responseData,
+        data: responseData!,
         error: null,
         loading: "succeeded",
       };
     case HttpActionKind.FAILED:
       return {
         data: null,
-        error: error,
+        error: error!,
         loading: "failed",
       };
 
@@ -58,17 +59,17 @@ function useHttp(requestFunction: Function, startWithPending = false) {
     async function (requestData: any) {
       dispatch({ type: HttpActionKind.SEND });
       try {
-        const responseData: any = await requestFunction(requestData);
-        console.log("Response Data" + responseData);
+        const responseData: Data = await requestFunction(requestData);
+
         dispatch({
           type: HttpActionKind.SUCCESSED,
           responseData,
-        } as HttpAction);
+        });
       } catch (error: any) {
         dispatch({
           type: HttpActionKind.FAILED,
           error: error.message || "Something went wrong!",
-        } as HttpAction);
+        });
       }
     },
     [requestFunction]
