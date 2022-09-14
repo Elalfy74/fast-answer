@@ -1,7 +1,7 @@
-import { useEffect, useState, useCallback } from 'react';
-
 import { CircularProgress, Stack } from '@mui/material';
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
+import { useCallback, useEffect, useState } from 'react';
+
 import { Question, QuestionHeader } from '../components';
 import { QuestionType } from '../components/Question.types';
 import { Loading } from '../data/types';
@@ -18,7 +18,7 @@ function QuestionsPage() {
     const data = await getAllQuestions(lastDoc, setLastDoc, setLoading);
 
     setQuestions((oldQuestions) => [...oldQuestions, ...data]);
-  }, [lastDoc]);
+  }, []);
 
   useEffect(() => {
     getNextQuestions();

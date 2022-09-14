@@ -1,4 +1,5 @@
-import { useReducer, useCallback } from 'react';
+import { useCallback, useReducer } from 'react';
+
 import { QuestionType, Tag } from '../components/Question.types';
 import { Loading } from '../data/types';
 

@@ -1,20 +1,21 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
 import {
-  Card,
-  CardContent,
-  Typography,
-  Box,
-  Avatar,
-  Stack,
-  Paper,
-} from '@mui/material';
-import {
-  ArrowUpward,
   ArrowDownward,
+  ArrowUpward,
   Forum,
   Visibility,
 } from '@mui/icons-material';
+import {
+  Avatar,
+  Box,
+  Card,
+  CardContent,
+  Paper,
+  Stack,
+  Typography,
+} from '@mui/material';
+import React from 'react';
+import { Link } from 'react-router-dom';
+
 import { QuestionType, Tag } from './Question.types';
 
 type QuestionProps = {

@@ -1,10 +1,11 @@
-import { useEffect } from 'react';
 import { CircularProgress, Stack } from '@mui/material';
-import { getQuestionById } from '../services/questions';
-import useHttp from '../hooks/use-http';
-import { Loading } from '../data/types';
+import { useEffect } from 'react';
+
 import { Question } from '../components';
 import { QuestionType } from '../components/Question.types';
+import { Loading } from '../data/types';
+import useHttp from '../hooks/use-http';
+import { getQuestionById } from '../services/questions';
 
 function QuestionView() {
   const {

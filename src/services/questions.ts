@@ -1,22 +1,22 @@
 import {
+  addDoc,
   collection,
-  getDocs,
+  doc,
   DocumentData,
+  getDoc,
+  getDocs,
   limit,
   orderBy,
+  Query,
   query,
   QueryDocumentSnapshot,
   startAfter,
-  addDoc,
   Timestamp,
-  doc,
-  getDoc,
-  Query,
 } from 'firebase/firestore';
-import { db } from '../firebase-config';
 
-import { Loading } from '../data/types';
 import { QuestionType } from '../components/Question.types';
+import { Loading } from '../data/types';
+import { db } from '../firebase-config';
 import { formatQuestion, formatQuestions } from './questions-helpers';
 
 const questionsCollectionRef = collection(db, 'questions');

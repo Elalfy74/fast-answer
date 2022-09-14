@@ -1,4 +1,4 @@
-import { Typography, Button, Box } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 
 const title = 'All Questions';
 

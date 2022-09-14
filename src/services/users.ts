@@ -1,4 +1,5 @@
 import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
+
 import { db } from '../firebase-config';
 
 const usersCollectionRef = collection(db, 'users');

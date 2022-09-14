@@ -1,4 +1,12 @@
 import {
+  Bookmark,
+  Feed,
+  Leaderboard,
+  Person,
+  QuestionAnswer,
+  Tag,
+} from '@mui/icons-material';
+import {
   Box,
   Button,
   IconButton,
@@ -9,14 +17,6 @@ import {
   Tooltip,
 } from '@mui/material';
 
-import {
-  Feed,
-  QuestionAnswer,
-  Bookmark,
-  Tag,
-  Person,
-  Leaderboard,
-} from '@mui/icons-material';
 import { Logo } from '../components';
 
 const LeftSideBarList = [

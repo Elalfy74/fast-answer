@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react';
+
 import { useAuth } from '../contexts/AuthContext';
-
-import { getAllTagsId, saveTag } from '../services/tags';
-// import { tags } from "../data/tags";
-
-import { getAllUsersIds, saveUserData } from '../services/users';
 // import { users } from "../data/user";
-
 import { questions } from '../data/questions';
 import { saveQuestion } from '../services/questions';
+import { getAllTagsId, saveTag } from '../services/tags';
+// import { tags } from "../data/tags";
+import { getAllUsersIds, saveUserData } from '../services/users';
 
 function DummyScript() {
   const { signup } = useAuth();
