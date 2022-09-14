@@ -1,15 +1,16 @@
-import { DocumentData, DocumentReference } from "firebase/firestore";
+import { DocumentData, DocumentReference } from 'firebase/firestore';
 
 export type QuestionType = {
   id: string;
   title: string;
   body: string;
   creationTime: string;
-  author: {
-    authorId: string;
-    authorName: string;
-    avatar?: string;
-  };
+  // author: {
+  //   authorId: string;
+  //   authorName: string;
+  //   avatar?: string;
+  // };
+  authorId: any;
   tags: Tag[];
 };
 
@@ -18,6 +19,11 @@ export type Tag = {
   name: string;
 };
 
-export type receivedQuestionType = Omit<QuestionType, "tags"> & {
+export type ReceivedQuestionType = Omit<QuestionType, 'tags'> & {
   tags: DocumentReference<DocumentData>[];
+  creationTime: {
+    seconds: number;
+    nanoseconds: number;
+  };
+  authorId: DocumentReference<DocumentData>;
 };

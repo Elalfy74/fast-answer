@@ -1,26 +1,25 @@
-import { Typography, Button, Box } from "@mui/material";
-const title = "All Questions";
+import { Box, Button, Typography } from '@mui/material';
 
-const QuestionHeader = () => {
+const title = 'All Questions';
+
+function QuestionHeader() {
   return (
     <Box
       sx={{
-        display: "flex",
-        justifyContent: "space-between",
-        width: "100%",
+        display: 'flex',
+        justifyContent: 'space-between',
+        width: '100%',
         pl: 2,
         pr: 2,
         mb: 4,
       }}
     >
       <Typography variant="h5">{title}</Typography>
-      <a>
-        <Button variant="contained" color="primary" size="medium">
-          Ask question
-        </Button>
-      </a>
+      <Button variant="contained" color="primary" size="medium">
+        Ask question
+      </Button>
     </Box>
   );
-};
+}
 
 export default QuestionHeader;

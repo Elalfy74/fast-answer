@@ -1,12 +1,12 @@
-import { Box } from "@mui/material";
-import React from "react";
+import { Box } from '@mui/material';
+import React from 'react';
 
-const RightSideBar = () => {
+function RightSideBar() {
   return (
     <Box borderRadius="8px" bgcolor="white" height="400px" p="8px">
       RightSideBar
     </Box>
   );
-};
+}
 
 export default RightSideBar;

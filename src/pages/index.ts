@@ -1,3 +1,4 @@
-import QuestionsPage from "./QuestionsPage";
+import QuestionsPage from './QuestionsPage';
+import QuestionView from './QuestionView';
 
-export { QuestionsPage };
+export { QuestionsPage, QuestionView };

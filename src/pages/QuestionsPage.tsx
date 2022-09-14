@@ -1,56 +1,49 @@
-import { useEffect, useState } from "react";
+import { CircularProgress, Stack } from '@mui/material';
+import { useCallback, useEffect, useState } from 'react';
 
-import { CircularProgress, Stack } from "@mui/material";
-import { Question, QuestionHeader } from "../components";
-import { QuestionType } from "../components/Question.types";
-import { Loading } from "../data/types";
-import { getAllQuestions } from "../services/questions";
-import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
+import { Question, QuestionHeader } from '../components';
+import useHttpPers from '../hooks/use-http-pers';
+import { getAllQuestions } from '../services/questions';
 
-const QuestionsPage = () => {
-  const [questions, setQuestions] = useState([] as QuestionType[]);
-  const [loading, setLoading] = useState("idle" as Loading);
-  const [reachedBottom, setReachedBottom] = useState(false);
-  const [lastDoc, setLastDoc] = useState(
-    null as QueryDocumentSnapshot<DocumentData> | null
+function QuestionsPage() {
+  const [paginationTrigger, setPaginationTrigger] = useState(false);
+
+  const { sendRequest, data, error, loading } = useHttpPers(
+    getAllQuestions,
+    true
   );
 
-  const getNextQuestions = async () => {
-    const data = await getAllQuestions(lastDoc, setLastDoc, setLoading);
-
-    setQuestions((oldQuestions) => [...oldQuestions, ...data]);
-  };
+  const getNextQuestions = useCallback(async () => {
+    await sendRequest();
+  }, [sendRequest]);
 
   useEffect(() => {
     getNextQuestions();
-  }, [reachedBottom]);
+  }, [paginationTrigger, getNextQuestions]);
 
   window.onscroll = () => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop ===
-      document.documentElement.offsetHeight
-    ) {
-      setReachedBottom(true);
+    const scrollHeight =
+      window.innerHeight + document.documentElement.scrollTop + 70;
+    const offSet = document.documentElement.offsetHeight;
+
+    if (scrollHeight >= offSet && data?.hasMore && loading !== 'pending') {
+      setPaginationTrigger((prevState) => !prevState);
     }
   };
 
   return (
-    <Stack
-      className="stack-container"
-      direction="column"
-      alignItems="center"
-      spacing={4}
-    >
+    <Stack direction="column" alignItems="center" spacing={4}>
       {/* <QuestionHeader /> */}
 
-      {questions.length > 0 &&
-        questions.map((question) => (
+      {data &&
+        data.items.length > 0 &&
+        data.items.map((question) => (
           <Question key={question.id} question={question} />
         ))}
 
-      {loading === "pending" && <CircularProgress />}
+      {loading === 'pending' && <CircularProgress />}
     </Stack>
   );
-};
+}
 
 export default QuestionsPage;

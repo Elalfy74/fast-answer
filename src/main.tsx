@@ -1,11 +1,12 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
+import './index.css';
 
-import App from "./App";
-import "./index.css";
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
 
-ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+import App from './App';
+
+// eslint-disable-next-line prettier/prettier
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   // <React.StrictMode>
   <BrowserRouter>
     <App />

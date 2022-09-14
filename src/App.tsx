@@ -1,24 +1,27 @@
-import { useState, useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
-import { collection, getDoc, getDocs } from "firebase/firestore";
-import { db } from "./firebase-config";
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import React, { Route, Routes } from 'react-router-dom';
 
-import { theme } from "./context/theme";
-import { CssBaseline, ThemeProvider } from "@mui/material";
-import { QuestionsPage } from "./pages";
-import { Wrapper } from "./layouts";
+import AuthProvider from './contexts/AuthContext';
+import { theme } from './contexts/theme';
+import { Wrapper } from './layouts';
+import { QuestionsPage, QuestionView } from './pages';
+import DummyScript from './pages/DummyScript';
 
-const App = () => {
+function App() {
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Wrapper>
-        <Routes>
-          <Route path="/" element={<QuestionsPage />} />
-        </Routes>
-      </Wrapper>
+      <AuthProvider>
+        <CssBaseline />
+        <Wrapper>
+          {/* <QuestionView /> */}
+          {/* <DummyScript /> */}
+          <Routes>
+            <Route path="/" element={<QuestionsPage />} />
+          </Routes>
+        </Wrapper>
+      </AuthProvider>
     </ThemeProvider>
   );
-};
+}
 
 export default App;

@@ -1,30 +1,31 @@
-// Start MUI Components
-import { Link } from "react-router-dom";
-import { QuestionType, Tag } from "./Question.types";
 import {
-  Card,
-  CardContent,
-  Typography,
-  Box,
-  Avatar,
-  Stack,
-  Paper,
-} from "@mui/material";
-import {
-  ArrowUpward,
   ArrowDownward,
+  ArrowUpward,
   Forum,
   Visibility,
-} from "@mui/icons-material";
+} from '@mui/icons-material';
+import {
+  Avatar,
+  Box,
+  Card,
+  CardContent,
+  Paper,
+  Stack,
+  Typography,
+} from '@mui/material';
+import moment from 'moment';
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+import { QuestionType, Tag } from './Question.types';
 
 type QuestionProps = {
   question: QuestionType;
 };
-const Question = ({ question }: QuestionProps) => {
-  // console.log(question.tags);
-  console.log(question.tags[0]);
+function Question({ question }: QuestionProps) {
+  console.log(question.authorId);
   return (
-    <Card variant="outlined" sx={{ width: "100%", minHeight: "163px" }}>
+    <Card variant="outlined" sx={{ width: '100%', minHeight: '163px' }}>
       {/* <Box sx={{ display: "flex", p: "12px" }}> */}
       {/* <Avatar
           alt="user avatar"
@@ -53,8 +54,9 @@ const Question = ({ question }: QuestionProps) => {
         </Box> */}
       {/* </Box> */}
       <CardContent>
+        {/* Start Question Info */}
         <Stack direction="row" justifyContent="space-between">
-          {/*Start Question Title and body */}
+          {/* Start Question Title and body */}
           <Box overflow="hidden">
             <Link to={`${question.id}`}>
               <Typography
@@ -63,9 +65,9 @@ const Question = ({ question }: QuestionProps) => {
                 variant="h6"
                 gutterBottom
                 sx={{
-                  transition: "all 0.2s ",
-                  "&:hover": {
-                    color: "secondary.100",
+                  transition: 'all 0.2s ',
+                  '&:hover': {
+                    color: 'secondary.100',
                   },
                 }}
               >
@@ -76,47 +78,48 @@ const Question = ({ question }: QuestionProps) => {
               {question.body}
             </Typography>
           </Box>
-          {/*End Question Title and body */}
-          {/*Start  UpVotes and other */}
-          {/*TODO edit upvotes Styling*/}
+          {/* End Question Title and body */}
+          {/* Start  UpVotes and other */}
           <Box>
-            <Stack direction="row" mb={1}>
-              <Box display="flex" alignItems="center" color="success.main">
-                <Typography component="span">{"13"}</Typography>
+            <Stack direction="row" spacing={1} mb={1}>
+              <Box display="flex" alignItems="center" color="#151515">
+                <Typography sx={{ mr: 0.5 }} component="span">
+                  13
+                </Typography>
                 <ArrowUpward fontSize="small" />
               </Box>
-              <Box display="flex" alignItems="center" color="error.main">
-                <Typography>{"13"}</Typography>
+              <Box display="flex" alignItems="center" color="#F24E1E">
+                <Typography sx={{ mr: 0.5 }}>13</Typography>
                 <ArrowDownward fontSize="small" />
               </Box>
             </Stack>
 
-            <Box mb={1} display="flex" alignItems="center" color="info.main">
-              <Typography>{"13"}</Typography>
+            <Box mb={1} display="flex" alignItems="center" color="#0FA958">
+              <Typography sx={{ mr: 0.5 }}>13</Typography>
               <Forum fontSize="small" />
             </Box>
 
-            <Box display="flex" alignItems="center" color="warning.light">
-              <Typography>{"13"}</Typography>
+            <Box display="flex" alignItems="center" color="#E4A951">
+              <Typography sx={{ mr: 0.5 }}>13</Typography>
               <Visibility fontSize="small" />
             </Box>
           </Box>
-          {/*End of UpVotes */}
+          {/* End of UpVotes */}
         </Stack>
-
-        {/*Start of Tags And User Display*/}
-        {/*TODO ADD  User Display Here  */}
+        {/* End Question Info */}
+        {/* Start of Tags And User Display */}
+        {/* TODO ADD  User Display Here  */}
         <Stack direction="row">
           {question.tags.map((tag: Tag) => (
             <Box key={tag.id} sx={{ mt: 1, mr: 2 }}>
               <Typography
                 component="span"
                 sx={{
-                  p: "1px 6px",
-                  fontSize: "14px",
-                  borderRadius: "4px",
-                  bgcolor: "hsl(205deg 46% 92%)",
-                  color: "hsl(205deg 47% 42%)",
+                  p: '1px 6px',
+                  fontSize: '14px',
+                  borderRadius: '4px',
+                  bgcolor: 'hsl(205deg 46% 92%)',
+                  color: 'hsl(205deg 47% 42%)',
                 }}
               >
                 {tag.name}
@@ -124,9 +127,9 @@ const Question = ({ question }: QuestionProps) => {
             </Box>
           ))}
         </Stack>
-        {/*End of Tags And User Display*/}
+        {/* End of Tags And User Display */}
       </CardContent>
     </Card>
   );
-};
-export default Question;
+}
+export default React.memo(Question);

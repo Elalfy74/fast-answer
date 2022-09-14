@@ -1,5 +1,5 @@
-import Question from "./Question";
-import QuestionHeader from "./QuestionHeader";
-import Logo from "./Logo";
+import Logo from './Logo';
+import Question from './Question';
+import QuestionHeader from './QuestionHeader';
 
-export { Question, QuestionHeader, Logo };
+export { Logo, Question, QuestionHeader };

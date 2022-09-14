@@ -1,1 +1,1 @@
-export type Loading = "idle" | "pending" | "succeeded" | "failed" | "finished";
+export type Loading = 'idle' | 'pending' | 'succeeded' | 'failed' | 'finished';

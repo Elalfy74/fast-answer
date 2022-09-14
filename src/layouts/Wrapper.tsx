@@ -1,12 +1,12 @@
-import { Container, Grid } from "@mui/material";
+import { Container, Grid } from '@mui/material';
 
-import { LeftSideBar, RightSideBar } from "./";
+import { LeftSideBar, RightSideBar } from '.';
 
 type WrapperProps = {
   children: React.ReactNode;
 };
 
-const Wrapper = ({ children }: WrapperProps) => {
+function Wrapper({ children }: WrapperProps) {
   return (
     <Container maxWidth="lg" sx={{ py: 10 }}>
       <Grid container spacing={{ xs: 2, lg: 4 }}>
@@ -17,7 +17,7 @@ const Wrapper = ({ children }: WrapperProps) => {
           md={1.5}
           xl={3}
           sx={{
-            display: { xs: "none", sm: "block" },
+            display: { xs: 'none', sm: 'block' },
           }}
         >
           <LeftSideBar />
@@ -30,7 +30,7 @@ const Wrapper = ({ children }: WrapperProps) => {
           md={2.5}
           xl={2.5}
           sx={{
-            display: { xs: "none", md: "block" },
+            display: { xs: 'none', md: 'block' },
           }}
         >
           <RightSideBar />
@@ -38,6 +38,6 @@ const Wrapper = ({ children }: WrapperProps) => {
       </Grid>
     </Container>
   );
-};
+}
 
 export default Wrapper;
