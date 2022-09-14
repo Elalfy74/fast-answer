@@ -26,7 +26,7 @@ function QuestionView() {
       {loading === 'succeeded' && (
         <Question question={question as QuestionType} />
       )}
-      {loading === 'failed' && <p>{error}</p>}
+      {loading === 'failed' && <p>{error.message}</p>}
     </Stack>
   );
 }

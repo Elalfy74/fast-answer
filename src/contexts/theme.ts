@@ -6,11 +6,19 @@ export const theme = createTheme({
     background: {
       default: '#F5F6F8',
     },
+    primary: {
+      main: '#5d45fa',
+      '400': '#7762FA',
+      '500': '#6F62D1',
+    },
     secondary: {
       main: '#3B6893',
       '100': colors.blue[400],
       '200': colors.blueGrey[700],
     },
+  },
+  typography: {
+    fontFamily: ['Poppins', 'sans-serif'].join(','),
   },
   components: {
     MuiButton: {

@@ -1,4 +1,5 @@
+import { Login } from './Login';
 import QuestionsPage from './QuestionsPage';
 import QuestionView from './QuestionView';
 
-export { QuestionsPage, QuestionView };
+export { Login, QuestionsPage, QuestionView };

@@ -1,4 +1,5 @@
 import './index.css';
+import 'swiper/css/bundle';
 
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';

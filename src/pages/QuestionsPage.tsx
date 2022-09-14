@@ -5,7 +5,7 @@ import { Question, QuestionHeader } from '../components';
 import useHttpPers from '../hooks/use-http-pers';
 import { getAllQuestions } from '../services/questions';
 
-function QuestionsPage() {
+const QuestionsPage = () => {
   const [paginationTrigger, setPaginationTrigger] = useState(false);
 
   const { sendRequest, data, error, loading } = useHttpPers(
@@ -44,6 +44,6 @@ function QuestionsPage() {
       {loading === 'pending' && <CircularProgress />}
     </Stack>
   );
-}
+};
 
 export default QuestionsPage;

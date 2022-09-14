@@ -5,7 +5,13 @@ import { auth } from '../firebase-config';
 
 type AuthContextTypes = {
   currentUser: Auth.User | null;
-  login: (email: string, password: string) => Promise<Auth.UserCredential>;
+  login: ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) => Promise<Auth.UserCredential>;
   signup: (email: string, password: string) => Promise<Auth.UserCredential>;
   logout: () => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
@@ -32,7 +38,7 @@ function AuthProvider({ children }: AuthProviderProps) {
     return Auth.createUserWithEmailAndPassword(auth, email, password);
   }
 
-  function login(email: string, password: string) {
+  function login({ email, password }: { email: string; password: string }) {
     return Auth.signInWithEmailAndPassword(auth, email, password);
   }
 
@@ -61,6 +67,9 @@ function AuthProvider({ children }: AuthProviderProps) {
   useEffect(() => {
     const unsubscribe = Auth.onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
+      if (user) {
+        console.log(user.email);
+      }
       setLoading(false);
     });
 
