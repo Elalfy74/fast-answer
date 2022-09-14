@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 
 import { Question } from '../components';
 import { QuestionType } from '../components/Question.types';
-import { Loading } from '../data/types';
 import useHttp from '../hooks/use-http';
 import { getQuestionById } from '../services/questions';
 
@@ -25,7 +24,6 @@ function QuestionView() {
     <Stack alignItems="center">
       {loading === 'pending' && <CircularProgress />}
       {loading === 'succeeded' && (
-        // eslint-disable-next-line prettier/prettier
         <Question question={question as QuestionType} />
       )}
       {loading === 'failed' && <p>{error}</p>}

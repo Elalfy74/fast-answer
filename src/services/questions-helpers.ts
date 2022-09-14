@@ -11,6 +11,7 @@ import {
 } from '../components/Question.types';
 import { getTags } from './tags';
 
+// Functions replaces tags reference with real tags data for a single question
 export const formatQuestion = async (
   question: QueryDocumentSnapshot<DocumentData> | DocumentSnapshot<DocumentData>
 ) => {
@@ -24,6 +25,7 @@ export const formatQuestion = async (
   return { ...questionData, tags };
 };
 
+// Functions replaces tags reference with real tags data for a all questions
 export const formatQuestions = async (
   questions: QueryDocumentSnapshot<DocumentData>[]
 ) => {
@@ -32,5 +34,5 @@ export const formatQuestions = async (
   for (let i = 0; i < questions.length; i++) {
     result.push(await formatQuestion(questions[i]));
   }
-  return Promise.all(result);
+  return result;
 };

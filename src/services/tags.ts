@@ -16,6 +16,7 @@ export const saveTag = async (tag: { name: string }) => {
   await addDoc(tagsCollectionRef, tag);
 };
 
+// get All Tags of Question API
 export const getTags = async (tagsRef: DocumentReference<DocumentData>[]) => {
   const tags: Tag[] = [];
 

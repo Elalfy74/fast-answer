@@ -15,23 +15,19 @@ import {
 } from 'firebase/firestore';
 
 import { QuestionType } from '../components/Question.types';
-import { Loading } from '../data/types';
 import { db } from '../firebase-config';
 import { formatQuestion, formatQuestions } from './questions-helpers';
 
 const questionsCollectionRef = collection(db, 'questions');
+// global variable so doesn't get reinitialized on every call
+let lastDoc: QueryDocumentSnapshot<DocumentData> | null = null;
 
 // Start Of APIS
 
 // Get All Questions API
-export const getAllQuestions = async (
-  lastDoc: QueryDocumentSnapshot<DocumentData> | null,
-  setLastDoc: React.Dispatch<
-    React.SetStateAction<QueryDocumentSnapshot<DocumentData> | null>
-  >,
-  setLoading: React.Dispatch<React.SetStateAction<Loading>>
-) => {
+export const getAllQuestions = async () => {
   const numberOfQuestions = 6;
+  let hasMore: boolean;
   let requestQuery: Query<DocumentData>;
 
   if (lastDoc) {
@@ -49,23 +45,23 @@ export const getAllQuestions = async (
     );
   }
 
-  setLoading('pending');
-
   const questionsFromServer = await getDocs(requestQuery);
-
-  setLastDoc(questionsFromServer.docs[questionsFromServer.docs.length - 1]);
+  lastDoc = questionsFromServer.docs[questionsFromServer.docs.length - 1];
 
   const questionsList: QuestionType[] = await formatQuestions(
     questionsFromServer.docs
   );
 
   if (questionsFromServer.docs.length < numberOfQuestions) {
-    setLoading('finished');
+    hasMore = false;
   } else {
-    setLoading('succeeded');
+    hasMore = true;
   }
 
-  return questionsList;
+  return {
+    items: questionsList,
+    hasMore,
+  };
 };
 
 // Save Question API

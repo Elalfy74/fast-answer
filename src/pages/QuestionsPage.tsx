@@ -1,24 +1,21 @@
 import { CircularProgress, Stack } from '@mui/material';
-import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
 import { useCallback, useEffect, useState } from 'react';
 
 import { Question, QuestionHeader } from '../components';
-import { QuestionType } from '../components/Question.types';
-import { Loading } from '../data/types';
+import useHttpPers from '../hooks/use-http-pers';
 import { getAllQuestions } from '../services/questions';
 
 function QuestionsPage() {
-  const [questions, setQuestions] = useState<QuestionType[]>([]);
-  const [loading, setLoading] = useState<Loading>('idle');
   const [paginationTrigger, setPaginationTrigger] = useState(false);
-  const [lastDoc, setLastDoc] =
-    useState<QueryDocumentSnapshot<DocumentData> | null>(null);
+
+  const { sendRequest, data, error, loading } = useHttpPers(
+    getAllQuestions,
+    true
+  );
 
   const getNextQuestions = useCallback(async () => {
-    const data = await getAllQuestions(lastDoc, setLastDoc, setLoading);
-
-    setQuestions((oldQuestions) => [...oldQuestions, ...data]);
-  }, []);
+    await sendRequest();
+  }, [sendRequest]);
 
   useEffect(() => {
     getNextQuestions();
@@ -28,11 +25,8 @@ function QuestionsPage() {
     const scrollHeight =
       window.innerHeight + document.documentElement.scrollTop + 70;
     const offSet = document.documentElement.offsetHeight;
-    if (
-      scrollHeight >= offSet &&
-      loading !== 'finished' &&
-      loading !== 'pending'
-    ) {
+
+    if (scrollHeight >= offSet && data?.hasMore && loading !== 'pending') {
       setPaginationTrigger((prevState) => !prevState);
     }
   };
@@ -41,8 +35,9 @@ function QuestionsPage() {
     <Stack direction="column" alignItems="center" spacing={4}>
       {/* <QuestionHeader /> */}
 
-      {questions.length > 0 &&
-        questions.map((question) => (
+      {data &&
+        data.items.length > 0 &&
+        data.items.map((question) => (
           <Question key={question.id} question={question} />
         ))}
 
