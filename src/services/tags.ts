@@ -20,7 +20,6 @@ export const getTags = async (tagsRef: DocumentReference<DocumentData>[]) => {
 
   for (let i = 0; i < tagsRef.length; i++) {
     const tagDoc = await getDoc(tagsRef[i]);
-    // eslint-disable-next-line prettier/prettier
     tags.push({ ...tagDoc.data(), id: tagDoc.id } as Tag);
   }
   return tags;

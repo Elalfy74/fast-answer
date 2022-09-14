@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
-import * as Auth from "firebase/auth";
-import { auth } from "../firebase-config";
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import * as Auth from 'firebase/auth';
+import { auth } from '../firebase-config';
 
 type AuthContextTypes = {
   currentUser: Auth.User | null;

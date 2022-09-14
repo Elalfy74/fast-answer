@@ -18,7 +18,7 @@ import {
 import { QuestionType, Tag } from './Question.types';
 
 type QuestionProps = {
-  question: QuestionType,
+  question: QuestionType;
 };
 function Question({ question }: QuestionProps) {
   console.log(question);

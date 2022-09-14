@@ -3,7 +3,7 @@ import { Container, Grid } from '@mui/material';
 import { LeftSideBar, RightSideBar } from '.';
 
 type WrapperProps = {
-  children: React.ReactNode,
+  children: React.ReactNode;
 };
 
 function Wrapper({ children }: WrapperProps) {

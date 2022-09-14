@@ -24,5 +24,7 @@ module.exports = {
     'no-plusplus': 0,
     'no-await-in-loop': 0,
     'import/no-cycle': 0,
+    '@typescript-eslint/no-non-null-assertion': 0,
+    'import/prefer-default-export': 0,
   },
 };

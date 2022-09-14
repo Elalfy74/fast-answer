@@ -1,12 +1,13 @@
-import { useReducer, useCallback } from "react";
-import { QuestionType, Tag } from "../components/Question.types";
-import { Loading } from "../data/types";
+import { useReducer, useCallback } from 'react';
+import { QuestionType, Tag } from '../components/Question.types';
+import { Loading } from '../data/types';
+
 type Data = QuestionType[] | QuestionType | Tag[];
 
 enum HttpActionKind {
-  SEND = "SEND",
-  SUCCESSED = "SUCCESSED",
-  FAILED = "FAILED",
+  SEND = 'SEND',
+  SUCCESSED = 'SUCCESSED',
+  FAILED = 'FAILED',
 }
 
 type HttpAction = {
@@ -28,19 +29,19 @@ function httpReducer(state: HttpState, action: HttpAction): HttpState {
       return {
         data: state.data,
         error: null,
-        loading: "pending",
+        loading: 'pending',
       };
     case HttpActionKind.SUCCESSED:
       return {
         data: responseData!,
         error: null,
-        loading: "succeeded",
+        loading: 'succeeded',
       };
     case HttpActionKind.FAILED:
       return {
         data: null,
         error: error!,
-        loading: "failed",
+        loading: 'failed',
       };
 
     default:
@@ -51,7 +52,7 @@ function httpReducer(state: HttpState, action: HttpAction): HttpState {
 // eslint-disable-next-line @typescript-eslint/ban-types
 function useHttp(requestFunction: Function, startWithPending = false) {
   const [httpState, dispatch] = useReducer(httpReducer, {
-    loading: startWithPending ? "pending" : "idle",
+    loading: startWithPending ? 'pending' : 'idle',
     data: null,
     error: null,
   });
@@ -69,7 +70,7 @@ function useHttp(requestFunction: Function, startWithPending = false) {
       } catch (error: any) {
         dispatch({
           type: HttpActionKind.FAILED,
-          error: error.message || "Something went wrong!",
+          error: error.message || 'Something went wrong!',
         });
       }
     },

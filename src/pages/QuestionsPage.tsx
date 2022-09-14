@@ -1,19 +1,18 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback } from 'react';
 
-import { CircularProgress, Stack } from "@mui/material";
-import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
-import { Question, QuestionHeader } from "../components";
-import { QuestionType } from "../components/Question.types";
-import { Loading } from "../data/types";
-import { getAllQuestions } from "../services/questions";
+import { CircularProgress, Stack } from '@mui/material';
+import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
+import { Question, QuestionHeader } from '../components';
+import { QuestionType } from '../components/Question.types';
+import { Loading } from '../data/types';
+import { getAllQuestions } from '../services/questions';
 
 function QuestionsPage() {
-  const [questions, setQuestions] = useState([] as QuestionType[]);
-  const [loading, setLoading] = useState("idle" as Loading);
+  const [questions, setQuestions] = useState<QuestionType[]>([]);
+  const [loading, setLoading] = useState<Loading>('idle');
   const [paginationTrigger, setPaginationTrigger] = useState(false);
-  const [lastDoc, setLastDoc] = useState(
-    null as QueryDocumentSnapshot<DocumentData> | null
-  );
+  const [lastDoc, setLastDoc] =
+    useState<QueryDocumentSnapshot<DocumentData> | null>(null);
 
   const getNextQuestions = useCallback(async () => {
     const data = await getAllQuestions(lastDoc, setLastDoc, setLoading);
@@ -31,8 +30,8 @@ function QuestionsPage() {
     const offSet = document.documentElement.offsetHeight;
     if (
       scrollHeight >= offSet &&
-      loading !== "finished" &&
-      loading !== "pending"
+      loading !== 'finished' &&
+      loading !== 'pending'
     ) {
       setPaginationTrigger((prevState) => !prevState);
     }
@@ -47,7 +46,7 @@ function QuestionsPage() {
           <Question key={question.id} question={question} />
         ))}
 
-      {loading === "pending" && <CircularProgress />}
+      {loading === 'pending' && <CircularProgress />}
     </Stack>
   );
 }

@@ -16,7 +16,6 @@ export const formatQuestion = async (
   const questionData = {
     ...question.data(),
     id: question.id,
-  // eslint-disable-next-line prettier/prettier
   } as ReceivedQuestionType;
 
   const tags: Tag[] = await getTags(questionData.tags);
