@@ -9,6 +9,8 @@ import swiper1 from '../../assets/swiper1.svg';
 import swiper2 from '../../assets/swiper2.svg';
 import swiper3 from '../../assets/swiper3.svg';
 
+const swiperList = [swiper1, swiper2, swiper3];
+
 const LoginSwiper = () => {
   return (
     <Stack
@@ -36,15 +38,11 @@ const LoginSwiper = () => {
         }}
         modules={[Autoplay, Pagination]}
       >
-        <SwiperSlide>
-          <img src={swiper1} alt="swiper-mg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src={swiper2} alt="swiper-mg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src={swiper3} alt="swiper-mg" />
-        </SwiperSlide>
+        {swiperList.map((swiper) => (
+          <SwiperSlide key={swiper}>
+            <img src={swiper} alt="swiper" />
+          </SwiperSlide>
+        ))}
       </Swiper>
     </Stack>
   );

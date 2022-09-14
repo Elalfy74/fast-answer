@@ -30,25 +30,23 @@ import {
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [loginError, setLoginError] = useState('');
 
   const { login } = useAuth();
   const { sendRequest, loading, error } = useHttp(login, false);
 
-  useEffect(() => {
-    if (!error) {
-      setLoginError('');
-      return;
-    }
+  function getErrorMessage() {
+    if (!error) return '';
     if (
       error.code === 'auth/wrong-password' ||
       error.code === 'auth/user-not-found'
     ) {
-      setLoginError('Wrong Email or Password');
-    } else {
-      setLoginError('Something went wrong Please try again');
+      return 'Wrong Email or Password';
     }
-  }, [error]);
+    return 'Something went wrong Please try again';
+  }
+
+  const loginError = getErrorMessage();
+
   // Start Input Hook Usage
   const {
     value: emailValue,
@@ -165,6 +163,7 @@ const LoginForm = () => {
             label="Remember me"
           /> */}
           <LoadingButton
+            disableElevation
             disabled={!formIsValid}
             type="submit"
             fullWidth
