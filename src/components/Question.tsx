@@ -13,6 +13,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import moment from 'moment';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -22,7 +23,7 @@ type QuestionProps = {
   question: QuestionType;
 };
 function Question({ question }: QuestionProps) {
-  console.log(question);
+  console.log(question.authorId);
   return (
     <Card variant="outlined" sx={{ width: '100%', minHeight: '163px' }}>
       {/* <Box sx={{ display: "flex", p: "12px" }}> */}

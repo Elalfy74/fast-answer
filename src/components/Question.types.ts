@@ -5,11 +5,12 @@ export type QuestionType = {
   title: string;
   body: string;
   creationTime: string;
-  author: {
-    authorId: string;
-    authorName: string;
-    avatar?: string;
-  };
+  // author: {
+  //   authorId: string;
+  //   authorName: string;
+  //   avatar?: string;
+  // };
+  authorId: any;
   tags: Tag[];
 };
 
@@ -20,4 +21,9 @@ export type Tag = {
 
 export type ReceivedQuestionType = Omit<QuestionType, 'tags'> & {
   tags: DocumentReference<DocumentData>[];
+  creationTime: {
+    seconds: number;
+    nanoseconds: number;
+  };
+  authorId: DocumentReference<DocumentData>;
 };

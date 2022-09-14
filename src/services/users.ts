@@ -1,4 +1,12 @@
-import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  DocumentData,
+  DocumentReference,
+  getDoc,
+  getDocs,
+  setDoc,
+} from 'firebase/firestore';
 
 import { db } from '../firebase-config';
 
@@ -14,4 +22,12 @@ export const getAllUsersIds = async () => {
   const users = await getDocs(usersCollectionRef);
 
   return users.docs.map((userDoc) => userDoc.id);
+};
+
+export const getUserByRef = async (
+  userRef: DocumentReference<DocumentData>
+) => {
+  const userDoc = await getDoc(userRef);
+
+  return { ...userDoc.data(), id: userDoc.id };
 };
