@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import AuthProvider from "./contexts/AuthContext";
 import { theme } from "./contexts/theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import { QuestionsPage,QuestionView } from "./pages";
+import { QuestionsPage, QuestionView } from "./pages";
 import { Wrapper } from "./layouts";
 import DummyScript from "./pages/DummyScript";
 

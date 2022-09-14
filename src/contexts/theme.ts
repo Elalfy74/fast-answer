@@ -11,7 +11,9 @@ export const theme = createTheme({
       "200": colors.blueGrey[700],
     },
     success:{
-      "500" : "#0FA958"
+      "500" : "#0FA958",
+    },info:{
+      "500": "#E4A951",
     }
   },
   components: {

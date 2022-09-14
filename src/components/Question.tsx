@@ -25,48 +25,21 @@ const Question = ({ question }: QuestionProps) => {
   console.log(question);
   return (
     <Card variant="outlined" sx={{ width: "100%", minHeight: "163px" }}>
-      {/* <Box sx={{ display: "flex", p: "12px" }}> */}
-      {/* <Avatar
-          alt="user avatar"
-          src={
-            question.owner.avatar ||
-            "https://www.pinclipart.com/picdir/big/547-5474602_character-avatar-clipart.png"
-          }
-          sx={{ width: 45, height: 45, mr: "5px" }}
-        /> */}
-      {/* <Box sx={{ display: "flex", flexDirection: "column" }}>
-          <Typography
-            gutterBottom
-            variant="body1"
-            sx={{ fontWeight: "600", mb: 0 }}
-          >
-            {question.owner.user_first_name}
-          </Typography>
-          <Typography
-            gutterBottom
-            variant="body2"
-            color="text.secondary"
-            sx={{ mb: 0, mt: 0 }}
-          >
-            {question.creation_time}
-          </Typography>
-        </Box> */}
-      {/* </Box> */}
       <CardContent>
         {/*Start Question Info */}
         <Stack direction="row" justifyContent="space-between">
           {/*Start Question Title and body */}
-          <Box sx={{ mb: 1, ml: 1, overflow: 'hidden'}}>
+          <Box sx={{ mb: 1, ml: 1, overflow: 'hidden' }}>
             <Link to={`${question.id}`}>
               <Typography
                 component="h3"
                 color="#3B6893"
-                variant="h6"
                 sx={{
                   transition: "all 0.2s ",
                   "&:hover": {
                     color: "secondary.100",
                   },
+                  fontWeight: "500",
                 }}
               >
                 {question.title}
@@ -77,8 +50,8 @@ const Question = ({ question }: QuestionProps) => {
             </Typography>
           </Box>
           {/*End Question Title and body */}
+
           {/*Start  UpVotes and other */}
-          {/*TODO edit up votes Styling*/}
           <Box>
             <Stack direction="row" spacing={1} mb={1} >
               <Box display="flex" alignItems="center" color="#151515">
@@ -91,12 +64,12 @@ const Question = ({ question }: QuestionProps) => {
               </Box>
             </Stack>
 
-            <Box mb={1} display="flex" alignItems="center" color="success.400">
+            <Box mb={1} display="flex" alignItems="center" color="success.500">
               <Typography sx={{ mr: 0.5 }}>{"13"}</Typography>
               <Forum fontSize="small" />
             </Box>
 
-            <Box display="flex" alignItems="center" color="#E4A951">
+            <Box display="flex" alignItems="center" color="info.500">
               <Typography sx={{ mr: 0.5 }}>{"13"}</Typography>
               <Visibility fontSize="small" />
             </Box>
@@ -104,25 +77,24 @@ const Question = ({ question }: QuestionProps) => {
           {/*End of UpVotes */}
         </Stack>
 
-        {/*Start of Tags And User Display*/}    
+        {/*Start of Tags And User Display*/}
         <Box display='flex' justifyContent='space-between' sx={{ ml: 1 }} >
 
           {/* User and Datetime */}
-          <Box sx={{ display: 'flex', gap: 0.7, flexWrap: 'wrap' }} >
-            <Box sx={{borderRadius: '50%'}}>
-              <img src={avatar} alt="user avatar" width="25px" height="25px"/>
-            </Box>
+          <Box sx={{ display: 'flex', gap: 0.7 }} >
+            <Avatar alt="user avatar" src={avatar} sx={{ width: 30, height: 30 }} />
+
             {/* <Typography color="#6AA5FF">{question.author.authorName}</Typography> */}
-            <Typography color="#6AA5FF">Mahmoud Ramadan</Typography>
+            <Typography variant="body2" sx={{ mt: 0.5 }} color="#6AA5FF">Mahmoud Ramadan</Typography>
             {/* <Typography>asked</Typography>
             <Typography color='#616161' variant="caption" sx={{mt: 0.5}}>{question.creationTime}</Typography> */}
-            <Typography color='#616161' variant="caption" sx={{mt: 0.5}}>1 min ago</Typography>
+            <Typography color='#616161' variant="caption" sx={{ mt: 0.5 }}>22 Apr 02:34pm</Typography>
           </Box>
 
           {/* Tags */}
-          <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
             {question.tags.map((tag) => (
-              <Box key={tag.id} sx={{ mr: 1 }}>
+              <Box key={tag.id}>
                 <Typography
                   component="span"
                   sx={{
