@@ -1,23 +1,36 @@
-import { Bookmark, Person, QuestionAnswer, Tag } from '@mui/icons-material';
+import {
+  Bookmark,
+  BookmarkBorderOutlined,
+  Person,
+  PersonOutlined,
+  QuestionAnswer,
+  QuestionAnswerOutlined,
+  Tag,
+  TagOutlined,
+} from '@mui/icons-material';
 import { BottomNavigation, BottomNavigationAction, Paper } from '@mui/material';
 import { useState } from 'react';
 
 const BottomList = [
   {
     label: 'Questions',
-    icon: <QuestionAnswer />,
+    activeIcon: <QuestionAnswer />,
+    icon: <QuestionAnswerOutlined />,
   },
   {
-    label: 'Faviourites',
-    icon: <Bookmark />,
+    label: 'Favourites',
+    activeIcon: <Bookmark />,
+    icon: <BookmarkBorderOutlined />,
   },
   {
     label: 'Tags',
-    icon: <Tag />,
+    activeIcon: <Tag />,
+    icon: <TagOutlined />,
   },
   {
     label: 'Account',
-    icon: <Person />,
+    activeIcon: <Person />,
+    icon: <PersonOutlined />,
   },
 ];
 
@@ -30,6 +43,7 @@ const BottomNavigationBar = () => {
         bottom: 0,
         left: 0,
         right: 0,
+        pb: 5,
         display: {
           sm: 'none',
         },
@@ -43,11 +57,11 @@ const BottomNavigationBar = () => {
           setValue(newValue);
         }}
       >
-        {BottomList.map((link) => (
+        {BottomList.map((link, index) => (
           <BottomNavigationAction
             key={link.label}
             label={link.label}
-            icon={link.icon}
+            icon={value === index ? link.activeIcon : link.icon}
           />
         ))}
       </BottomNavigation>
