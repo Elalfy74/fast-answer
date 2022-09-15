@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import * as Auth from 'firebase/auth';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
@@ -50,14 +51,12 @@ function AuthProvider({ children }: AuthProviderProps) {
     return Auth.sendPasswordResetEmail(auth, email);
   }
 
-  // eslint-disable-next-line consistent-return
   function updateEmail(email: string) {
     if (currentUser) {
       return Auth.updateEmail(currentUser, email);
     }
   }
 
-  // eslint-disable-next-line consistent-return
   function updatePassword(password: string) {
     if (currentUser) {
       return Auth.updatePassword(currentUser, password);

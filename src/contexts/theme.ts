@@ -16,6 +16,9 @@ export const theme = createTheme({
       '100': colors.blue[400],
       '200': colors.blueGrey[700],
     },
+    info: {
+      main: colors.grey[600],
+    },
   },
   typography: {
     fontFamily: ['Poppins', 'sans-serif'].join(','),
@@ -24,7 +27,7 @@ export const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         textInfo: {
-          color: colors.blueGrey[700],
+          color: colors.red[400],
         },
       },
     },

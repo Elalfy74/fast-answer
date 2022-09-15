@@ -4,7 +4,7 @@ import React, { Route, Routes } from 'react-router-dom';
 import AuthProvider from './contexts/AuthContext';
 import { theme } from './contexts/theme';
 import { Wrapper } from './layouts';
-import { Login, QuestionsPage, QuestionView } from './pages';
+import { Login, QuestionsPage, QuestionView, Signup } from './pages';
 import DummyScript from './pages/DummyScript';
 
 function App() {
@@ -12,14 +12,15 @@ function App() {
     <ThemeProvider theme={theme}>
       <AuthProvider>
         <CssBaseline />
-        <Wrapper>
-          {/* <Login /> */}
-          {/* <QuestionView /> */}
-          {/* <DummyScript /> */}
-          <Routes>
+        {/* <Wrapper> */}
+        {/* <Signup /> */}
+        {/* <Login /> */}
+        {/* <QuestionView /> */}
+        {/* <DummyScript /> */}
+        {/* <Routes>
             <Route path="/" element={<QuestionsPage />} />
-          </Routes>
-        </Wrapper>
+          </Routes> */}
+        {/* </Wrapper> */}
       </AuthProvider>
     </ThemeProvider>
   );

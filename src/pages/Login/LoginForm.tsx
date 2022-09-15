@@ -1,24 +1,19 @@
-import { Visibility, VisibilityOff } from '@mui/icons-material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import {
   Alert,
   Box,
   Checkbox,
-  FormControl,
   FormControlLabel,
-  FormHelperText,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
   Stack,
   TextField,
   Typography,
 } from '@mui/material';
+import { blueGrey, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Logo } from '../../components';
+import google from '../../assets/google.svg';
+import { GoogleLogo, Logo } from '../../components';
 import { useAuth } from '../../contexts/AuthContext';
 import useHttp from '../../hooks/use-http';
 import useInput from '../../hooks/use-input';
@@ -27,25 +22,11 @@ import {
   validateEmail,
   validatePassword,
 } from '../../utils/validators';
+import { TextFieldPassword } from '.';
 
 const LoginForm = () => {
-  const [showPassword, setShowPassword] = useState(false);
-
   const { login } = useAuth();
   const { sendRequest, loading, error } = useHttp(login, false);
-
-  function getErrorMessage() {
-    if (!error) return '';
-    if (
-      error.code === 'auth/wrong-password' ||
-      error.code === 'auth/user-not-found'
-    ) {
-      return 'Wrong Email or Password';
-    }
-    return 'Something went wrong Please try again';
-  }
-
-  const loginError = getErrorMessage();
 
   // Start Input Hook Usage
   const {
@@ -67,6 +48,19 @@ const LoginForm = () => {
 
   const formIsValid = emailIsValid && passwordIsValid;
 
+  function getErrorMessage() {
+    if (!error) return '';
+    if (
+      error.code === 'auth/wrong-password' ||
+      error.code === 'auth/user-not-found'
+    ) {
+      return 'Wrong Email or Password';
+    }
+    return 'Something went wrong Please try again';
+  }
+
+  const loginError = getErrorMessage();
+
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -80,6 +74,12 @@ const LoginForm = () => {
       alignItems="center"
       justifyContent="center"
       width="100%"
+      sx={{
+        display: {
+          xs: 'block',
+          lg: 'flex',
+        },
+      }}
     >
       <Box
         px={2}
@@ -88,6 +88,10 @@ const LoginForm = () => {
           width: {
             xs: '600px',
             lg: '80%',
+          },
+          pt: {
+            xs: '20vh',
+            lg: 0,
           },
         }}
       >
@@ -123,45 +127,28 @@ const LoginForm = () => {
             error={!!emailError}
             helperText={emailError}
           />
-          <FormControl
-            sx={{ width: '100%', mb: '8px', mt: '16px' }}
-            variant="outlined"
-            required
+          <TextFieldPassword
+            error={passwordError}
+            value={passwordValue}
+            onChange={passwordChangeHandler}
+            onBlur={passwordBlurHandler}
+          />
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
           >
-            <InputLabel htmlFor="password" error={!!passwordError}>
-              Password
-            </InputLabel>
-            <OutlinedInput
-              fullWidth
-              name="password"
-              label="Password"
-              id="password"
-              autoComplete="password"
-              value={passwordValue}
-              onChange={passwordChangeHandler}
-              onBlur={passwordBlurHandler}
-              error={!!passwordError}
-              type={showPassword ? 'text' : 'password'}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={() => setShowPassword((prevState) => !prevState)}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
+            <FormControlLabel
+              control={<Checkbox value="remember" color="primary" />}
+              label="Remember me"
             />
-            <FormHelperText id="component-helper-text" error>
-              {passwordError}
-            </FormHelperText>
-          </FormControl>
-          {/* <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          /> */}
+            <Link to="/auth/forgetpassword">
+              <Typography variant="body2" color="primary.500">
+                Forgot password?
+              </Typography>
+            </Link>
+          </Stack>
+
           <LoadingButton
             disableElevation
             disabled={!formIsValid}
@@ -169,27 +156,31 @@ const LoginForm = () => {
             fullWidth
             loading={loading === 'pending'}
             sx={{ mt: 3, mb: 2 }}
-            color="primary"
             variant="contained"
           >
-            Sign In
+            Log In
           </LoadingButton>
-          <Stack
-            direction="row"
-            alignItems="center"
-            justifyContent="space-between"
+          <LoadingButton
+            disableElevation
+            type="button"
+            fullWidth
+            loading={loading === 'pending'}
+            variant="outlined"
+            startIcon={<GoogleLogo />}
+            color="info"
+            sx={{ mt: 2, mb: 2 }}
           >
-            <Link to="/auth/forgetpassword">
-              <Typography variant="body2" color="primary.500">
-                Forgot password?
-              </Typography>
-            </Link>
+            Sign In With Google
+          </LoadingButton>
+
+          <Typography variant="body2" textAlign="center" mt={2} color="gray">
+            Do not have an account?{' '}
             <Link to="/auth/signup">
-              <Typography variant="body2" color="primary.500">
-                Do not have an account? Sign Up
+              <Typography component="span" variant="body2" color="primary.500">
+                Sign Up
               </Typography>
             </Link>
-          </Stack>
+          </Typography>
         </Box>
       </Box>
     </Stack>

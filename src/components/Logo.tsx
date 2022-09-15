@@ -1,9 +1,9 @@
-function Logo() {
+const Logo = () => {
   return (
     <svg
-      width="84"
-      height="41"
-      viewBox="0 0 84 41"
+      width="130"
+      height="65"
+      viewBox="0 0 84 42"
       fill="#5d45fa"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -16,6 +16,6 @@ function Logo() {
       <circle cx="4.03198" cy="25.1289" r="1" />
     </svg>
   );
-}
+};
 
 export default Logo;
