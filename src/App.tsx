@@ -12,14 +12,14 @@ function App() {
     <ThemeProvider theme={theme}>
       <AuthProvider>
         <CssBaseline />
-        {/* <Wrapper> */}
-        <Login />
-        {/* <QuestionView /> */}
-        {/* <DummyScript /> */}
-        {/* <Routes>
+        <Wrapper>
+          {/* <Login /> */}
+          {/* <QuestionView /> */}
+          {/* <DummyScript /> */}
+          <Routes>
             <Route path="/" element={<QuestionsPage />} />
-          </Routes> */}
-        {/* </Wrapper> */}
+          </Routes>
+        </Wrapper>
       </AuthProvider>
     </ThemeProvider>
   );

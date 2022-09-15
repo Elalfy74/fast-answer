@@ -1,6 +1,7 @@
 import { Container, Grid } from '@mui/material';
 
 import { LeftSideBar, RightSideBar } from '.';
+import BottomNavigationBar from './BottomNavigationBar';
 
 type WrapperProps = {
   children: React.ReactNode;
@@ -12,7 +13,6 @@ function Wrapper({ children }: WrapperProps) {
       <Grid container spacing={{ xs: 2, lg: 4 }}>
         <Grid
           item
-          xs={3}
           sm={2}
           md={1.5}
           xl={3}
@@ -28,7 +28,6 @@ function Wrapper({ children }: WrapperProps) {
         <Grid
           item
           md={2.5}
-          xl={2.5}
           sx={{
             display: { xs: 'none', md: 'block' },
           }}
@@ -36,6 +35,7 @@ function Wrapper({ children }: WrapperProps) {
           <RightSideBar />
         </Grid>
       </Grid>
+      <BottomNavigationBar />
     </Container>
   );
 }
