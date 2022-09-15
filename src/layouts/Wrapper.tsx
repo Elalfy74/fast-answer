@@ -1,4 +1,5 @@
 import { Container, Grid } from '@mui/material';
+import { useLayoutEffect, useState } from 'react';
 
 import { LeftSideBar, RightSideBar } from '.';
 import BottomNavigationBar from './BottomNavigationBar';
@@ -7,7 +8,15 @@ type WrapperProps = {
   children: React.ReactNode;
 };
 
-function Wrapper({ children }: WrapperProps) {
+const Wrapper = ({ children }: WrapperProps) => {
+  const [mobile, setMobile] = useState(true);
+
+  useLayoutEffect(() => {
+    if (window.innerWidth > 600) {
+      setMobile(false);
+    }
+  }, []);
+
   return (
     <Container maxWidth="lg" sx={{ py: 10 }}>
       <Grid container spacing={{ xs: 2, lg: 4 }}>
@@ -35,9 +44,9 @@ function Wrapper({ children }: WrapperProps) {
           <RightSideBar />
         </Grid>
       </Grid>
-      <BottomNavigationBar />
+      {mobile && <BottomNavigationBar />}
     </Container>
   );
-}
+};
 
 export default Wrapper;

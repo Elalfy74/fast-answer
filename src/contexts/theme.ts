@@ -27,7 +27,7 @@ export const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         textInfo: {
-          color: colors.red[400],
+          color: colors.grey[700],
         },
       },
     },

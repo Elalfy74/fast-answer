@@ -84,6 +84,7 @@ const LoginForm = () => {
       <Box
         px={2}
         maxWidth="100%"
+        mx="auto"
         sx={{
           width: {
             xs: '600px',

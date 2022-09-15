@@ -23,7 +23,6 @@ type QuestionProps = {
   question: QuestionType;
 };
 function Question({ question }: QuestionProps) {
-  console.log(question.authorId);
   return (
     <Card variant="outlined" sx={{ width: '100%', minHeight: '163px' }}>
       {/* <Box sx={{ display: "flex", p: "12px" }}> */}

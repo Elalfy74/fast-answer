@@ -14,13 +14,13 @@ function App() {
         <CssBaseline />
         {/* <Wrapper> */}
         {/* <Signup /> */}
-        {/* <Login /> */}
+        <Login />
         {/* <QuestionView /> */}
         {/* <DummyScript /> */}
         {/* <Routes>
             <Route path="/" element={<QuestionsPage />} />
-          </Routes> */}
-        {/* </Wrapper> */}
+          </Routes>
+        </Wrapper> */}
       </AuthProvider>
     </ThemeProvider>
   );
