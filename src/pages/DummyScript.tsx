@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 
 import { useAuth } from '../contexts/AuthContext';
+import { answers } from '../data/answers';
 // import { users } from "../data/user";
 import { questions } from '../data/questions';
-import { saveQuestion } from '../services/questions';
+import { saveAnswer } from '../services/answers';
+import { getAllQuestionsIds, saveQuestion } from '../services/questions';
 import { getAllTagsId, saveTag } from '../services/tags';
 // import { tags } from "../data/tags";
 import { getAllUsersIds, saveUserData } from '../services/users';
@@ -11,7 +13,7 @@ import { getAllUsersIds, saveUserData } from '../services/users';
 function DummyScript() {
   const { signup } = useAuth();
 
-  const i = 0;
+  let i = 0;
 
   // Add User
 
@@ -54,17 +56,17 @@ function DummyScript() {
 
   // Save the  questions
 
-  // function generateRandomNumber(max: number, startfromZero: boolean) {
-  //   if (startfromZero) {
-  //     return Math.floor(Math.random() * max);
-  //   } else {
-  //     return Math.floor(Math.random() * max) + 1;
-  //   }
-  // }
+  function generateRandomNumber(max: number, startfromZero: boolean) {
+    if (startfromZero) {
+      return Math.floor(Math.random() * max);
+    }
+    return Math.floor(Math.random() * max) + 1;
+  }
+
   // useEffect(() => {
   //   const saveQuestionFunc = async (i: number) => {
   //     //1;
-  //     const users = await getAllUsersIds();
+  // const users = await getAllUsersIds();
 
   //     //2
   //     const tags = await getAllTagsId();
@@ -72,7 +74,7 @@ function DummyScript() {
   //     //3- Assign random User Id
   //     const userId = users[generateRandomNumber(50, true)];
 
-  //     // 4- genrate random tags number
+  // 4- genrate random tags number
   //     const tagsNumber = generateRandomNumber(5, false);
   //     const tagsIdsNumbers: any = [];
 
@@ -99,6 +101,30 @@ function DummyScript() {
   //     }
   //   }, 2000);
   // }, []);
+
+  // Add Answers
+  // 1- Get All Users ID
+  // 2. Gel All Questions ID
+  useEffect(() => {
+    const addAnswers = async () => {
+      const users = await getAllUsersIds();
+      const questionsIds = await getAllQuestionsIds();
+
+      const body = answers[i];
+      const userId = users[generateRandomNumber(50, true)];
+      const questionId = questionsIds[generateRandomNumber(50, true)];
+
+      saveAnswer(userId, questionId, body);
+    };
+    setInterval(() => {
+      console.log(i);
+      if (i < 50) {
+        addAnswers();
+        i += 1;
+      }
+    }, 2000);
+  }, []);
+
   return <div>DummyScript</div>;
 }
 

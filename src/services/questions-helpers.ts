@@ -9,7 +9,7 @@ import { QuestionType, ReceivedQuestionType, Tag } from '../data/types';
 import { getTags } from './tags';
 import { getUserByRef } from './users';
 
-// Functions replaces tags reference with real tags data for a single question
+// Functions replaces tags reference with real tags and author with real author data for a single question
 export const formatQuestion = async (
   question: QueryDocumentSnapshot<DocumentData> | DocumentSnapshot<DocumentData>
 ) => {

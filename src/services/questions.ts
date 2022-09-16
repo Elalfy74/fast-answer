@@ -88,3 +88,12 @@ export const getQuestionById = async (id: string) => {
   return question;
 };
 // End Of APIS
+
+export const getAllQuestionsIds = async () => {
+  const questions = await getDocs(questionsCollectionRef);
+  const ids: string[] = [];
+  questions.forEach((question) => {
+    ids.push(question.id);
+  });
+  return ids;
+};

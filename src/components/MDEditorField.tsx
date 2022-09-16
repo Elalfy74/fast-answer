@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 const MDEditorField = () => {
   const [value, setValue] = useState<any>('');
-  console.log(value);
+
   return (
     <Box data-color-mode="light" width="100%" mt={4}>
       <MDEditor

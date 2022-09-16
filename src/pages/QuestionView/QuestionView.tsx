@@ -1,9 +1,10 @@
 import { CircularProgress, Stack, Typography } from '@mui/material';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { MDEditorField } from '../../components';
 import { QuestionType } from '../../data/types';
 import useHttp from '../../hooks/use-http';
+import { getAllAnswersOfQuestion } from '../../services/answers';
 import { getQuestionById } from '../../services/questions';
 import { Answer, Question } from '.';
 
@@ -15,9 +16,16 @@ const QuestionView = () => {
     error,
   } = useHttp(getQuestionById, true);
 
+  const [answers, setAnswers] = useState<any>([]);
   useEffect(() => {
     const getQuestion = async () => {
       await sendRequest('0RdxjPUIRAjdudYxJ8jl');
+
+      const answersFromServer = await getAllAnswersOfQuestion(
+        'ZadXxHyEVloZ0CWtkytC'
+      );
+      console.log(answersFromServer);
+      setAnswers(answersFromServer);
     };
     getQuestion();
   }, [sendRequest]);
