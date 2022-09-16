@@ -18,8 +18,8 @@ const Wrapper = ({ children }: WrapperProps) => {
   }, []);
 
   return (
-    <Container maxWidth="lg" sx={{ py: 10 }}>
-      <Grid container spacing={{ xs: 2, lg: 4 }}>
+    <Container maxWidth="lg" sx={{ py: '20px' }}>
+      <Grid container columnSpacing={{ xs: 2, lg: 4 }}>
         <Grid
           item
           sm={2}

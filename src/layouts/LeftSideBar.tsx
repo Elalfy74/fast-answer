@@ -48,7 +48,13 @@ const LeftSideBarList = [
 
 function LeftSideBar() {
   return (
-    <Box component="nav">
+    <Box
+      component="nav"
+      sx={{
+        position: 'sticky',
+        top: 20,
+      }}
+    >
       <List
         sx={{
           bgcolor: 'background.paper',
@@ -58,17 +64,19 @@ function LeftSideBar() {
         <ListItem>
           <Logo />
         </ListItem>
-        {LeftSideBarList.map((item) => (
+        {LeftSideBarList.map((item, index) => (
           <ListItem
             key={item.label}
-            sx={{ px: { xs: 0, xl: '16px' }, mb: '10px' }}
+            sx={{ px: { xs: 0, xl: '32px' }, mb: '10px' }}
           >
             <Button
-              color="info"
+              disableElevation
+              color={index === 0 ? 'primary' : 'info'}
               component="div"
-              variant="text"
+              variant={index === 0 ? 'contained' : 'text'}
               sx={{
-                borderRadius: '20px',
+                width: '100%',
+                borderRadius: '9999px',
                 px: 2,
                 display: { xs: 'none', xl: 'flex' },
               }}
@@ -77,7 +85,7 @@ function LeftSideBar() {
                 sx={{
                   minWidth: 'auto',
                   mr: 1,
-                  color: 'primary.main',
+                  color: index === 0 ? 'white' : 'primary.main',
                 }}
               >
                 {item.icon}
