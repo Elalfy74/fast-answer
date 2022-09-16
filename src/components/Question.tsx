@@ -81,18 +81,20 @@ const Question = ({ question }: QuestionProps) => {
         <Box display='flex' justifyContent='space-between' sx={{ ml: 1 }} >
 
           {/* User and Datetime */}
-          <Box sx={{ display: 'flex', gap: 0.7 }} >
-            <Avatar alt="user avatar" src={avatar} sx={{ width: 30, height: 30 }} />
+          <Box sx={{ display: 'flex', gap: 0.7, alignItems: 'center' }} >
+            <Avatar alt="user avatar" src={avatar} sx={{ width: 35, height: 35 }} />
 
             {/* <Typography color="#6AA5FF">{question.author.authorName}</Typography> */}
-            <Typography variant="body2" sx={{ mt: 0.5 }} color="#6AA5FF">Mahmoud Ramadan</Typography>
-            {/* <Typography>asked</Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              <Typography sx={{ fontSize: '16px', fontWeight: '500' }} color="#6AA5FF">Mahmoud Ramadan</Typography>
+              {/* <Typography>asked</Typography>
             <Typography color='#616161' variant="caption" sx={{mt: 0.5}}>{question.creationTime}</Typography> */}
-            <Typography color='#616161' variant="caption" sx={{ mt: 0.5 }}>22 Apr 02:34pm</Typography>
+              <Typography color='#616161' sx={{ fontSize: '14px' }}>22 Apr 02:34pm</Typography>
+            </Box>
           </Box>
 
           {/* Tags */}
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-end', gap: 1 }}>
             {question.tags.map((tag) => (
               <Box key={tag.id}>
                 <Typography

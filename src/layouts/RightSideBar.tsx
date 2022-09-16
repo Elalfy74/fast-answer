@@ -12,7 +12,7 @@ const RightSideBar = () => {
       <Box borderRadius="8px" bgcolor="white" height="400px" p="8px" >
 
         {/* Leader Board Header */}
-        <Stack direction='row' spacing={1} justifyContent='center' sx={{mb: 0.5}}>
+        <Stack direction='row' spacing={1} justifyContent='center' sx={{ mb: 0.5 }}>
           <LeaderboardIcon fontSize="small" color="primary" />
           <Typography sx={{ fontWeight: "500", fontSize: '18px' }}>LeaderBoard</Typography>
         </Stack>
@@ -67,11 +67,39 @@ const RightSideBar = () => {
 
       {/* Trending Questions */}
       <Box borderRadius="8px" bgcolor="white" height="400px" p="8px">
-        <Stack direction='row' spacing={1} justifyContent='center' sx={{mb: 0.5}}>
+        {/* Header */}
+        <Stack direction='row' spacing={1} justifyContent='center' sx={{ mb: 0.5 }}>
           <TrendingUpIcon fontSize="small" color="success" />
           <Typography sx={{ fontWeight: "500", fontSize: '18px' }}>Trending Questions</Typography>
         </Stack>
         <Divider />
+        {/* Questions */}
+        <Stack spacing={2}>
+          <Box>
+            <Typography sx={{ fontSize: '18px', fontWeight: '500' }}>How to create horizontal carousel in JavaScript?</Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <Typography sx={{ color: 'text.secondary', fontSize: '14px', fontWeight: 'bold', }}>Asked by</Typography>
+              <Typography sx={{ fontWeight: '500', fontSize: '14px' }}>Mahmoud Ramadan</Typography>
+            </Box>
+          </Box>
+
+          <Box>
+            <Typography sx={{ fontSize: '18px', fontWeight: '500' }}>How to create horizontal carousel in JavaScript?</Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <Typography sx={{ color: 'text.secondary', fontSize: '14px', fontWeight: 'bold', }}>Asked by</Typography>
+              <Typography sx={{ fontWeight: '500', fontSize: '14px' }}>Mahmoud Ramadan</Typography>
+            </Box>
+          </Box>
+
+          <Box>
+            <Typography sx={{ fontSize: '18px', fontWeight: '500' }}>How to create horizontal carousel in JavaScript?</Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <Typography sx={{ color: 'text.secondary', fontSize: '14px', fontWeight: 'bold', }}>Asked by</Typography>
+              <Typography sx={{ fontWeight: '500', fontSize: '14px' }}>Mahmoud Ramadan</Typography>
+            </Box>
+          </Box>
+
+        </Stack>
 
       </Box>
     </Stack>
