@@ -1,7 +1,6 @@
 import { useCallback, useReducer } from 'react';
 
-import { QuestionType, Tag } from '../components/Question.types';
-import { Loading } from '../data/types';
+import { Loading, QuestionType, Tag } from '../data/types';
 
 type Data = {
   items: QuestionType[] | [];

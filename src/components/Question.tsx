@@ -13,11 +13,10 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import moment from 'moment';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { QuestionType, Tag } from './Question.types';
+import { QuestionType, Tag } from '../data/types';
 
 type QuestionProps = {
   question: QuestionType;

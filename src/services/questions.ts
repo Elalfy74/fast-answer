@@ -14,7 +14,7 @@ import {
   Timestamp,
 } from 'firebase/firestore';
 
-import { QuestionType } from '../components/Question.types';
+import { QuestionType } from '../data/types';
 import { db } from '../firebase-config';
 import { formatQuestion, formatQuestions } from './questions-helpers';
 

@@ -12,15 +12,15 @@ function App() {
     <ThemeProvider theme={theme}>
       <AuthProvider>
         <CssBaseline />
-        {/* <Wrapper> */}
-        {/* <Signup /> */}
-        <Login />
-        {/* <QuestionView /> */}
-        {/* <DummyScript /> */}
-        {/* <Routes>
-            <Route path="/" element={<QuestionsPage />} />
+        <Wrapper>
+          {/* <Signup /> */}
+          {/* <Login /> */}
+          {/* <DummyScript /> */}
+          <Routes>
+            <Route path="/" element={<QuestionView />} />
+            {/* <Route path="/" element={<QuestionsPage />} /> */}
           </Routes>
-        </Wrapper> */}
+        </Wrapper>
       </AuthProvider>
     </ThemeProvider>
   );

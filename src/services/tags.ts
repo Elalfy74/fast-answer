@@ -7,7 +7,7 @@ import {
   getDocs,
 } from 'firebase/firestore';
 
-import { Tag } from '../components/Question.types';
+import { Tag } from '../data/types';
 import { db } from '../firebase-config';
 
 const tagsCollectionRef = collection(db, 'tags');

@@ -5,11 +5,7 @@ import {
 } from 'firebase/firestore';
 import moment from 'moment';
 
-import {
-  QuestionType,
-  ReceivedQuestionType,
-  Tag,
-} from '../components/Question.types';
+import { QuestionType, ReceivedQuestionType, Tag } from '../data/types';
 import { getTags } from './tags';
 import { getUserByRef } from './users';
 

@@ -8,11 +8,8 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { blueGrey, grey } from '@mui/material/colors';
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import google from '../../assets/google.svg';
 import { GoogleLogo, Logo } from '../../components';
 import { useAuth } from '../../contexts/AuthContext';
 import useHttp from '../../hooks/use-http';

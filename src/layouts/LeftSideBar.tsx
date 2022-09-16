@@ -58,7 +58,7 @@ function LeftSideBar() {
         <ListItem>
           <Logo />
         </ListItem>
-        {LeftSideBarList.map((item, index) => (
+        {LeftSideBarList.map((item) => (
           <ListItem
             key={item.label}
             sx={{ px: { xs: 0, xl: '16px' }, mb: '10px' }}
