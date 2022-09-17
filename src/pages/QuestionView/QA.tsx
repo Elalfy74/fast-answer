@@ -1,4 +1,5 @@
 import { Avatar, Box, Stack, Typography } from '@mui/material';
+import MDEditor from '@uiw/react-md-editor';
 
 type QAProps = {
   authorFirstName: string;
@@ -37,6 +38,14 @@ const QA = ({
       >
         {body}
       </Typography>
+      {/* <MDEditor.Markdown
+        source={body}
+        style={{
+          whiteSpace: 'pre-wrap',
+          backgroundColor: 'transparent',
+          color: 'black',
+        }}
+      /> */}
     </Box>
   );
 };

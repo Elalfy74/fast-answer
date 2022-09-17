@@ -91,8 +91,8 @@ const LoginForm = () => {
             xs: '600px',
             lg: '80%',
           },
-          pt: {
-            xs: '20vh',
+          py: {
+            xs: '10vh',
             lg: 0,
           },
         }}

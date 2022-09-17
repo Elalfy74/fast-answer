@@ -37,14 +37,13 @@ export const getAllAnswersOfQuestion = async (questionId: string) => {
 export const saveAnswer = async (
   uId: string,
   questionId: string,
-  body: string,
-  votesArray: { type: string; userId: string }[]
+  body: string
+  // votesArray: { type: string; userId: string }[]
 ) => {
   await addDoc(answersCollectionRef, {
     body,
     creationTime: Timestamp.fromDate(new Date()),
     question: doc(db, 'questions', questionId),
     author: doc(db, 'users', uId),
-    votes: votesArray,
   });
 };

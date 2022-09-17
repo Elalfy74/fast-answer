@@ -87,7 +87,17 @@ const Signup = () => {
     if (!error) navigate('/');
   };
   return (
-    <Box px={2} maxWidth="100%" width="600px" mx="auto" pt="20vh">
+    <Box
+      px={2}
+      maxWidth="100%"
+      width="600px"
+      mx="auto"
+      sx={{
+        py: {
+          xs: '10vh',
+        },
+      }}
+    >
       <Box textAlign="center" mb={3}>
         <Logo />
         <Typography component="h1" variant="h5" fontWeight="500" mt={2}>

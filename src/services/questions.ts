@@ -20,21 +20,27 @@ import { formatAllQuestions, formatQuestion } from './questions-helpers';
 
 const questionsCollectionRef = collection(db, 'questions');
 // global variable so doesn't get reinitialized on every call
-let lastDoc: QueryDocumentSnapshot<DocumentData> | null = null;
+// let lastDoc: QueryDocumentSnapshot<DocumentData> | null = null;
 
 // Start Of APIS
 
 // Get All Questions API
-export const getAllQuestions = async () => {
+export const getAllQuestions = async (last: {
+  doc?: QueryDocumentSnapshot<DocumentData> | null;
+  setLast: React.Dispatch<
+    React.SetStateAction<QueryDocumentSnapshot<DocumentData> | null>
+  >;
+}) => {
   const numberOfQuestions = 6;
-  let hasMore: boolean;
-  let requestQuery: Query<DocumentData>;
 
-  if (lastDoc) {
+  let requestQuery: Query<DocumentData>;
+  let hasMore: boolean;
+
+  if (last.doc) {
     requestQuery = query(
       questionsCollectionRef,
       orderBy('creationTime'),
-      startAfter(lastDoc),
+      startAfter(last.doc),
       limit(numberOfQuestions)
     );
   } else {
@@ -46,18 +52,21 @@ export const getAllQuestions = async () => {
   }
 
   const questionsFromServer = await getDocs(requestQuery);
-  lastDoc = questionsFromServer.docs[questionsFromServer.docs.length - 1];
+  last.setLast(questionsFromServer.docs[questionsFromServer.docs.length - 1]);
 
   const questionsList: QuestionType[] = await formatAllQuestions(
     questionsFromServer.docs
   );
 
-  if (questionsFromServer.docs.length < numberOfQuestions) {
+  if (questionsFromServer.empty) {
     hasMore = false;
-  } else {
-    hasMore = true;
+    return {
+      items: [],
+      hasMore,
+    };
   }
 
+  hasMore = true;
   return {
     items: questionsList,
     hasMore,
@@ -102,47 +111,4 @@ export const getAllQuestionsIds = async () => {
     ids.push(question.id);
   });
   return ids;
-};
-
-export const getAllQuestionsTest = async () => {
-  console.log('here');
-
-  const numberOfQuestions = 6;
-  let hasMore: boolean;
-  let requestQuery: Query<DocumentData>;
-
-  if (lastDoc) {
-    requestQuery = query(
-      questionsCollectionRef,
-      orderBy('creationTime'),
-      startAfter(lastDoc),
-      limit(numberOfQuestions)
-    );
-  } else {
-    requestQuery = query(
-      questionsCollectionRef,
-      orderBy('creationTime'),
-      limit(numberOfQuestions)
-    );
-  }
-  console.log('here');
-  const questionsFromServer = await getDocs(requestQuery);
-  console.log(questionsFromServer);
-  return null;
-  // lastDoc = questionsFromServer.docs[questionsFromServer.docs.length - 1];
-
-  // const questionsList: QuestionType[] = await formatAllQuestions(
-  //   questionsFromServer.docs
-  // );
-
-  // if (questionsFromServer.docs.length < numberOfQuestions) {
-  //   hasMore = false;
-  // } else {
-  //   hasMore = true;
-  // }
-
-  // return {
-  //   items: questionsList,
-  //   hasMore,
-  // };
 };

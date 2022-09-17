@@ -1,4 +1,5 @@
 import { CircularProgress, Stack } from '@mui/material';
+import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
 import { useCallback, useEffect, useState } from 'react';
 
 import useHttPersistent from '../../hooks/use-http-persistent';
@@ -7,19 +8,30 @@ import { Question } from '.';
 
 const AllQuestions = () => {
   const [paginationTrigger, setPaginationTrigger] = useState(false);
+  const [lastDoc, setLastDoc] =
+    useState<QueryDocumentSnapshot<DocumentData> | null>(null);
 
   const { sendRequest, data, error, loading } = useHttPersistent(
     getAllQuestions,
     true
   );
+  console.log(data?.hasMore);
 
-  const getNextQuestions = useCallback(async () => {
-    await sendRequest();
-  }, [sendRequest]);
+  const getNextQuestions = useCallback(
+    async (last: {
+      doc?: QueryDocumentSnapshot<DocumentData> | null;
+      setLast: React.Dispatch<
+        React.SetStateAction<QueryDocumentSnapshot<DocumentData> | null>
+      >;
+    }) => {
+      await sendRequest(last);
+    },
+    [sendRequest]
+  );
 
   useEffect(() => {
-    getNextQuestions();
-  }, [paginationTrigger, getNextQuestions]);
+    getNextQuestions({ setLast: setLastDoc });
+  }, [getNextQuestions]);
 
   window.onscroll = () => {
     const scrollHeight =
@@ -27,7 +39,8 @@ const AllQuestions = () => {
     const offSet = document.documentElement.offsetHeight;
 
     if (scrollHeight >= offSet && data?.hasMore && loading !== 'pending') {
-      setPaginationTrigger((prevState) => !prevState);
+      // setPaginationTrigger((prevState) => !prevState);
+      getNextQuestions({ doc: lastDoc, setLast: setLastDoc });
     }
   };
 
