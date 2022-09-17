@@ -16,21 +16,25 @@ const BottomList = [
     label: 'Questions',
     activeIcon: <QuestionAnswer />,
     icon: <QuestionAnswerOutlined />,
+    path: '/',
   },
   {
     label: 'Favourites',
     activeIcon: <Bookmark />,
     icon: <BookmarkBorderOutlined />,
+    path: '/',
   },
   {
     label: 'Tags',
     activeIcon: <Tag />,
     icon: <TagOutlined />,
+    path: '/',
   },
   {
     label: 'Account',
     activeIcon: <Person />,
     icon: <PersonOutlined />,
+    path: '/',
   },
 ];
 
