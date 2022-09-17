@@ -30,10 +30,17 @@ export const getUserByRef = async (
 ) => {
   const userDoc = await getDoc(userRef);
 
-  return { ...userDoc.data(), id: userDoc.id };
+  return { ...userDoc.data(), id: userDoc.id } as User;
 };
 
-export const saveUserData = async (userId: string, user: User) => {
+export const saveUserData = async (
+  userId: string,
+  user: {
+    Email: string;
+    FirstName: string;
+    LastName?: string;
+  }
+) => {
   const newUser = {
     ...user,
     UserName: null,

@@ -29,5 +29,6 @@ module.exports = {
     '@typescript-eslint/no-non-null-assertion': 0,
     'import/prefer-default-export': 0,
     'react/function-component-definition': 0,
+    'react/require-default-props': 0,
   },
 };

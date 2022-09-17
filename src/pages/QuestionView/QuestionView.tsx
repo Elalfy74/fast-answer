@@ -2,7 +2,7 @@ import { CircularProgress, Stack, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 
 import { MDEditorField } from '../../components';
-import { QuestionType } from '../../data/types';
+import { AnswerType, QuestionType } from '../../data/types';
 import useHttp from '../../hooks/use-http';
 import { getAllAnswersOfQuestion } from '../../services/answers';
 import { getQuestionById } from '../../services/questions';
@@ -16,22 +16,23 @@ const QuestionView = () => {
     error,
   } = useHttp(getQuestionById, true);
 
-  const [answers, setAnswers] = useState<any>([]);
+  const [answers, setAnswers] = useState<AnswerType[]>([]);
+
   useEffect(() => {
     const getQuestion = async () => {
-      await sendRequest('0RdxjPUIRAjdudYxJ8jl');
+      await sendRequest('VUeKWcxtqsBWbngolNa5');
 
       const answersFromServer = await getAllAnswersOfQuestion(
-        'ZadXxHyEVloZ0CWtkytC'
+        'VUeKWcxtqsBWbngolNa5'
       );
-      console.log(answersFromServer);
+
       setAnswers(answersFromServer);
     };
     getQuestion();
   }, [sendRequest]);
   return (
     <Stack alignItems="center">
-      {loading === 'pending' && <CircularProgress />}
+      {loading === 'pending' && <CircularProgress sx={{ mt: 10 }} />}
       {loading === 'succeeded' && (
         <>
           <Question question={question as QuestionType} />
@@ -43,15 +44,11 @@ const QuestionView = () => {
             mt={4}
             alignSelf="flex-start"
           >
-            12 Answers
+            {answers.length} Answers
           </Typography>
-          <Answer />
-          <Answer />
-          <Answer />
-          <Answer />
-          <Answer />
-          <Answer />
-          <Answer />
+          {answers.map((answer) => (
+            <Answer key={answer.id} answer={answer} />
+          ))}
         </>
       )}
       {loading === 'failed' && <p>{error.message}</p>}

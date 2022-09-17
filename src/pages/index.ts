@@ -1,6 +1,7 @@
-import { Login } from './Login';
-import QuestionsPage from './QuestionsPage';
+import AllQuestions from './AllQuestions/AllQuestions';
+import Login from './Login/Login';
 import QuestionView from './QuestionView/QuestionView';
-import Signup from './Signup';
+import ScriptsPlayground from './ScriptsPlayground';
+import Signup from './Signup/Signup';
 
-export { Login, QuestionsPage, QuestionView, Signup };
+export { AllQuestions, Login, QuestionView, ScriptsPlayground, Signup };

@@ -22,6 +22,10 @@ export const theme = createTheme({
   },
   typography: {
     fontFamily: ['Poppins', 'sans-serif'].join(','),
+    h6: {
+      fontWeight: 500,
+      fontSize: '1.1rem',
+    },
   },
   components: {
     MuiButton: {

@@ -1,23 +1,31 @@
 import { LoadingButton } from '@mui/lab';
-import { Alert, Box, Grid, TextField, Typography } from '@mui/material';
+import {
+  Alert,
+  Box,
+  Divider,
+  Grid,
+  TextField,
+  Typography,
+} from '@mui/material';
 import React, { useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-import { Logo } from '../components';
-import { useAuth } from '../contexts/AuthContext';
-import useHttp from '../hooks/use-http';
-import useInput from '../hooks/use-input';
-import { saveUserData } from '../services/users';
+import { GoogleLogin, Logo } from '../../components';
+import { useAuth } from '../../contexts/AuthContext';
+import useHttp from '../../hooks/use-http';
+import useInput from '../../hooks/use-input';
+import { saveUserData } from '../../services/users';
 import {
   errorMessages,
   validateEmail,
   validateFirstName,
   validatePassword,
-} from '../utils/validators';
-import { TextFieldPassword } from './Login';
+} from '../../utils/validators';
+import { TextFieldPassword } from '../Login';
 
 const Signup = () => {
   const { signup } = useAuth();
+  const navigate = useNavigate();
 
   // Start Input Hook Usage
   const {
@@ -75,6 +83,8 @@ const Signup = () => {
     e.preventDefault();
 
     await sendRequest();
+
+    if (!error) navigate('/');
   };
   return (
     <Box px={2} maxWidth="100%" width="600px" mx="auto" pt="20vh">
@@ -163,12 +173,14 @@ const Signup = () => {
             >
               Sign Up
             </LoadingButton>
+            <Divider textAlign="center">OR</Divider>
+            <GoogleLogin />
           </Grid>
         </Grid>
       </Box>
       <Typography variant="body2" textAlign="center" mt={2} color="gray">
         Already have an account?{' '}
-        <Link to="/auth/signup">
+        <Link to="/auth/login">
           <Typography component="span" variant="body2" color="primary.500">
             Log in
           </Typography>

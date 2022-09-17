@@ -3,14 +3,15 @@ import {
   Alert,
   Box,
   Checkbox,
+  Divider,
   FormControlLabel,
   Stack,
   TextField,
   Typography,
 } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-import { GoogleLogo, Logo } from '../../components';
+import { GoogleLogin, GoogleLogo, Logo } from '../../components';
 import { useAuth } from '../../contexts/AuthContext';
 import useHttp from '../../hooks/use-http';
 import useInput from '../../hooks/use-input';
@@ -24,6 +25,8 @@ import { TextFieldPassword } from '.';
 const LoginForm = () => {
   const { login } = useAuth();
   const { sendRequest, loading, error } = useHttp(login, false);
+
+  const navigate = useNavigate();
 
   // Start Input Hook Usage
   const {
@@ -62,7 +65,8 @@ const LoginForm = () => {
     e.preventDefault();
 
     await sendRequest({ email: emailValue, password: passwordValue });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
+    if (!error) navigate('/');
   };
 
   return (
@@ -158,19 +162,8 @@ const LoginForm = () => {
           >
             Log In
           </LoadingButton>
-          <LoadingButton
-            disableElevation
-            type="button"
-            fullWidth
-            loading={loading === 'pending'}
-            variant="outlined"
-            startIcon={<GoogleLogo />}
-            color="info"
-            sx={{ mt: 2, mb: 2 }}
-          >
-            Sign In With Google
-          </LoadingButton>
-
+          <Divider textAlign="center">OR</Divider>
+          <GoogleLogin />
           <Typography variant="body2" textAlign="center" mt={2} color="gray">
             Do not have an account?{' '}
             <Link to="/auth/signup">

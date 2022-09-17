@@ -1,8 +1,13 @@
 import { Box, Divider } from '@mui/material';
 
+import { AnswerType } from '../../data/types';
 import { QA, Votes } from '.';
 
-const Answer = () => {
+type AnswerProps = {
+  answer: AnswerType;
+};
+
+const Answer = ({ answer }: AnswerProps) => {
   return (
     <Box width="100%" py={3}>
       <Divider
@@ -12,12 +17,16 @@ const Answer = () => {
         }}
       />
       <QA
-        authorFirstName="Mahmoud"
-        authorLastName="Elalfy"
-        body="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sit consectetur neque facilis itaque deserunt rem, dicta quod asperiores suscipit accusantium esse officiis ratione non a quis sint error odio nostrum."
-        creationTime="2 hours ago"
+        authorFirstName={answer.author.FirstName}
+        authorLastName={answer.author.FirstName}
+        body={answer.body}
+        creationTime={answer.creationTime}
       />
-      <Votes upVotes={13} downVotes={10} />
+      <Votes
+        upVotes={answer.upVotes}
+        downVotes={answer.downVotes}
+        votes={answer.votes}
+      />
     </Box>
   );
 };

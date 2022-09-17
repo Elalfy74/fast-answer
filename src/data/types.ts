@@ -3,6 +3,7 @@ import { DocumentData, DocumentReference } from 'firebase/firestore';
 export type Loading = 'idle' | 'pending' | 'succeeded' | 'failed' | 'finished';
 
 export type User = {
+  id: string;
   UserName?: string;
   FirstName: string;
   LastName?: string;
@@ -17,30 +18,57 @@ export type User = {
   PhoneNumber?: string;
 };
 
-export type QuestionType = {
-  id: string;
-  title: string;
-  body: string;
-  creationTime: string;
-  // author: {
-  //   authorId: string;
-  //   authorName: string;
-  //   avatar?: string;
-  // };
-  authorId: any;
-  tags: Tag[];
-};
-
 export type Tag = {
   id: string;
   name: string;
 };
 
-export type ReceivedQuestionType = Omit<QuestionType, 'tags'> & {
+export type Vote = {
+  author: DocumentReference<DocumentData>;
+  value: string;
+};
+
+export type ReceivedQuestionType = {
+  id: string;
+  title: string;
+  body: string;
   tags: DocumentReference<DocumentData>[];
   creationTime: {
     seconds: number;
     nanoseconds: number;
   };
-  authorId: DocumentReference<DocumentData>;
+  votes?: Vote[];
+  author: DocumentReference<DocumentData>;
+};
+
+export type QuestionType = Omit<
+  ReceivedQuestionType,
+  'author' | 'tags' | 'creationTime'
+> & {
+  author: User;
+  tags: Tag[];
+  creationTime: string;
+  upVotes: number;
+  downVotes: number;
+};
+
+export type RececviedAnswerType = {
+  id: string;
+  body: string;
+  creationTime: {
+    seconds: number;
+    nanoseconds: number;
+  };
+  author: DocumentReference<DocumentData>;
+  votes?: Vote[];
+};
+
+export type AnswerType = Omit<
+  RececviedAnswerType,
+  'author' | 'creationTime'
+> & {
+  author: User;
+  creationTime: string;
+  upVotes: number;
+  downVotes: number;
 };

@@ -9,14 +9,13 @@ import {
   Box,
   Card,
   CardContent,
-  Paper,
   Stack,
   Typography,
 } from '@mui/material';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { QuestionType, Tag } from '../data/types';
+import { QuestionType } from '../../data/types';
 
 type QuestionProps = {
   question: QuestionType;
@@ -24,39 +23,12 @@ type QuestionProps = {
 function Question({ question }: QuestionProps) {
   return (
     <Card variant="outlined" sx={{ width: '100%', minHeight: '163px' }}>
-      {/* <Box sx={{ display: "flex", p: "12px" }}> */}
-      {/* <Avatar
-          alt="user avatar"
-          src={
-            question.owner.avatar ||
-            "https://www.pinclipart.com/picdir/big/547-5474602_character-avatar-clipart.png"
-          }
-          sx={{ width: 45, height: 45, mr: "5px" }}
-        /> */}
-      {/* <Box sx={{ display: "flex", flexDirection: "column" }}>
-          <Typography
-            gutterBottom
-            variant="body1"
-            sx={{ fontWeight: "600", mb: 0 }}
-          >
-            {question.owner.user_first_name}
-          </Typography>
-          <Typography
-            gutterBottom
-            variant="body2"
-            color="text.secondary"
-            sx={{ mb: 0, mt: 0 }}
-          >
-            {question.creation_time}
-          </Typography>
-        </Box> */}
-      {/* </Box> */}
       <CardContent>
         {/* Start Question Info */}
-        <Stack direction="row" justifyContent="space-between">
+        <Stack direction="row" justifyContent="space-between" gap={2}>
           {/* Start Question Title and body */}
           <Box overflow="hidden">
-            <Link to={`${question.id}`}>
+            <Link to={`questions/${question.id}`}>
               <Typography
                 component="h3"
                 color="secondary.main"
@@ -80,23 +52,25 @@ function Question({ question }: QuestionProps) {
           {/* Start  UpVotes and other */}
           <Box>
             <Stack direction="row" spacing={1} mb={1}>
+              {/* Up Votes */}
               <Box display="flex" alignItems="center" color="#151515">
                 <Typography sx={{ mr: 0.5 }} component="span">
-                  13
+                  {question.upVotes}
                 </Typography>
                 <ArrowUpward fontSize="small" />
               </Box>
+              {/* Down Votes */}
               <Box display="flex" alignItems="center" color="#F24E1E">
-                <Typography sx={{ mr: 0.5 }}>13</Typography>
+                <Typography sx={{ mr: 0.5 }}> {question.downVotes}</Typography>
                 <ArrowDownward fontSize="small" />
               </Box>
             </Stack>
-
+            {/* Answers */}
             <Box mb={1} display="flex" alignItems="center" color="#0FA958">
               <Typography sx={{ mr: 0.5 }}>13</Typography>
               <Forum fontSize="small" />
             </Box>
-
+            {/* Views */}
             <Box display="flex" alignItems="center" color="#E4A951">
               <Typography sx={{ mr: 0.5 }}>13</Typography>
               <Visibility fontSize="small" />
@@ -105,16 +79,70 @@ function Question({ question }: QuestionProps) {
           {/* End of UpVotes */}
         </Stack>
         {/* End Question Info */}
+
         {/* Start of Tags And User Display */}
-        {/* TODO ADD  User Display Here  */}
-        <Stack direction="row">
-          {question.tags.map((tag: Tag) => (
-            <Box key={tag.id} sx={{ mt: 1, mr: 2 }}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            mt: 2,
+            alignItems: 'flex-end',
+          }}
+        >
+          {/* User and Datetime */}
+          <Box sx={{ display: 'flex', gap: 0.7, alignItems: 'center' }}>
+            <Avatar
+              alt="user avatar"
+              src={question.author.PhotoUrl}
+              sx={{ width: 35, height: 35 }}
+            />
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
               <Typography
+                variant="body2"
+                sx={{
+                  fontWeight: '500',
+                  fontSize: {
+                    xs: 12,
+                    sm: 'inherit',
+                  },
+                }}
+                color="#6AA5FF"
+              >
+                {question.author.FirstName}{' '}
+                {question.author.LastName && question.author.LastName}
+              </Typography>
+              <Typography
+                variant="caption"
+                color="gray"
+                sx={{
+                  fontSize: {
+                    xs: 11,
+                    sm: 'default',
+                  },
+                }}
+              >
+                asked {question.creationTime}
+              </Typography>
+            </Box>
+          </Box>
+
+          {/* Tags */}
+          <Box
+            sx={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              justifyContent: 'flex-end',
+              gap: 1,
+              flex: 1,
+            }}
+          >
+            {question.tags.map((tag) => (
+              <Typography
+                key={tag.id}
                 component="span"
                 sx={{
-                  p: '1px 6px',
-                  fontSize: '14px',
+                  p: '1px 3px',
+                  fontSize: '13px',
                   borderRadius: '4px',
                   bgcolor: 'hsl(205deg 46% 92%)',
                   color: 'hsl(205deg 47% 42%)',
@@ -122,9 +150,9 @@ function Question({ question }: QuestionProps) {
               >
                 {tag.name}
               </Typography>
-            </Box>
-          ))}
-        </Stack>
+            ))}
+          </Box>
+        </Box>
         {/* End of Tags And User Display */}
       </CardContent>
     </Card>

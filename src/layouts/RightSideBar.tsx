@@ -1,7 +1,6 @@
 import { Box } from '@mui/material';
-import React from 'react';
 
-function RightSideBar() {
+const RightSideBar = () => {
   return (
     <Box
       borderRadius="8px"
@@ -16,6 +15,6 @@ function RightSideBar() {
       RightSideBar
     </Box>
   );
-}
+};
 
 export default RightSideBar;
