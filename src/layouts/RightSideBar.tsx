@@ -19,49 +19,24 @@ const RightSideBar = () => {
         <Divider />
 
         {/* Leader Board Memebers */}
-        <Stack sx={{ mt: 1 }} spacing={2}>
+        <Stack sx={{ mt: 1 }} spacing={2} alignItems='center'>
+
           <Stack direction='row' gap={1} alignItems='center'>
-            <Avatar alt="user avatar" src={avatar} sx={{ width: 35, height: 35 }} />
+            <Avatar alt="user avatar" src={avatar} sx={{ width: 30, height: 30 }} />
             <Stack>
-              <Typography sx={{ fontSize: '16px', fontWeight: '500' }}>Mahmoud Ramadan</Typography>
-              <Typography color="text.secondary" sx={{ fontSize: '14px' }}>124 contributions</Typography>
+              <Typography sx={{ fontSize: '14px', fontWeight: '500' }}>Mahmoud Ramadan</Typography>
+              <Typography color="text.secondary" sx={{ fontSize: '12px' }}>124 contributions</Typography>
             </Stack>
           </Stack>
+
           <Stack direction='row' gap={1} alignItems='center'>
-            <Avatar alt="user avatar" src={avatar} sx={{ width: 35, height: 35 }} />
+            <Avatar alt="user avatar" src={avatar} sx={{ width: 30, height: 30 }} />
             <Stack>
-              <Typography sx={{ fontSize: '16px', fontWeight: '500' }}>Mahmoud Ramadan</Typography>
-              <Typography color="text.secondary" sx={{ fontSize: '14px' }}>124 contributions</Typography>
+              <Typography sx={{ fontSize: '14px', fontWeight: '500' }}>Mahmoud Ramadan</Typography>
+              <Typography color="text.secondary" sx={{ fontSize: '12px' }}>124 contributions</Typography>
             </Stack>
           </Stack>
-          <Stack direction='row' gap={1} alignItems='center'>
-            <Avatar alt="user avatar" src={avatar} sx={{ width: 35, height: 35 }} />
-            <Stack>
-              <Typography sx={{ fontSize: '16px', fontWeight: '500' }}>Mahmoud Ramadan</Typography>
-              <Typography color="text.secondary" sx={{ fontSize: '14px' }}>124 contributions</Typography>
-            </Stack>
-          </Stack>
-          <Stack direction='row' gap={1} alignItems='center'>
-            <Avatar alt="user avatar" src={avatar} sx={{ width: 35, height: 35 }} />
-            <Stack>
-              <Typography sx={{ fontSize: '16px', fontWeight: '500' }}>Mahmoud Ramadan</Typography>
-              <Typography color="text.secondary" sx={{ fontSize: '14px' }}>124 contributions</Typography>
-            </Stack>
-          </Stack>
-          <Stack direction='row' gap={1} alignItems='center'>
-            <Avatar alt="user avatar" src={avatar} sx={{ width: 35, height: 35 }} />
-            <Stack>
-              <Typography sx={{ fontSize: '16px', fontWeight: '500' }}>Mahmoud Ramadan</Typography>
-              <Typography color="text.secondary" sx={{ fontSize: '14px' }}>124 contributions</Typography>
-            </Stack>
-          </Stack>
-          <Stack direction='row' gap={1} alignItems='center'>
-            <Avatar alt="user avatar" src={avatar} sx={{ width: 35, height: 35 }} />
-            <Stack>
-              <Typography sx={{ fontSize: '16px', fontWeight: '500' }}>Mahmoud Ramadan</Typography>
-              <Typography color="text.secondary" sx={{ fontSize: '14px' }}>124 contributions</Typography>
-            </Stack>
-          </Stack>
+
         </Stack>
       </Box>
 
@@ -74,33 +49,33 @@ const RightSideBar = () => {
         </Stack>
         <Divider />
         {/* Questions */}
-        <Stack spacing={2}>
-          <Box>
-            <Typography sx={{ fontSize: '18px', fontWeight: '500' }}>How to create horizontal carousel in JavaScript?</Typography>
+        <Stack spacing={2} alignItems='center' sx={{ mt: 2 }}>
+          <Stack>
+            <Typography sx={{ fontSize: '16px', fontWeight: '500' }}>How to create horizontal carousel in JavaScript?</Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <Typography sx={{ color: 'text.secondary', fontSize: '14px', fontWeight: 'bold', }}>Asked by</Typography>
+              <Typography sx={{ color: 'text.secondary', fontSize: '12px', fontWeight: 'bold', }}>Asked by</Typography>
+              <Typography sx={{ fontWeight: '500', fontSize: '14px' }}>Mahmoud Ramadan</Typography>
+            </Box>
+          </Stack>
+
+          <Box>
+            <Typography sx={{ fontSize: '16px', fontWeight: '500' }}>How to create horizontal carousel in JavaScript?</Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <Typography sx={{ color: 'text.secondary', fontSize: '12px', fontWeight: 'bold', }}>Asked by</Typography>
               <Typography sx={{ fontWeight: '500', fontSize: '14px' }}>Mahmoud Ramadan</Typography>
             </Box>
           </Box>
 
           <Box>
-            <Typography sx={{ fontSize: '18px', fontWeight: '500' }}>How to create horizontal carousel in JavaScript?</Typography>
+            <Typography sx={{ fontSize: '16px', fontWeight: '500' }}>How to create horizontal carousel in JavaScript?</Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <Typography sx={{ color: 'text.secondary', fontSize: '14px', fontWeight: 'bold', }}>Asked by</Typography>
+              <Typography sx={{ color: 'text.secondary', fontSize: '12px', fontWeight: 'bold', }}>Asked by</Typography>
               <Typography sx={{ fontWeight: '500', fontSize: '14px' }}>Mahmoud Ramadan</Typography>
             </Box>
           </Box>
 
-          <Box>
-            <Typography sx={{ fontSize: '18px', fontWeight: '500' }}>How to create horizontal carousel in JavaScript?</Typography>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <Typography sx={{ color: 'text.secondary', fontSize: '14px', fontWeight: 'bold', }}>Asked by</Typography>
-              <Typography sx={{ fontWeight: '500', fontSize: '14px' }}>Mahmoud Ramadan</Typography>
-            </Box>
-          </Box>
 
         </Stack>
-
       </Box>
     </Stack>
   );
