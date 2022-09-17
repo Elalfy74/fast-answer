@@ -1,5 +1,6 @@
 import { CircularProgress, Stack, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { MDEditorField } from '../../components';
 import { AnswerType, QuestionType } from '../../data/types';
@@ -16,20 +17,20 @@ const QuestionView = () => {
     error,
   } = useHttp(getQuestionById, true);
 
+  const { qId } = useParams();
+
   const [answers, setAnswers] = useState<AnswerType[]>([]);
 
   useEffect(() => {
     const getQuestion = async () => {
-      await sendRequest('VUeKWcxtqsBWbngolNa5');
+      await sendRequest(qId);
 
-      const answersFromServer = await getAllAnswersOfQuestion(
-        'VUeKWcxtqsBWbngolNa5'
-      );
+      const answersFromServer = await getAllAnswersOfQuestion(qId as string);
 
       setAnswers(answersFromServer);
     };
     getQuestion();
-  }, [sendRequest]);
+  }, [sendRequest, qId]);
   return (
     <Stack alignItems="center">
       {loading === 'pending' && <CircularProgress sx={{ mt: 10 }} />}

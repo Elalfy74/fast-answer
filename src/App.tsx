@@ -25,7 +25,9 @@ const App = () => {
         <Route path="/" element={<Wrapper />}>
           <Route path="/" element={<AllQuestions />} />
         </Route>
-        <Route path="/questions/:qId" element={<QuestionView />} />
+        <Route path="/questions/:qId" element={<Wrapper />}>
+          <Route path="/questions/:qId" element={<QuestionView />} />
+        </Route>
         <Route
           path="/auth/login"
           element={!currentUser ? <Login /> : <Navigate to="/" />}
