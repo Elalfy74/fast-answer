@@ -103,3 +103,46 @@ export const getAllQuestionsIds = async () => {
   });
   return ids;
 };
+
+export const getAllQuestionsTest = async () => {
+  console.log('here');
+
+  const numberOfQuestions = 6;
+  let hasMore: boolean;
+  let requestQuery: Query<DocumentData>;
+
+  if (lastDoc) {
+    requestQuery = query(
+      questionsCollectionRef,
+      orderBy('creationTime'),
+      startAfter(lastDoc),
+      limit(numberOfQuestions)
+    );
+  } else {
+    requestQuery = query(
+      questionsCollectionRef,
+      orderBy('creationTime'),
+      limit(numberOfQuestions)
+    );
+  }
+  console.log('here');
+  const questionsFromServer = await getDocs(requestQuery);
+  console.log(questionsFromServer);
+  return null;
+  // lastDoc = questionsFromServer.docs[questionsFromServer.docs.length - 1];
+
+  // const questionsList: QuestionType[] = await formatAllQuestions(
+  //   questionsFromServer.docs
+  // );
+
+  // if (questionsFromServer.docs.length < numberOfQuestions) {
+  //   hasMore = false;
+  // } else {
+  //   hasMore = true;
+  // }
+
+  // return {
+  //   items: questionsList,
+  //   hasMore,
+  // };
+};

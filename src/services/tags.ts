@@ -3,8 +3,9 @@ import {
   collection,
   DocumentData,
   DocumentReference,
-  getDoc,
   getDocs,
+  query,
+  where,
 } from 'firebase/firestore';
 
 import { Tag } from '../data/types';
@@ -19,11 +20,19 @@ export const saveTag = async (tag: { name: string }) => {
 // get All Tags of Question API
 export const getTags = async (tagsRef: DocumentReference<DocumentData>[]) => {
   const tags: Tag[] = [];
+  const tagsIds = tagsRef.map((tag) => tag.id);
 
-  for (let i = 0; i < tagsRef.length; i++) {
-    const tagDoc = await getDoc(tagsRef[i]);
-    tags.push({ ...tagDoc.data(), id: tagDoc.id } as Tag);
-  }
+  const tagsQuery = query(tagsCollectionRef, where('__name__', 'in', tagsIds));
+
+  const tagsFromServer = await getDocs(tagsQuery);
+
+  tagsFromServer.docs.forEach((tag) => {
+    tags.push({
+      ...tag.data(),
+      id: tag.id,
+    } as Tag);
+  });
+
   return tags;
 };
 

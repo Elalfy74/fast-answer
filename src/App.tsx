@@ -18,28 +18,29 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      {/* <AuthProvider> */}
-      <CssBaseline />
-      {/* <ScriptsPlayground /> */}
-      <Routes>
-        <Route path="/" element={<Wrapper />}>
-          <Route path="/" element={<AllQuestions />} />
-        </Route>
-        <Route path="/questions/:qId" element={<Wrapper />}>
-          <Route path="/questions/:qId" element={<QuestionView />} />
-        </Route>
-        <Route
-          path="/auth/login"
-          element={!currentUser ? <Login /> : <Navigate to="/" />}
-        />
-        <Route
-          path="/auth/signup"
-          element={!currentUser ? <Signup /> : <Navigate to="/" />}
-        />
-        {/* <Route path="*" element={<Navigate to="/not-found" />} />
+      <AuthProvider>
+        <CssBaseline />
+
+        {/* <ScriptsPlayground /> */}
+        <Routes>
+          <Route path="/" element={<Wrapper />}>
+            <Route path="/" element={<AllQuestions />} />
+          </Route>
+          <Route path="/questions/:qId" element={<Wrapper />}>
+            <Route path="/questions/:qId" element={<QuestionView />} />
+          </Route>
+          <Route
+            path="/auth/login"
+            element={!currentUser ? <Login /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/auth/signup"
+            element={!currentUser ? <Signup /> : <Navigate to="/" />}
+          />
+          {/* <Route path="*" element={<Navigate to="/not-found" />} />
             <Routes path="/not-found" element={<NotFound />} /> */}
-      </Routes>
-      {/* </AuthProvider> */}
+        </Routes>
+      </AuthProvider>
     </ThemeProvider>
   );
 };
