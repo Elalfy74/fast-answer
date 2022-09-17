@@ -14,9 +14,9 @@ import {
   Timestamp,
 } from 'firebase/firestore';
 
-import { QuestionType } from '../components/Question.types';
+import { QuestionType } from '../data/types';
 import { db } from '../firebase-config';
-import { formatQuestion, formatQuestions } from './questions-helpers';
+import { formatAllQuestions, formatQuestion } from './questions-helpers';
 
 const questionsCollectionRef = collection(db, 'questions');
 // global variable so doesn't get reinitialized on every call
@@ -48,7 +48,7 @@ export const getAllQuestions = async () => {
   const questionsFromServer = await getDocs(requestQuery);
   lastDoc = questionsFromServer.docs[questionsFromServer.docs.length - 1];
 
-  const questionsList: QuestionType[] = await formatQuestions(
+  const questionsList: QuestionType[] = await formatAllQuestions(
     questionsFromServer.docs
   );
 
@@ -65,12 +65,18 @@ export const getAllQuestions = async () => {
 };
 
 // Save Question API
-export const saveQuestion = async (uId: string, question: any, tags: any) => {
+export const saveQuestion = async (
+  uId: string,
+  question: any,
+  tags: any,
+  votesArray: any
+) => {
   const formatedQuestion = {
     ...question,
     creationTime: Timestamp.fromDate(new Date()),
     tags: tags.map((tag: string) => doc(db, 'tags', tag)),
-    authorId: doc(db, 'users', uId),
+    author: doc(db, 'users', uId),
+    votes: votesArray,
   };
 
   await addDoc(questionsCollectionRef, formatedQuestion);
@@ -88,3 +94,12 @@ export const getQuestionById = async (id: string) => {
   return question;
 };
 // End Of APIS
+
+export const getAllQuestionsIds = async () => {
+  const questions = await getDocs(questionsCollectionRef);
+  const ids: string[] = [];
+  questions.forEach((question) => {
+    ids.push(question.id);
+  });
+  return ids;
+};

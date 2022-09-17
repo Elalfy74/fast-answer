@@ -1,14 +1,14 @@
 import { CircularProgress, Stack } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 
-import { Question, QuestionHeader } from '../components';
-import useHttpPers from '../hooks/use-http-pers';
-import { getAllQuestions } from '../services/questions';
+import useHttPersistent from '../../hooks/use-http-persistent';
+import { getAllQuestions } from '../../services/questions';
+import { Question } from '.';
 
-function QuestionsPage() {
+const AllQuestions = () => {
   const [paginationTrigger, setPaginationTrigger] = useState(false);
 
-  const { sendRequest, data, error, loading } = useHttpPers(
+  const { sendRequest, data, error, loading } = useHttPersistent(
     getAllQuestions,
     true
   );
@@ -41,9 +41,11 @@ function QuestionsPage() {
           <Question key={question.id} question={question} />
         ))}
 
-      {loading === 'pending' && <CircularProgress />}
+      {loading === 'pending' && <CircularProgress sx={{ mt: 10 }} />}
+
+      {error && <p>{error}</p>}
     </Stack>
   );
-}
+};
 
-export default QuestionsPage;
+export default AllQuestions;

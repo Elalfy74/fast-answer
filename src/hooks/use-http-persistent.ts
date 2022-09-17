@@ -1,7 +1,6 @@
 import { useCallback, useReducer } from 'react';
 
-import { QuestionType, Tag } from '../components/Question.types';
-import { Loading } from '../data/types';
+import { Loading, QuestionType, Tag } from '../data/types';
 
 type Data = {
   items: QuestionType[] | [];
@@ -65,7 +64,7 @@ function httpReducer(state: HttpState, action: HttpAction): HttpState {
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-function useHttpPers(requestFunction: Function, startWithPending = false) {
+function useHttPersistent(requestFunction: Function, startWithPending = false) {
   const [httpState, dispatch] = useReducer(httpReducer, {
     loading: startWithPending ? 'pending' : 'idle',
     data: null,
@@ -97,4 +96,4 @@ function useHttpPers(requestFunction: Function, startWithPending = false) {
   };
 }
 
-export default useHttpPers;
+export default useHttPersistent;

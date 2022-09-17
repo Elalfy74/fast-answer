@@ -1,26 +1,27 @@
 import { useCallback, useReducer } from 'react';
 
-import { QuestionType, Tag } from '../components/Question.types';
-import { Loading } from '../data/types';
+import { Loading, QuestionType, Tag } from '../data/types';
 
 type Data = QuestionType[] | QuestionType | Tag[];
 
 enum HttpActionKind {
-  SEND = 'SEND',
-  SUCCESSED = 'SUCCESSED',
-  FAILED = 'FAILED',
+  SEND,
+  SUCCESSED,
+  FAILED,
 }
 
 type HttpAction = {
   type: HttpActionKind;
   responseData?: QuestionType[] | QuestionType | Tag[];
-  error?: string | null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  error?: any;
 };
 
 type HttpState = {
   loading: Loading;
   data: QuestionType[] | QuestionType | Tag[] | null;
-  error: string | null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  error: any;
 };
 
 function httpReducer(state: HttpState, action: HttpAction): HttpState {
@@ -59,7 +60,7 @@ function useHttp(requestFunction: Function, startWithPending = false) {
   });
 
   const sendRequest = useCallback(
-    async function (requestData: any) {
+    async function (requestData?: any) {
       dispatch({ type: HttpActionKind.SEND });
       try {
         const responseData: Data = await requestFunction(requestData);
@@ -68,10 +69,11 @@ function useHttp(requestFunction: Function, startWithPending = false) {
           type: HttpActionKind.SUCCESSED,
           responseData,
         });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         dispatch({
           type: HttpActionKind.FAILED,
-          error: error.message || 'Something went wrong!',
+          error: error || 'Something went wrong!',
         });
       }
     },

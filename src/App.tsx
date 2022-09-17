@@ -1,27 +1,47 @@
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import React, { Route, Routes } from 'react-router-dom';
+import React, { Navigate, Route, Routes } from 'react-router-dom';
 
-import AuthProvider from './contexts/AuthContext';
+import AuthProvider, { useAuth } from './contexts/AuthContext';
 import { theme } from './contexts/theme';
 import { Wrapper } from './layouts';
-import { QuestionsPage, QuestionView } from './pages';
-import DummyScript from './pages/DummyScript';
+import {
+  AllQuestions,
+  Login,
+  QuestionView,
+  ScriptsPlayground,
+  Signup,
+} from './pages';
 
-function App() {
+const App = () => {
+  const { currentUser } = useAuth();
+  console.log(currentUser);
+
   return (
     <ThemeProvider theme={theme}>
-      <AuthProvider>
-        <CssBaseline />
-        <Wrapper>
-          {/* <QuestionView /> */}
-          {/* <DummyScript /> */}
-          <Routes>
-            <Route path="/" element={<QuestionsPage />} />
-          </Routes>
-        </Wrapper>
-      </AuthProvider>
+      {/* <AuthProvider> */}
+      <CssBaseline />
+      {/* <ScriptsPlayground /> */}
+      <Routes>
+        <Route path="/" element={<Wrapper />}>
+          <Route path="/" element={<AllQuestions />} />
+        </Route>
+        <Route path="/questions/:qId" element={<Wrapper />}>
+          <Route path="/questions/:qId" element={<QuestionView />} />
+        </Route>
+        <Route
+          path="/auth/login"
+          element={!currentUser ? <Login /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/auth/signup"
+          element={!currentUser ? <Signup /> : <Navigate to="/" />}
+        />
+        {/* <Route path="*" element={<Navigate to="/not-found" />} />
+            <Routes path="/not-found" element={<NotFound />} /> */}
+      </Routes>
+      {/* </AuthProvider> */}
     </ThemeProvider>
   );
-}
+};
 
 export default App;
