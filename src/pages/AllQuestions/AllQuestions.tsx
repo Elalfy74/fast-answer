@@ -15,11 +15,12 @@ const AllQuestions = () => {
       'questions',
       () =>
         getAllQuestions({
-          doc: lastDoc,
-          setLast: setLastDoc,
+          lastDoc,
+          setLastDoc,
         }),
       {
         refetchOnWindowFocus: false,
+        refetchOnMount: false,
         getNextPageParam: (lastPage, pages) => {
           if (lastPage.length === 0 || lastPage.length < 6) {
             return undefined;

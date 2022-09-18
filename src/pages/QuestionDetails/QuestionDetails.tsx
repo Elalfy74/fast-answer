@@ -10,7 +10,7 @@ const QuestionDetails = () => {
   const { qId } = useParams();
 
   const queryClient = useQueryClient();
-  const { data, isLoading, error } = useQuery(
+  const { data, isLoading, error, isFetching } = useQuery(
     ['question details', qId],
     getQuestionById,
     {
@@ -49,6 +49,7 @@ const QuestionDetails = () => {
 
   return (
     <Stack alignItems="center">
+      {isFetching && <p>fetchhhhhhing ......</p>}
       <Question question={data!} />
       <AllAnswers qId={qId!} />
     </Stack>

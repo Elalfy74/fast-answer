@@ -20,28 +20,28 @@ import { db } from '../firebase-config';
 import { formatAllQuestions, formatQuestion } from './questions-helpers';
 
 const questionsCollectionRef = collection(db, 'questions');
-// global variable so doesn't get reinitialized on every call
-// let lastDoc: QueryDocumentSnapshot<DocumentData> | null = null;
 
 // Start Of APIS
 
 // Get All Questions API
-export const getAllQuestions = async (last: {
-  doc?: QueryDocumentSnapshot<DocumentData> | null;
-  setLast: React.Dispatch<
+export const getAllQuestions = async ({
+  lastDoc,
+  setLastDoc,
+}: {
+  lastDoc: QueryDocumentSnapshot<DocumentData> | null;
+  setLastDoc: React.Dispatch<
     React.SetStateAction<QueryDocumentSnapshot<DocumentData> | null>
   >;
 }) => {
   const numberOfQuestions = 6;
 
   let requestQuery: Query<DocumentData>;
-  let hasMore: boolean;
 
-  if (last.doc) {
+  if (lastDoc) {
     requestQuery = query(
       questionsCollectionRef,
       orderBy('creationTime'),
-      startAfter(last.doc),
+      startAfter(lastDoc),
       limit(numberOfQuestions)
     );
   } else {
@@ -53,26 +53,16 @@ export const getAllQuestions = async (last: {
   }
 
   const questionsFromServer = await getDocs(requestQuery);
-  last.setLast(questionsFromServer.docs[questionsFromServer.docs.length - 1]);
+  setLastDoc(questionsFromServer.docs[questionsFromServer.docs.length - 1]);
 
   const questionsList: QuestionType[] = await formatAllQuestions(
     questionsFromServer.docs
   );
 
   if (questionsFromServer.empty) {
-    hasMore = false;
-    // return {
-    //   items: [],
-    //   hasMore,
-    // };
     return [];
   }
 
-  hasMore = true;
-  // return {
-  //   items: questionsList,
-  //   hasMore,
-  // };
   return questionsList;
 };
 
