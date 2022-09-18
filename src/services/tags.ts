@@ -1,28 +1,38 @@
 import {
   addDoc,
   collection,
-  doc,
   DocumentData,
   DocumentReference,
-  getDoc,
   getDocs,
-} from "firebase/firestore";
-import { Tag } from "../components/Question.types";
-import { db } from "../firebase-config";
+  query,
+  where,
+} from 'firebase/firestore';
 
-const tagsCollectionRef = collection(db, "tags");
+import { Tag } from '../data/types';
+import { db } from '../firebase-config';
+
+const tagsCollectionRef = collection(db, 'tags');
 
 export const saveTag = async (tag: { name: string }) => {
   await addDoc(tagsCollectionRef, tag);
 };
 
+// get All Tags of Question API
 export const getTags = async (tagsRef: DocumentReference<DocumentData>[]) => {
-  let tags: Tag[] = [];
+  const tags: Tag[] = [];
+  const tagsIds = tagsRef.map((tag) => tag.id);
 
-  for (const tagRef of tagsRef) {
-    let tagDoc = await getDoc(tagRef);
-    tags.push({ ...tagDoc.data(), id: tagDoc.id } as Tag);
-  }
+  const tagsQuery = query(tagsCollectionRef, where('__name__', 'in', tagsIds));
+
+  const tagsFromServer = await getDocs(tagsQuery);
+
+  tagsFromServer.docs.forEach((tag) => {
+    tags.push({
+      ...tag.data(),
+      id: tag.id,
+    } as Tag);
+  });
+
   return tags;
 };
 

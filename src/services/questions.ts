@@ -1,125 +1,104 @@
-import { db } from "../firebase-config";
 import {
+  addDoc,
   collection,
-  getDocs,
+  doc,
   DocumentData,
+  getDoc,
+  getDocs,
   limit,
   orderBy,
+  Query,
   query,
   QueryDocumentSnapshot,
   startAfter,
-  addDoc,
   Timestamp,
-  doc,
-  getDoc,
-  DocumentSnapshot,
-} from "firebase/firestore";
+} from 'firebase/firestore';
+import { QueryFunctionContext } from 'react-query';
 
-import { Loading } from "../data/types";
-import {
-  QuestionType,
-  receivedQuestionType,
-  Tag,
-} from "../components/Question.types";
+import { QuestionType } from '../data/types';
+import { db } from '../firebase-config';
+import { formatAllQuestions, formatQuestion } from './questions-helpers';
 
-import { getTags } from "./tags";
-const questionsCollectionRef = collection(db, "questions");
+const questionsCollectionRef = collection(db, 'questions');
 
 // Start Of APIS
 
+let lastDoc: QueryDocumentSnapshot<DocumentData> | null = null;
 // Get All Questions API
-export const getAllQuestions = async (
-  lastDoc: QueryDocumentSnapshot<DocumentData> | null,
-  setLastDoc: React.Dispatch<
-    React.SetStateAction<QueryDocumentSnapshot<DocumentData> | null>
-  >,
-  setLoading: React.Dispatch<React.SetStateAction<Loading>>
-) => {
-  let numberOfQuestions = 6;
-  let requestQuery;
+export const getAllQuestions = async () => {
+  const numberOfQuestions = 6;
+
+  let requestQuery: Query<DocumentData>;
 
   if (lastDoc) {
     requestQuery = query(
       questionsCollectionRef,
-      orderBy("creationTime"),
+      orderBy('creationTime'),
       startAfter(lastDoc),
       limit(numberOfQuestions)
     );
   } else {
     requestQuery = query(
       questionsCollectionRef,
-      orderBy("creationTime"),
+      orderBy('creationTime'),
       limit(numberOfQuestions)
     );
   }
 
-  setLoading("pending");
-
   const questionsFromServer = await getDocs(requestQuery);
+  lastDoc = questionsFromServer.docs[questionsFromServer.docs.length - 1];
 
-  setLastDoc(questionsFromServer.docs[questionsFromServer.docs.length - 1]);
-
-  const questionsList: QuestionType[] = await formatQuestions(
+  const questionsList: QuestionType[] = await formatAllQuestions(
     questionsFromServer.docs
   );
 
-  if (questionsFromServer.docs.length < numberOfQuestions) {
-    setLoading("finished");
-  } else {
-    setLoading("succeeded");
+  if (questionsFromServer.empty) {
+    return [];
   }
 
   return questionsList;
 };
 
 // Save Question API
-export const saveQuestion = async (uId: string, question: any, tags: any) => {
-  let formatedQuestion = {
+export const saveQuestion = async (
+  uId: string,
+  question: any,
+  tags: any,
+  votesArray: any
+) => {
+  const formatedQuestion = {
     ...question,
     creationTime: Timestamp.fromDate(new Date()),
-    tags: tags.map((tag: string) => doc(db, "tags", tag)),
-    authorId: doc(db, "users", uId),
+    tags: tags.map((tag: string) => doc(db, 'tags', tag)),
+    author: doc(db, 'users', uId),
+    votes: votesArray,
   };
 
   await addDoc(questionsCollectionRef, formatedQuestion);
 };
 
 // Get Question By Id API
-export const getQuestionById = async (id: string) => {
-  const questionDoc = doc(db, "questions", id);
+export const getQuestionById = async ({
+  queryKey,
+}: QueryFunctionContext<[string, string | null | undefined]>) => {
+  const questionId = queryKey[1]!;
+
+  const questionDoc = doc(db, 'questions', questionId);
 
   const questionFromServer = await getDoc(questionDoc);
   if (!questionFromServer.data()) {
-    throw new Error("Question Not Found");
+    throw new Error('Question Not Found');
   }
   const question = await formatQuestion(questionFromServer);
   return question;
 };
 // End Of APIS
 
-// Start Of Helper Functions
-const formatQuestions = async (
-  questions: QueryDocumentSnapshot<DocumentData>[]
-) => {
-  let result: QuestionType[] = [];
-
-  for (const ques of questions) {
-    const question = await formatQuestion(ques);
-
-    result.push(question);
-  }
-  return result;
-};
-
-const formatQuestion = async (
-  question: QueryDocumentSnapshot<DocumentData> | DocumentSnapshot<DocumentData>
-) => {
-  let questionData = {
-    ...question.data(),
-    id: question.id,
-  } as receivedQuestionType;
-
-  let tags: Tag[] = await getTags(questionData.tags);
-
-  return { ...questionData, tags: tags };
+export const getAllQuestionsIds = async () => {
+  const questions = await getDocs(questionsCollectionRef);
+  const ids: string[] = [];
+  questions.forEach((question) => {
+    ids.push(question.id);
+  });
+  return ids;
 };

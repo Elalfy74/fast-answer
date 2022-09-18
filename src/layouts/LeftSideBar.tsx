@@ -1,5 +1,13 @@
-import { Logo } from "../components";
-
+import {
+  Bookmark,
+  Feed,
+  Leaderboard,
+  Login,
+  Logout,
+  Person,
+  QuestionAnswer,
+  Tag,
+} from '@mui/icons-material';
 import {
   Box,
   Button,
@@ -9,51 +17,58 @@ import {
   ListItemIcon,
   ListItemText,
   Tooltip,
-} from "@mui/material";
+} from '@mui/material';
+import { Link, NavLink } from 'react-router-dom';
 
-import {
-  Feed,
-  QuestionAnswer,
-  Bookmark,
-  Tag,
-  Person,
-  Leaderboard,
-} from "@mui/icons-material";
+import { Logo } from '../components';
+import { useAuth } from '../contexts/AuthContext';
 
 const LeftSideBarList = [
+  // {
+  //   label: 'Home',
+  //   icon: <Feed />,
+  // },
   {
-    label: "Home",
-    icon: <Feed />,
-  },
-  {
-    label: "Questions",
+    label: 'Questions',
     icon: <QuestionAnswer />,
+    path: '/',
   },
   {
-    label: "Faviourites",
+    label: 'Favourites',
     icon: <Bookmark />,
+    path: '/',
   },
   {
-    label: "Tags",
+    label: 'Tags',
     icon: <Tag />,
+    path: '/',
   },
   {
-    label: "Leaderboard",
+    label: 'Leaderboard',
     icon: <Leaderboard />,
+    path: '/',
   },
   {
-    label: "My Account",
+    label: 'My Account',
     icon: <Person />,
+    path: '/',
   },
 ];
 
 const LeftSideBar = () => {
+  const { currentUser, logout } = useAuth();
   return (
-    <Box component="nav">
+    <Box
+      component="nav"
+      sx={{
+        position: 'sticky',
+        top: 20,
+      }}
+    >
       <List
         sx={{
-          bgcolor: "background.paper",
-          borderRadius: "8px",
+          bgcolor: 'background.paper',
+          borderRadius: '8px',
         }}
       >
         <ListItem>
@@ -62,46 +77,122 @@ const LeftSideBar = () => {
         {LeftSideBarList.map((item, index) => (
           <ListItem
             key={item.label}
-            sx={{ px: { xs: 0, xl: "16px" }, mb: "10px" }}
+            sx={{ px: { xs: 0, xl: '32px' }, mb: '10px' }}
           >
-            <Button
-              color="info"
-              component="div"
-              variant="text"
-              sx={{
-                borderRadius: "20px",
-                px: 2,
-                display: { xs: "none", xl: "flex" },
+            <NavLink
+              to={item.path}
+              style={{
+                width: '100%',
               }}
             >
-              <ListItemIcon
+              <Button
+                disableElevation
+                color={index === 0 ? 'primary' : 'info'}
+                component="div"
+                variant={index === 0 ? 'contained' : 'text'}
                 sx={{
-                  minWidth: "auto",
-                  mr: 1,
-                  color: "primary.main",
+                  width: '100%',
+                  borderRadius: '9999px',
+                  px: 2,
+                  display: { xs: 'none', xl: 'flex' },
                 }}
               >
-                {item.icon}
+                <ListItemIcon
+                  sx={{
+                    minWidth: 'auto',
+                    mr: 1,
+                    color: index === 0 ? 'white' : 'primary.main',
+                  }}
+                >
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText
+                  primary={item.label}
+                  sx={{ fontWeight: '500' }}
+                  disableTypography
+                />
+              </Button>
+
+              <ListItemIcon
+                sx={{
+                  width: '100%',
+                  display: { xs: 'none', sm: 'flex', xl: 'none' },
+                  justifyContent: 'center',
+                }}
+              >
+                <Tooltip title={item.label}>
+                  <IconButton color="primary">{item.icon}</IconButton>
+                </Tooltip>
               </ListItemIcon>
-              <ListItemText
-                primary={item.label}
-                sx={{ fontWeight: "500" }}
-                disableTypography={true}
-              />
+            </NavLink>
+          </ListItem>
+        ))}
+        {currentUser && (
+          <ListItem
+            sx={{
+              px: { xs: 0, xl: 6 },
+              mb: '10px',
+            }}
+          >
+            <Button
+              variant="outlined"
+              type="button"
+              onClick={logout}
+              sx={{ display: { xs: 'none', xl: 'flex' } }}
+            >
+              Logout
             </Button>
             <ListItemIcon
               sx={{
-                width: "100%",
-                display: { xs: "none", sm: "flex", xl: "none" },
-                justifyContent: "center",
+                width: '100%',
+                display: { xs: 'none', sm: 'flex', xl: 'none' },
+                justifyContent: 'center',
               }}
             >
-              <Tooltip title={item.label}>
-                <IconButton color="primary">{item.icon}</IconButton>
+              <Tooltip title="Logout">
+                <IconButton color="primary" onClick={logout}>
+                  <Logout />
+                </IconButton>
               </Tooltip>
             </ListItemIcon>
           </ListItem>
-        ))}
+        )}
+        {!currentUser && (
+          <ListItem
+            sx={{
+              px: { xs: 0, xl: 6 },
+              mb: '10px',
+            }}
+          >
+            <Link
+              to="/auth/login"
+              style={{
+                width: '100%',
+              }}
+            >
+              <Button
+                variant="outlined"
+                type="button"
+                sx={{ display: { xs: 'none', xl: 'flex' } }}
+              >
+                Login
+              </Button>
+              <ListItemIcon
+                sx={{
+                  width: '100%',
+                  display: { xs: 'none', sm: 'flex', xl: 'none' },
+                  justifyContent: 'center',
+                }}
+              >
+                <Tooltip title="Login">
+                  <IconButton color="primary">
+                    <Login />
+                  </IconButton>
+                </Tooltip>
+              </ListItemIcon>
+            </Link>
+          </ListItem>
+        )}
       </List>
     </Box>
   );
