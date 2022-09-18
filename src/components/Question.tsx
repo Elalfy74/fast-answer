@@ -22,7 +22,6 @@ type QuestionProps = {
   question: QuestionType;
 };
 const Question = ({ question }: QuestionProps) => {
-  console.log(question);
   return (
     <Card variant="outlined" sx={{ width: "100%", minHeight: "163px" }}>
       <CardContent>
@@ -55,23 +54,23 @@ const Question = ({ question }: QuestionProps) => {
           <Box>
             <Stack direction="row" spacing={1} mb={1} >
               <Box display="flex" alignItems="center" color="#151515">
-                <Typography sx={{ mr: 0.5 }} component="span">{"13"}</Typography>
-                <ArrowUpward fontSize="small" />
+                <Typography sx={{ mr: 0.5, fontSize: '14px', fontWeight: '500' }} component="span">{"13"}</Typography>
+                <ArrowUpward fontSize="14px" />
               </Box>
               <Box display="flex" alignItems="center" color="#F24E1E">
-                <Typography sx={{ mr: 0.5 }}>{"13"}</Typography>
-                <ArrowDownward fontSize="small" />
+                <Typography sx={{ mr: 0.5, fontSize: '14px', fontWeight: '500' }}>{"13"}</Typography>
+                <ArrowDownward fontSize="14px" />
               </Box>
             </Stack>
 
             <Box mb={1} display="flex" alignItems="center" color="success.500">
-              <Typography sx={{ mr: 0.5 }}>{"13"}</Typography>
-              <Forum fontSize="small" />
+              <Typography sx={{ mr: 0.5, fontSize: '14px', fontWeight: '500' }}>{"13"}</Typography>
+              <Forum fontSize="14px" />
             </Box>
 
             <Box display="flex" alignItems="center" color="info.500">
-              <Typography sx={{ mr: 0.5 }}>{"13"}</Typography>
-              <Visibility fontSize="small" />
+              <Typography sx={{ mr: 0.5, fontSize: '14px', fontWeight: '500' }}>{"13"}</Typography>
+              <Visibility fontSize="14px" />
             </Box>
           </Box>
           {/*End of UpVotes */}
