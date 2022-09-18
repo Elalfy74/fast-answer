@@ -2,7 +2,7 @@ import { useCallback, useReducer } from 'react';
 
 import { AnswerType, Loading, QuestionType, Tag } from '../data/types';
 
-type Data = QuestionType[] | QuestionType | Tag[] | AnswerType;
+type Data = QuestionType[] | QuestionType | Tag[];
 
 enum HttpActionKind {
   SEND,
@@ -12,14 +12,14 @@ enum HttpActionKind {
 
 type HttpAction = {
   type: HttpActionKind;
-  responseData?: QuestionType[] | QuestionType | Tag[] | AnswerType;
+  responseData?: QuestionType[] | QuestionType | Tag[] | AnswerType | any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error?: any;
 };
 
 type HttpState = {
   loading: Loading;
-  data: QuestionType[] | QuestionType | Tag[] | null | AnswerType;
+  data: QuestionType[] | QuestionType | Tag[] | null | AnswerType | any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error: any;
 };

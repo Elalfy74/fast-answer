@@ -61,17 +61,19 @@ export const getAllQuestions = async (last: {
 
   if (questionsFromServer.empty) {
     hasMore = false;
-    return {
-      items: [],
-      hasMore,
-    };
+    // return {
+    //   items: [],
+    //   hasMore,
+    // };
+    return [];
   }
 
   hasMore = true;
-  return {
-    items: questionsList,
-    hasMore,
-  };
+  // return {
+  //   items: questionsList,
+  //   hasMore,
+  // };
+  return questionsList;
 };
 
 // Save Question API
