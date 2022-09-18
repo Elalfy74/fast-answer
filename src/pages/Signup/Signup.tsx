@@ -8,13 +8,14 @@ import {
   Typography,
 } from '@mui/material';
 import React, { useRef } from 'react';
+import { useQuery } from 'react-query';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { GoogleLogin, Logo } from '../../components';
 import { useAuth } from '../../contexts/AuthContext';
-import useHttp from '../../hooks/use-http';
 import useInput from '../../hooks/use-input';
 import { saveUserData } from '../../services/users';
+import { isFirebaseError } from '../../utils/firebase-error';
 import {
   errorMessages,
   validateEmail,
@@ -65,12 +66,21 @@ const Signup = () => {
     });
   };
 
-  const { sendRequest, loading, error } = useHttp(signupAndSaveUserData, false);
+  const { isLoading, error, refetch } = useQuery(
+    'Signup',
+    signupAndSaveUserData,
+    {
+      enabled: false,
+      retry: false,
+    }
+  );
 
   function getErrorMessage() {
     if (!error) return '';
-    if (error.code === 'auth/email-already-in-use') {
-      return 'Email is already Registered';
+    if (isFirebaseError(error)) {
+      if (error.code === 'auth/email-already-in-use') {
+        return 'Email is already Registered';
+      }
     }
     return 'Something went wrong Please try again';
   }
@@ -81,10 +91,7 @@ const Signup = () => {
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    await sendRequest();
-
-    if (!error) navigate('/');
+    refetch();
   };
   return (
     <Box
@@ -176,7 +183,7 @@ const Signup = () => {
               disabled={!formIsValid}
               type="submit"
               fullWidth
-              loading={loading === 'pending'}
+              loading={isLoading}
               sx={{ mt: 3, mb: 2 }}
               color="primary"
               variant="contained"

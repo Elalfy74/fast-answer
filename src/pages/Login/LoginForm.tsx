@@ -9,12 +9,13 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { useQuery } from 'react-query';
+import { Link } from 'react-router-dom';
 
-import { GoogleLogin, GoogleLogo, Logo } from '../../components';
+import { GoogleLogin, Logo } from '../../components';
 import { useAuth } from '../../contexts/AuthContext';
-import useHttp from '../../hooks/use-http';
 import useInput from '../../hooks/use-input';
+import { isFirebaseError } from '../../utils/firebase-error';
 import {
   errorMessages,
   validateEmail,
@@ -23,11 +24,6 @@ import {
 import { TextFieldPassword } from '.';
 
 const LoginForm = () => {
-  const { login } = useAuth();
-  const { sendRequest, loading, error } = useHttp(login, false);
-
-  const navigate = useNavigate();
-
   // Start Input Hook Usage
   const {
     value: emailValue,
@@ -46,27 +42,36 @@ const LoginForm = () => {
   } = useInput(validatePassword, errorMessages.passwordMessage);
   // End Input Hook Usage
 
+  const { login } = useAuth();
+  const { isLoading, error, refetch } = useQuery(
+    'Login',
+    () => login(emailValue, passwordValue),
+    {
+      enabled: false,
+      retry: false,
+    }
+  );
+
   const formIsValid = emailIsValid && passwordIsValid;
 
   function getErrorMessage() {
     if (!error) return '';
-    if (
-      error.code === 'auth/wrong-password' ||
-      error.code === 'auth/user-not-found'
-    ) {
-      return 'Wrong Email or Password';
+    if (isFirebaseError(error)) {
+      if (
+        error.code === 'auth/wrong-password' ||
+        error.code === 'auth/user-not-found'
+      ) {
+        return 'Wrong Email or Password';
+      }
     }
-    return 'Something went wrong Please try again';
+    return 'Something went wrong. Please try again later.';
   }
 
   const loginError = getErrorMessage();
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    await sendRequest({ email: emailValue, password: passwordValue });
-
-    if (!error) navigate('/');
+    refetch();
   };
 
   return (
@@ -156,7 +161,7 @@ const LoginForm = () => {
             disabled={!formIsValid}
             type="submit"
             fullWidth
-            loading={loading === 'pending'}
+            loading={isLoading}
             sx={{ mt: 3, mb: 2 }}
             variant="contained"
           >

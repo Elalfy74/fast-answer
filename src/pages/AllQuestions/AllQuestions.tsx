@@ -7,7 +7,6 @@ import { getAllQuestions } from '../../services/questions';
 import { Question } from '.';
 
 const AllQuestions = () => {
-  const [paginationTrigger, setPaginationTrigger] = useState(false);
   const [lastDoc, setLastDoc] =
     useState<QueryDocumentSnapshot<DocumentData> | null>(null);
 
@@ -15,7 +14,6 @@ const AllQuestions = () => {
     getAllQuestions,
     true
   );
-  console.log(data?.hasMore);
 
   const getNextQuestions = useCallback(
     async (last: {
@@ -29,25 +27,29 @@ const AllQuestions = () => {
     [sendRequest]
   );
 
+  // on mount
   useEffect(() => {
     getNextQuestions({ setLast: setLastDoc });
   }, [getNextQuestions]);
 
-  window.onscroll = () => {
-    const scrollHeight =
-      window.innerHeight + document.documentElement.scrollTop + 70;
-    const offSet = document.documentElement.offsetHeight;
+  // on scroll
+  useEffect(() => {
+    window.onscroll = () => {
+      const scrollHeight =
+        window.innerHeight + document.documentElement.scrollTop + 70;
+      const offSet = document.documentElement.offsetHeight;
 
-    if (scrollHeight >= offSet && data?.hasMore && loading !== 'pending') {
-      // setPaginationTrigger((prevState) => !prevState);
-      getNextQuestions({ doc: lastDoc, setLast: setLastDoc });
-    }
-  };
+      if (scrollHeight >= offSet && data?.hasMore && loading !== 'pending') {
+        getNextQuestions({ doc: lastDoc, setLast: setLastDoc });
+      }
+    };
+    return () => {
+      window.onscroll = null;
+    };
+  }, [data?.hasMore, getNextQuestions, lastDoc, loading]);
 
   return (
     <Stack direction="column" alignItems="center" spacing={4}>
-      {/* <QuestionHeader /> */}
-
       {data &&
         data.items.length > 0 &&
         data.items.map((question) => (

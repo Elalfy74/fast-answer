@@ -13,6 +13,7 @@ import {
   startAfter,
   Timestamp,
 } from 'firebase/firestore';
+import { QueryFunctionContext } from 'react-query';
 
 import { QuestionType } from '../data/types';
 import { db } from '../firebase-config';
@@ -92,8 +93,12 @@ export const saveQuestion = async (
 };
 
 // Get Question By Id API
-export const getQuestionById = async (id: string) => {
-  const questionDoc = doc(db, 'questions', id);
+export const getQuestionById = async ({
+  queryKey,
+}: QueryFunctionContext<[string, string | null | undefined]>) => {
+  const questionId = queryKey[1]!;
+
+  const questionDoc = doc(db, 'questions', questionId);
 
   const questionFromServer = await getDoc(questionDoc);
   if (!questionFromServer.data()) {
