@@ -1,49 +1,63 @@
 import { CircularProgress, Stack } from '@mui/material';
-import { useCallback, useEffect, useState } from 'react';
+import { Fragment, useEffect } from 'react';
+import { useInfiniteQuery } from 'react-query';
 
-import useHttPersistent from '../../hooks/use-http-persistent';
 import { getAllQuestions } from '../../services/questions';
 import { Question } from '.';
 
 const AllQuestions = () => {
-  const [paginationTrigger, setPaginationTrigger] = useState(false);
-
-  const { sendRequest, data, error, loading } = useHttPersistent(
-    getAllQuestions,
-    true
-  );
-
-  const getNextQuestions = useCallback(async () => {
-    await sendRequest();
-  }, [sendRequest]);
+  const { data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } =
+    useInfiniteQuery('questions', () => getAllQuestions(), {
+      refetchOnWindowFocus: false,
+      staleTime: Infinity,
+      cacheTime: Infinity,
+      refetchOnMount: false,
+      getNextPageParam: (lastPage, pages) => {
+        if (lastPage.length === 0 || lastPage.length < 6) {
+          return undefined;
+        }
+        return pages.length + 1;
+      },
+    });
 
   useEffect(() => {
-    getNextQuestions();
-  }, [paginationTrigger, getNextQuestions]);
+    window.onscroll = () => {
+      const scrollHeight =
+        window.innerHeight + document.documentElement.scrollTop + 70;
+      const offSet = document.documentElement.offsetHeight;
 
-  window.onscroll = () => {
-    const scrollHeight =
-      window.innerHeight + document.documentElement.scrollTop + 70;
-    const offSet = document.documentElement.offsetHeight;
+      if (
+        scrollHeight >= offSet &&
+        !isFetchingNextPage &&
+        !isLoading &&
+        hasNextPage
+      ) {
+        fetchNextPage();
+      }
+    };
+    return () => {
+      window.onscroll = null;
+    };
+  }, [fetchNextPage, isFetchingNextPage, isLoading, hasNextPage]);
 
-    if (scrollHeight >= offSet && data?.hasMore && loading !== 'pending') {
-      setPaginationTrigger((prevState) => !prevState);
-    }
-  };
+  if (isLoading) {
+    return (
+      <Stack alignItems="center">
+        <CircularProgress sx={{ mt: 10 }} />
+      </Stack>
+    );
+  }
 
   return (
     <Stack direction="column" alignItems="center" spacing={4}>
-      {/* <QuestionHeader /> */}
-
-      {data &&
-        data.items.length > 0 &&
-        data.items.map((question) => (
-          <Question key={question.id} question={question} />
-        ))}
-
-      {loading === 'pending' && <CircularProgress sx={{ mt: 10 }} />}
-
-      {error && <p>{error}</p>}
+      {data?.pages.map((group, i) => (
+        <Fragment key={i}>
+          {group.map((question) => (
+            <Question key={question.id} question={question} />
+          ))}
+        </Fragment>
+      ))}
+      {isFetchingNextPage && <CircularProgress sx={{ mt: 10 }} />}
     </Stack>
   );
 };

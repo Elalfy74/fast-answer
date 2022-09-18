@@ -16,11 +16,13 @@ const Login = () => {
     <Stack
       direction="row"
       alignItems="center"
-      height="100vh"
       sx={{
         display: {
           xs: 'block',
           lg: 'flex',
+        },
+        height: {
+          lg: '100vh',
         },
       }}
     >

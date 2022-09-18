@@ -1,7 +1,7 @@
 import AllQuestions from './AllQuestions/AllQuestions';
 import Login from './Login/Login';
-import QuestionView from './QuestionView/QuestionView';
+import QuestionDetails from './QuestionDetails/QuestionDetails';
 import ScriptsPlayground from './ScriptsPlayground';
 import Signup from './Signup/Signup';
 
-export { AllQuestions, Login, QuestionView, ScriptsPlayground, Signup };
+export { AllQuestions, Login, QuestionDetails, ScriptsPlayground, Signup };

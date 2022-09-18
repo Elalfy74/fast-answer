@@ -24,7 +24,7 @@ const Question = ({ question }: QuestionProps) => {
       />
       {/* UpVotes and Save Question */}
       <Stack direction="row" justifyContent="space-between">
-        <Votes upVotes={question.upVotes} downVotes={question.downVotes} />
+        <Votes votes={question.votes} id={question.id} />
         <BookmarkAddOutlined color="info" />
       </Stack>
     </Box>

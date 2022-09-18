@@ -1,19 +1,18 @@
 /* eslint-disable consistent-return */
 import * as Auth from 'firebase/auth';
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 import { auth } from '../firebase-config';
 
+type SignParams = {
+  email: string;
+  password: string;
+};
+
 type AuthContextTypes = {
   currentUser: Auth.User | null;
-  login: ({
-    email,
-    password,
-  }: {
-    email: string;
-    password: string;
-  }) => Promise<Auth.UserCredential>;
-  signup: (email: string, password: string) => Promise<Auth.UserCredential>;
+  login: ({ email, password }: SignParams) => Promise<Auth.UserCredential>;
+  signup: ({ email, password }: SignParams) => Promise<Auth.UserCredential>;
   logout: () => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
   updateEmail: (email: string) => Promise<void> | undefined;
@@ -35,11 +34,11 @@ function AuthProvider({ children }: AuthProviderProps) {
   const [currentUser, setCurrentUser] = useState<Auth.User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  function signup(email: string, password: string) {
+  function signup({ email, password }: SignParams) {
     return Auth.createUserWithEmailAndPassword(auth, email, password);
   }
 
-  function login({ email, password }: { email: string; password: string }) {
+  function login({ email, password }: SignParams) {
     return Auth.signInWithEmailAndPassword(auth, email, password);
   }
 

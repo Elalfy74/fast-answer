@@ -1,29 +1,21 @@
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import MDEditor from '@uiw/react-md-editor';
-import { useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 
-const MDEditorField = () => {
-  const [value, setValue] = useState<any>('');
+import { CodeBlock } from '../pages/QuestionDetails/QA';
 
+const MDEditorField = ({ value, onChange }: any) => {
   return (
     <Box data-color-mode="light" width="100%" mt={4}>
       <MDEditor
         value={value}
-        onChange={setValue}
+        onChange={onChange}
         preview="edit"
         textareaProps={{
           placeholder: 'What are your thoughts ?',
         }}
       />
-      <MDEditor.Markdown source={value} style={{ whiteSpace: 'pre-wrap' }} />
-      <Button
-        variant="contained"
-        sx={{
-          mt: 2,
-        }}
-      >
-        Submit
-      </Button>
+      <ReactMarkdown components={CodeBlock}>{value}</ReactMarkdown>
     </Box>
   );
 };

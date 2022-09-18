@@ -8,13 +8,14 @@ import {
   Typography,
 } from '@mui/material';
 import React, { useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useMutation } from 'react-query';
+import { Link } from 'react-router-dom';
 
 import { GoogleLogin, Logo } from '../../components';
 import { useAuth } from '../../contexts/AuthContext';
-import useHttp from '../../hooks/use-http';
 import useInput from '../../hooks/use-input';
 import { saveUserData } from '../../services/users';
+import { isFirebaseError } from '../../utils/firebase-error';
 import {
   errorMessages,
   validateEmail,
@@ -25,7 +26,6 @@ import { TextFieldPassword } from '../Login';
 
 const Signup = () => {
   const { signup } = useAuth();
-  const navigate = useNavigate();
 
   // Start Input Hook Usage
   const {
@@ -56,21 +56,24 @@ const Signup = () => {
   const lastNameValue = useRef<HTMLInputElement>(null);
 
   const signupAndSaveUserData = async () => {
-    const user = await signup(emailValue, passwordValue);
+    const user = await signup({ email: emailValue, password: passwordValue });
 
-    await saveUserData(user.user.uid, {
+    await saveUserData({
+      userId: user.user.uid,
       FirstName: firstNameValue,
       LastName: lastNameValue.current?.value,
       Email: emailValue,
     });
   };
 
-  const { sendRequest, loading, error } = useHttp(signupAndSaveUserData, false);
+  const { mutate, isLoading, error } = useMutation(signupAndSaveUserData);
 
   function getErrorMessage() {
     if (!error) return '';
-    if (error.code === 'auth/email-already-in-use') {
-      return 'Email is already Registered';
+    if (isFirebaseError(error)) {
+      if (error.code === 'auth/email-already-in-use') {
+        return 'Email is already Registered';
+      }
     }
     return 'Something went wrong Please try again';
   }
@@ -81,13 +84,20 @@ const Signup = () => {
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    await sendRequest();
-
-    if (!error) navigate('/');
+    mutate();
   };
   return (
-    <Box px={2} maxWidth="100%" width="600px" mx="auto" pt="20vh">
+    <Box
+      px={2}
+      maxWidth="100%"
+      width="600px"
+      mx="auto"
+      sx={{
+        py: {
+          xs: '10vh',
+        },
+      }}
+    >
       <Box textAlign="center" mb={3}>
         <Logo />
         <Typography component="h1" variant="h5" fontWeight="500" mt={2}>
@@ -166,7 +176,7 @@ const Signup = () => {
               disabled={!formIsValid}
               type="submit"
               fullWidth
-              loading={loading === 'pending'}
+              loading={isLoading}
               sx={{ mt: 3, mb: 2 }}
               color="primary"
               variant="contained"

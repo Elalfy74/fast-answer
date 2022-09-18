@@ -25,3 +25,8 @@ a {
   height: 10px !important;
   background: #fff !important;
 }
+
+.md-preview pre,
+.md-preview code {
+  background-color: #fff !important;
+}

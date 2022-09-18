@@ -33,14 +33,12 @@ export const getUserByRef = async (
   return { ...userDoc.data(), id: userDoc.id } as User;
 };
 
-export const saveUserData = async (
-  userId: string,
-  user: {
-    Email: string;
-    FirstName: string;
-    LastName?: string;
-  }
-) => {
+export const saveUserData = async (user: {
+  userId: string;
+  Email: string;
+  FirstName: string;
+  LastName?: string;
+}) => {
   const newUser = {
     ...user,
     UserName: null,
@@ -53,5 +51,5 @@ export const saveUserData = async (
     Birthdate: null,
     PhoneNumber: null,
   };
-  await setDoc(doc(usersCollectionRef, userId), newUser);
+  await setDoc(doc(usersCollectionRef, user.userId), newUser);
 };

@@ -22,11 +22,7 @@ const Answer = ({ answer }: AnswerProps) => {
         body={answer.body}
         creationTime={answer.creationTime}
       />
-      <Votes
-        upVotes={answer.upVotes}
-        downVotes={answer.downVotes}
-        votes={answer.votes}
-      />
+      <Votes votes={answer.votes} id={answer.id} />
     </Box>
   );
 };

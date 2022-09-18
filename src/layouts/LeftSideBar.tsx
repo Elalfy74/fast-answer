@@ -165,7 +165,7 @@ const LeftSideBar = () => {
             }}
           >
             <Link
-              to="auth/login"
+              to="/auth/login"
               style={{
                 width: '100%',
               }}

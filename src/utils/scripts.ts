@@ -99,5 +99,6 @@ export const addAnswer = async (i: number) => {
   // Generate Votes
   const votesArray = generateVotes(users);
 
-  saveAnswer(userId, questionId, body, votesArray);
+  // saveAnswer(userId, questionId, body, votesArray);
+  saveAnswer({ authorId: userId, questionId, body });
 };

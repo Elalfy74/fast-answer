@@ -1,4 +1,30 @@
 import { Avatar, Box, Stack, Typography } from '@mui/material';
+import MDEditor from '@uiw/react-md-editor';
+import ReactMarkdown from 'react-markdown';
+import { PrismAsync as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { coy, dark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+
+export const CodeBlock = {
+  code({ children, className, ...props }: any) {
+    let language = 'jsx';
+    if (className) {
+      // eslint-disable-next-line prefer-destructuring
+      language = className.split('-')[1];
+    }
+
+    return (
+      <SyntaxHighlighter
+        wrapLines
+        wrapLongLines
+        style={coy}
+        PreTag="span"
+        language={language}
+      >
+        {String(children).replace(/\n$/, '')}
+      </SyntaxHighlighter>
+    );
+  },
+};
 
 type QAProps = {
   authorFirstName: string;
@@ -29,14 +55,9 @@ const QA = ({
         </Stack>
         {/* End Author display */}
       </Stack>
-      <Typography
-        sx={{
-          whiteSpace: 'pre-line',
-          lineBreak: 'anywhere',
-        }}
-      >
+      <ReactMarkdown components={CodeBlock} className="md-preview">
         {body}
-      </Typography>
+      </ReactMarkdown>
     </Box>
   );
 };
