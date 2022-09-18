@@ -14,8 +14,6 @@ import {
 
 const App = () => {
   const { currentUser } = useAuth();
-  console.log(currentUser);
-
   return (
     <ThemeProvider theme={theme}>
       <AuthProvider>
