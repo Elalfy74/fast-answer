@@ -1,5 +1,8 @@
 import { Box } from '@mui/material';
 import MDEditor from '@uiw/react-md-editor';
+import ReactMarkdown from 'react-markdown';
+
+import { CodeBlock } from '../pages/QuestionDetails/QA';
 
 const MDEditorField = ({ value, onChange }: any) => {
   return (
@@ -12,7 +15,7 @@ const MDEditorField = ({ value, onChange }: any) => {
           placeholder: 'What are your thoughts ?',
         }}
       />
-      <MDEditor.Markdown source={value} style={{ whiteSpace: 'pre-wrap' }} />
+      <ReactMarkdown components={CodeBlock}>{value}</ReactMarkdown>
     </Box>
   );
 };

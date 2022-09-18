@@ -26,11 +26,7 @@ a {
   background: #fff !important;
 }
 
-.md-editor {
-  background-color: transparent !important;
-  white-space: 'pre-line';
-}
-
-.md-editor code {
+.md-preview pre,
+.md-preview code {
   background-color: #fff !important;
 }
