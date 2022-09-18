@@ -23,16 +23,9 @@ const questionsCollectionRef = collection(db, 'questions');
 
 // Start Of APIS
 
+let lastDoc: QueryDocumentSnapshot<DocumentData> | null = null;
 // Get All Questions API
-export const getAllQuestions = async ({
-  lastDoc,
-  setLastDoc,
-}: {
-  lastDoc: QueryDocumentSnapshot<DocumentData> | null;
-  setLastDoc: React.Dispatch<
-    React.SetStateAction<QueryDocumentSnapshot<DocumentData> | null>
-  >;
-}) => {
+export const getAllQuestions = async () => {
   const numberOfQuestions = 6;
 
   let requestQuery: Query<DocumentData>;
@@ -53,7 +46,7 @@ export const getAllQuestions = async ({
   }
 
   const questionsFromServer = await getDocs(requestQuery);
-  setLastDoc(questionsFromServer.docs[questionsFromServer.docs.length - 1]);
+  lastDoc = questionsFromServer.docs[questionsFromServer.docs.length - 1];
 
   const questionsList: QuestionType[] = await formatAllQuestions(
     questionsFromServer.docs

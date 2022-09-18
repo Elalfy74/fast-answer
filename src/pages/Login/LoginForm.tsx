@@ -9,7 +9,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { useQuery } from 'react-query';
+import { useMutation } from 'react-query';
 import { Link } from 'react-router-dom';
 
 import { GoogleLogin, Logo } from '../../components';
@@ -43,14 +43,8 @@ const LoginForm = () => {
   // End Input Hook Usage
 
   const { login } = useAuth();
-  const { isLoading, error, refetch } = useQuery(
-    'Login',
-    () => login(emailValue, passwordValue),
-    {
-      enabled: false,
-      retry: false,
-    }
-  );
+
+  const { mutate, isLoading, error } = useMutation(login);
 
   const formIsValid = emailIsValid && passwordIsValid;
 
@@ -71,7 +65,7 @@ const LoginForm = () => {
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    refetch();
+    mutate({ email: emailValue, password: passwordValue });
   };
 
   return (

@@ -8,8 +8,8 @@ import {
   Typography,
 } from '@mui/material';
 import React, { useRef } from 'react';
-import { useQuery } from 'react-query';
-import { Link, useNavigate } from 'react-router-dom';
+import { useMutation } from 'react-query';
+import { Link } from 'react-router-dom';
 
 import { GoogleLogin, Logo } from '../../components';
 import { useAuth } from '../../contexts/AuthContext';
@@ -56,23 +56,17 @@ const Signup = () => {
   const lastNameValue = useRef<HTMLInputElement>(null);
 
   const signupAndSaveUserData = async () => {
-    const user = await signup(emailValue, passwordValue);
+    const user = await signup({ email: emailValue, password: passwordValue });
 
-    await saveUserData(user.user.uid, {
+    await saveUserData({
+      userId: user.user.uid,
       FirstName: firstNameValue,
       LastName: lastNameValue.current?.value,
       Email: emailValue,
     });
   };
 
-  const { isLoading, error, refetch } = useQuery(
-    'Signup',
-    signupAndSaveUserData,
-    {
-      enabled: false,
-      retry: false,
-    }
-  );
+  const { mutate, isLoading, error } = useMutation(signupAndSaveUserData);
 
   function getErrorMessage() {
     if (!error) return '';
@@ -90,7 +84,7 @@ const Signup = () => {
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    refetch();
+    mutate();
   };
   return (
     <Box

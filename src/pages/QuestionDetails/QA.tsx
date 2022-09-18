@@ -1,5 +1,6 @@
 import { Avatar, Box, Stack, Typography } from '@mui/material';
 import MDEditor from '@uiw/react-md-editor';
+import React, { useRef } from 'react';
 
 type QAProps = {
   authorFirstName: string;
@@ -15,6 +16,8 @@ const QA = ({
   creationTime,
   body,
 }: QAProps) => {
+  const wrapper = useRef<HTMLDivElement>(null);
+  console.log(wrapper);
   return (
     <Box>
       {/* Author display */}
@@ -30,22 +33,17 @@ const QA = ({
         </Stack>
         {/* End Author display */}
       </Stack>
-      <Typography
+      {/* <Typography
         sx={{
           whiteSpace: 'pre-line',
           lineBreak: 'anywhere',
         }}
       >
         {body}
-      </Typography>
-      {/* <MDEditor.Markdown
-        source={body}
-        style={{
-          whiteSpace: 'pre-wrap',
-          backgroundColor: 'transparent',
-          color: 'black',
-        }}
-      /> */}
+      </Typography> */}
+      <div>
+        <MDEditor.Markdown source={body} skipHtml className="md-editor" />
+      </div>
     </Box>
   );
 };

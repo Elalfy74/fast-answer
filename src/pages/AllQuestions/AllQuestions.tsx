@@ -1,34 +1,24 @@
 import { CircularProgress, Stack } from '@mui/material';
-import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect } from 'react';
 import { useInfiniteQuery } from 'react-query';
 
 import { getAllQuestions } from '../../services/questions';
 import { Question } from '.';
 
 const AllQuestions = () => {
-  const [lastDoc, setLastDoc] =
-    useState<QueryDocumentSnapshot<DocumentData> | null>(null);
-
   const { data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    useInfiniteQuery(
-      'questions',
-      () =>
-        getAllQuestions({
-          lastDoc,
-          setLastDoc,
-        }),
-      {
-        refetchOnWindowFocus: false,
-        refetchOnMount: false,
-        getNextPageParam: (lastPage, pages) => {
-          if (lastPage.length === 0 || lastPage.length < 6) {
-            return undefined;
-          }
-          return pages.length + 1;
-        },
-      }
-    );
+    useInfiniteQuery('questions', () => getAllQuestions(), {
+      refetchOnWindowFocus: false,
+      staleTime: Infinity,
+      cacheTime: Infinity,
+      refetchOnMount: false,
+      getNextPageParam: (lastPage, pages) => {
+        if (lastPage.length === 0 || lastPage.length < 6) {
+          return undefined;
+        }
+        return pages.length + 1;
+      },
+    });
 
   useEffect(() => {
     window.onscroll = () => {

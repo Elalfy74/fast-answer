@@ -1,12 +1,11 @@
 import { LoadingButton } from '@mui/lab';
 import { CircularProgress, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import { MDEditorField } from '../../components';
 import { useAuth } from '../../contexts/AuthContext';
 import { AnswerType } from '../../data/types';
-import useHttp from '../../hooks/use-http';
 import { getAllAnswersOfQuestion, saveAnswer } from '../../services/answers';
 import Answer from './Answer';
 
@@ -22,39 +21,15 @@ const AllAnswers = ({ qId }: { qId: string }) => {
   const queryClient = useQueryClient();
 
   const { mutate, isLoading: postLoading } = useMutation(saveAnswer, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['answers', qId]);
+    onSuccess: (data) => {
+      queryClient.setQueryData(
+        ['answers', qId],
+        (oldData: AnswerType[] | undefined) => {
+          return [data, ...(oldData ?? [])];
+        }
+      );
     },
   });
-
-  // const [answers, setAnswers] = useState<AnswerType[]>([]);
-  // const [loading, setLoading] = useState(true);
-
-  // const {
-  //   sendRequest: postAnswer,
-  //   loading: postLoading,
-  //   data: savedAnswer,
-  //   error: postErrpr,
-  // } = useHttp(saveAnswer, false);
-
-  // On Mount
-  // useEffect(() => {
-  //   const getAnswers = async () => {
-  //     setLoading(true);
-  //     const response = await getAllAnswersOfQuestion();
-  //     setAnswers(response);
-  //     setLoading(false);
-  //   };
-
-  //   getAnswers();
-  // }, [qId]);
-
-  // On Save Question
-  // useEffect(() => {
-  //   if (savedAnswer) {
-  //     setAnswers((prevAnswers) => [savedAnswer, ...prevAnswers]);
-  //   }
-  // }, [savedAnswer]);
 
   const handleSubmit = async () => {
     if (!value || !currentUser) return;
@@ -66,8 +41,6 @@ const AllAnswers = ({ qId }: { qId: string }) => {
     };
 
     mutate(newAnswer);
-    // await postAnswer(newAnswer);
-
     setValue('');
   };
 

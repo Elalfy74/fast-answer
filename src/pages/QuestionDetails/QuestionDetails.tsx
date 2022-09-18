@@ -52,7 +52,6 @@ const QuestionDetails = () => {
 
   return (
     <Stack alignItems="center">
-      {isFetching && <p>fetchhhhhhing ......</p>}
       <Question question={data!} />
       <AllAnswers qId={qId!} />
     </Stack>
