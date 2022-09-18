@@ -26,7 +26,6 @@ import { TextFieldPassword } from '../Login';
 
 const Signup = () => {
   const { signup } = useAuth();
-  const navigate = useNavigate();
 
   // Start Input Hook Usage
   const {

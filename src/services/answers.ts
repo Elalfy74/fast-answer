@@ -9,6 +9,7 @@ import {
   where,
 } from 'firebase/firestore';
 import moment from 'moment';
+import { QueryFunctionContext } from 'react-query';
 
 import { AnswerType, RececviedAnswerType } from '../data/types';
 import { db } from '../firebase-config';
@@ -18,8 +19,12 @@ import { getUserByRef } from './users';
 const answersCollectionRef = collection(db, 'answers');
 
 // Start Of APIS
-export const getAllAnswersOfQuestion = async (questionId: string) => {
-  const questionRef = doc(db, 'questions', questionId);
+export const getAllAnswersOfQuestion = async ({
+  queryKey,
+}: QueryFunctionContext<[string, string | null | undefined]>) => {
+  const qId = queryKey[1]!;
+
+  const questionRef = doc(db, 'questions', qId);
 
   const answersQuery = query(
     answersCollectionRef,

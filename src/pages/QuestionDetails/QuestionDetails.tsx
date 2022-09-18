@@ -10,16 +10,19 @@ const QuestionDetails = () => {
   const { qId } = useParams();
 
   const queryClient = useQueryClient();
+
   const { data, isLoading, error, isFetching } = useQuery(
     ['question details', qId],
     getQuestionById,
     {
       initialData: () => {
-        const questions = queryClient.getQueryData('questions') as any;
+        const questions = queryClient.getQueryData('questions') as {
+          [key: string]: QuestionType[][];
+        };
         if (questions) {
           let question;
-          questions.pages.forEach((group: any) => {
-            question = group.find((q: any) => q.id === qId);
+          questions.pages.forEach((group) => {
+            question = group.find((q) => q.id === qId);
           });
           if (question) {
             return question as QuestionType;
