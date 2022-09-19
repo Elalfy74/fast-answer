@@ -25,7 +25,11 @@ export const theme = createTheme({
     h6: {
       fontWeight: 500,
       fontSize: '1.1rem',
-    }
+    },
+    h5: {
+      fontWeight: 500,
+      fontSize: '1.4rem',
+    },
   },
   components: {
     MuiButton: {

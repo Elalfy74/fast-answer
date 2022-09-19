@@ -161,7 +161,7 @@ const LoginForm = () => {
           >
             Log In
           </LoadingButton>
-          <Divider textAlign="center">OR</Divider>
+          <Divider>OR</Divider>
           <GoogleLogin />
           <Typography variant="body2" textAlign="center" mt={2} color="gray">
             Do not have an account?{' '}

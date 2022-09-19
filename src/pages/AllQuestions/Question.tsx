@@ -15,6 +15,7 @@ import {
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { TagsList } from '../../components';
 import { QuestionType } from '../../data/types';
 
 type QuestionProps = {
@@ -125,33 +126,8 @@ function Question({ question }: QuestionProps) {
               </Typography>
             </Box>
           </Box>
-
           {/* Tags */}
-          <Box
-            sx={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              justifyContent: 'flex-end',
-              gap: 1,
-              flex: 1,
-            }}
-          >
-            {question.tags.map((tag) => (
-              <Typography
-                key={tag.id}
-                component="span"
-                sx={{
-                  p: '1px 3px',
-                  fontSize: '13px',
-                  borderRadius: '4px',
-                  bgcolor: 'hsl(205deg 46% 92%)',
-                  color: 'hsl(205deg 47% 42%)',
-                }}
-              >
-                {tag.name}
-              </Typography>
-            ))}
-          </Box>
+          <TagsList tags={question.tags} />
         </Box>
         {/* End of Tags And User Display */}
       </CardContent>

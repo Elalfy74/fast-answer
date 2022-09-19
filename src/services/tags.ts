@@ -41,3 +41,24 @@ export const getAllTagsId = async () => {
 
   return tags.docs.map((doc) => doc.id);
 };
+
+// get Tags By Query API
+export const getTagsByQuery = async (queryText: string) => {
+  const tagsQuery = query(
+    tagsCollectionRef,
+    where('name', '>=', queryText),
+    // eslint-disable-next-line prefer-template
+    where('name', '<=', queryText + '\uf8ff')
+  );
+
+  const tagsFromServer = await getDocs(tagsQuery);
+
+  const tags = tagsFromServer.docs.map((tag) => {
+    return {
+      ...tag.data(),
+      id: tag.id,
+    };
+  });
+
+  return tags;
+};

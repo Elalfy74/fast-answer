@@ -15,7 +15,7 @@ import {
 } from 'firebase/firestore';
 import { QueryFunctionContext } from 'react-query';
 
-import { QuestionType } from '../data/types';
+import { QuestionType, Tag } from '../data/types';
 import { db } from '../firebase-config';
 import { formatAllQuestions, formatQuestion } from './questions-helpers';
 
@@ -33,14 +33,14 @@ export const getAllQuestions = async () => {
   if (lastDoc) {
     requestQuery = query(
       questionsCollectionRef,
-      orderBy('creationTime'),
+      orderBy('creationTime', 'desc'),
       startAfter(lastDoc),
       limit(numberOfQuestions)
     );
   } else {
     requestQuery = query(
       questionsCollectionRef,
-      orderBy('creationTime'),
+      orderBy('creationTime', 'desc'),
       limit(numberOfQuestions)
     );
   }
@@ -60,7 +60,28 @@ export const getAllQuestions = async () => {
 };
 
 // Save Question API
-export const saveQuestion = async (
+type QuestionParams = {
+  authorId: string;
+  title: string;
+  body: string;
+  tags: Tag[];
+};
+export const saveQuestion = async (params: QuestionParams) => {
+  const { authorId, title, body, tags } = params;
+
+  const formatedQuestion = {
+    author: doc(db, 'users', authorId),
+    title,
+    body,
+    creationTime: Timestamp.fromDate(new Date()),
+    tags: tags.map((tag: Tag) => doc(db, 'tags', tag.id)),
+  };
+  console.log(formatedQuestion);
+
+  await addDoc(questionsCollectionRef, formatedQuestion);
+};
+
+export const saveFakeQuestion = async (
   uId: string,
   question: any,
   tags: any,

@@ -5,13 +5,14 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 
 import AuthProvider, { useAuth } from './contexts/AuthContext';
 import { theme } from './contexts/theme';
-import { Wrapper } from './layouts';
+import { SecondaryWrapper, Wrapper } from './layouts';
 import {
   AllQuestions,
   Login,
   QuestionDetails,
   ScriptsPlayground,
   Signup,
+  UserProfile,
 } from './pages';
 import AskQuestion from './pages/AskQuestion/AskQuestion';
 import EditAccount from './pages/EditAccount/EditAccount';
@@ -34,6 +35,11 @@ const App = () => {
             <Route path="/questions/:qId" element={<Wrapper />}>
               <Route path="/questions/:qId" element={<QuestionDetails />} />
             </Route>
+
+            <Route path="/user" element={<SecondaryWrapper />}>
+              <Route path="/user" element={<UserProfile />} />
+            </Route>
+
             <Route path="/ask-question" element={<AskQuestion />} />
             <Route path="/edit-account" element={<EditAccount />} />
             <Route

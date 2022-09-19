@@ -11,7 +11,7 @@ type QuestionProps = {
 const Question = ({ question }: QuestionProps) => {
   const { PhotoUrl, FirstName, LastName } = question.author;
   return (
-    <Box>
+    <Box width="100%">
       <Typography component="h1" variant="h5" fontWeight="600" mb={2}>
         {question.title}
       </Typography>

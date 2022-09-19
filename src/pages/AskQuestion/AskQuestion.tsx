@@ -2,150 +2,177 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import {
   Autocomplete,
   Box,
-  Button,
-  CircularProgress,
   Container,
   TextField,
   Typography,
 } from '@mui/material';
-import {
-  Fragment,
-  SetStateAction,
-  useEffect,
-  useId,
-  useLayoutEffect,
-  useState,
-} from 'react';
+import React, { useEffect, useState } from 'react';
+import { useMutation, useQuery } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 
 import MDEditorField from '../../components/MDEditorField';
+import { useAuth } from '../../contexts/AuthContext';
+import { Tag } from '../../data/types';
+import { saveQuestion } from '../../services/questions';
+import { getTagsByQuery } from '../../services/tags';
+
+const SecondHeader = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <Typography variant="h6" fontWeight={600} px="2px">
+      {children}
+    </Typography>
+  );
+};
+
+const Title = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <Typography variant="body2" mt="2px" mb="4px" px="2px">
+      {children}
+    </Typography>
+  );
+};
+
+const MarginBox = ({ children }: { children: React.ReactNode }) => {
+  return <Box mb="24px">{children}</Box>;
+};
 
 const AskQuestion = () => {
   const [bodyValue, setBodyValue] = useState('');
   const [titleValue, setTitleValue] = useState('');
-  const [tagsValue, setTagsValue] = useState('');
+  const [tagsValue, setTagsValue] = useState<Tag[]>([]);
+  const [queryText, setQueryText] = useState('');
+
   const [questionFormIsValid, setQuestionFormIsValid] = useState(true);
-  const [mobile, setMobile] = useState(true);
 
-  useLayoutEffect(() => {
-    if (window.innerWidth > 600) {
-      setMobile(false);
-    }
-  }, []);
+  const { currentUser } = useAuth();
 
-  const handleBodyChange = (event: { target: { value: any } }) => {
-    setBodyValue(event.target.value);
-  };
-  const handleTitleChange = (event: {
-    target: { value: SetStateAction<string> };
-  }) => {
+  const navigate = useNavigate();
+
+  const {
+    data,
+    isLoading: loadingTags,
+    refetch,
+  } = useQuery('tags', () => getTagsByQuery(queryText), {
+    enabled: false,
+  });
+
+  useEffect(() => {
+    const identifier = setTimeout(() => {
+      if (queryText.length > 0) {
+        refetch();
+      }
+    }, 1000);
+    return () => {
+      clearTimeout(identifier);
+    };
+  }, [queryText, refetch]);
+
+  const { mutate, isLoading, error } = useMutation(saveQuestion, {
+    onSuccess: () => {
+      navigate('/');
+    },
+  });
+  const validateForm =
+    bodyValue.length > 0 && titleValue.length > 0 && tagsValue.length !== 0;
+
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitleValue(event.target.value);
   };
-  const handleTagsChange = (event: any, value: any) => {
+  const handleTagsChange = (
+    _event: React.SyntheticEvent<Element, Event>,
+    value: Tag[]
+  ) => {
     setTagsValue(value);
   };
 
-  const handleSubmit = (e: { preventDefault: () => void }) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const validateForm =
-      bodyValue.length > 0 && titleValue.length > 0 && tagsValue !== '';
-    setQuestionFormIsValid(validateForm);
-  };
+    if (!currentUser) return;
 
+    if (!validateForm) {
+      setQuestionFormIsValid(validateForm);
+      return;
+    }
+    mutate({
+      authorId: currentUser.uid,
+      title: titleValue,
+      body: bodyValue,
+      tags: tagsValue,
+    });
+  };
   return (
     <Container sx={{ display: 'flex', flexDirection: 'column', pt: 6 }}>
-      {/* I don't really know why it's not working */}
-      {!mobile && <Typography variant="h4">Ask a question</Typography>}
+      <Typography
+        variant="h4"
+        sx={{
+          display: {
+            xs: 'none',
+            sm: 'block',
+          },
+        }}
+      >
+        Ask a question
+      </Typography>
       <Box
         component="form"
         onSubmit={handleSubmit}
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'space-around',
-          width: 'auto',
           boxShadow: 3,
           borderRadius: 2,
-          p: '16px',
-          mb: 5,
-          mt: 5,
+          p: 2,
+          my: 5,
         }}
       >
-        <Box sx={{ width: '100%', mb: '24px' }}>
-          <Typography
-            sx={{ fontSize: '18px', fontWeight: '600', padding: '0 2px' }}
-          >
-            Question
-          </Typography>
-          <Typography
-            sx={{ fontSize: '14px', padding: '0 2px', mt: '2px', mb: '4px' }}
-          >
+        <MarginBox>
+          <SecondHeader>Question</SecondHeader>
+          <Title>
             Be specific and imagine you’re asking a question to another person
-          </Typography>
+          </Title>
           <TextField
             sx={{ pb: '2px' }}
             size="small"
             fullWidth
             value={titleValue}
-            // ref={titleInputRef}
             onChange={handleTitleChange}
             autoFocus
             placeholder="e.g. Is there an R function for finding the index of an element in a vector?"
           />
-          <Typography color="text.secondary" variant="caption">
+          <Typography color="text.secondary" variant="caption" px="2px">
             character limit: 0/100
           </Typography>
-        </Box>
-        <Box sx={{ width: '100%', mb: '24px' }}>
-          <Typography
-            sx={{ fontSize: '18px', fontWeight: '600', padding: '0 2px' }}
-          >
-            Details
-          </Typography>
-          <Typography
-            sx={{ fontSize: '14px', padding: '0 2px', mt: '2px', mb: '4px' }}
-          >
+        </MarginBox>
+        <MarginBox>
+          <SecondHeader>Details</SecondHeader>
+          <Title>
             Include all the information someone would need to answer your
             question
-          </Typography>
+          </Title>
           <MDEditorField value={bodyValue} onChange={setBodyValue} />
-          {/* <TextField
-            placeholder="Ask your Question"
-            multiline
-            fullWidth
-            rows={6}
-            value={bodyValue}
-            // ref={bodyInputRef}
-            onChange={handleBodyChange}
-          /> */}
-        </Box>
-        <Box sx={{ width: '100%', mb: '24px' }}>
-          <Typography
-            sx={{ fontSize: '18px', fontWeight: '600', padding: '0 2px' }}
-          >
-            Tags
-          </Typography>
-          <Typography
-            sx={{ fontSize: '14px', padding: '0 2px', mt: '2px', mb: '4px' }}
-          >
+        </MarginBox>
+        <MarginBox>
+          <SecondHeader>Tags</SecondHeader>
+          <Title>
             Add up to 5 tags to describe what your question is about
-          </Typography>
+          </Title>
           <Autocomplete
             onChange={handleTagsChange}
             multiple
             size="small"
             id="tags-standard"
-            options={['js', 'react']}
-            getOptionLabel={(option) => option}
+            options={(data as Tag[]) || []}
+            getOptionLabel={(option) => option.name}
             renderInput={(params) => (
               <TextField
-                // eslint-disable-next-line react/jsx-props-no-spreading
+                onChange={(e) => setQueryText(e.target.value)}
                 {...params}
                 variant="outlined"
                 placeholder="add tags"
               />
             )}
           />
-        </Box>
+        </MarginBox>
         {questionFormIsValid === false && (
           <Typography
             sx={{
@@ -163,7 +190,7 @@ const AskQuestion = () => {
           <LoadingButton
             type="submit"
             variant="contained"
-            // loading
+            loading={isLoading}
             sx={{
               maxHeight: 45,
               alignSelf: 'flex-start',
