@@ -13,6 +13,7 @@ import {
   ScriptsPlayground,
   Signup,
 } from './pages';
+import AskQuestion from './pages/AskQuestion/AskQuestion/';
 
 const App = () => {
   const { currentUser } = useAuth();
@@ -32,6 +33,7 @@ const App = () => {
             <Route path="/questions/:qId" element={<Wrapper />}>
               <Route path="/questions/:qId" element={<QuestionDetails />} />
             </Route>
+            <Route path="/ask-question" element={<AskQuestion />} />
             <Route
               path="/auth/login"
               element={!currentUser ? <Login /> : <Navigate to="/" />}
