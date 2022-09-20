@@ -1,11 +1,10 @@
 import { Avatar, Box, Stack, Typography } from '@mui/material';
-import MDEditor from '@uiw/react-md-editor';
 import ReactMarkdown from 'react-markdown';
 import { PrismAsync as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { coy, dark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import { coy } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
 export const CodeBlock = {
-  code({ children, className, ...props }: any) {
+  code({ children, className }: any) {
     let language = 'jsx';
     if (className) {
       // eslint-disable-next-line prefer-destructuring

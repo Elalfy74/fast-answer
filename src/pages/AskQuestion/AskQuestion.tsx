@@ -15,26 +15,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { Tag } from '../../data/types';
 import { saveQuestion } from '../../services/questions';
 import { getTagsByQuery } from '../../services/tags';
-
-const SecondHeader = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <Typography variant="h6" fontWeight={600} px="2px">
-      {children}
-    </Typography>
-  );
-};
-
-const Title = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <Typography variant="body2" mt="2px" mb="4px" px="2px">
-      {children}
-    </Typography>
-  );
-};
-
-const MarginBox = ({ children }: { children: React.ReactNode }) => {
-  return <Box mb="24px">{children}</Box>;
-};
+import { MarginBox, SecondHeader, Title } from './CustomComponents';
 
 const AskQuestion = () => {
   const [bodyValue, setBodyValue] = useState('');
@@ -48,11 +29,7 @@ const AskQuestion = () => {
 
   const navigate = useNavigate();
 
-  const {
-    data,
-    isLoading: loadingTags,
-    refetch,
-  } = useQuery('tags', () => getTagsByQuery(queryText), {
+  const { data, refetch } = useQuery('tags', () => getTagsByQuery(queryText), {
     enabled: false,
   });
 
@@ -72,6 +49,7 @@ const AskQuestion = () => {
       navigate('/');
     },
   });
+
   const validateForm =
     bodyValue.length > 0 && titleValue.length > 0 && tagsValue.length !== 0;
 
@@ -173,7 +151,7 @@ const AskQuestion = () => {
             )}
           />
         </MarginBox>
-        {questionFormIsValid === false && (
+        {!questionFormIsValid && (
           <Typography
             sx={{
               fontSize: '14px',

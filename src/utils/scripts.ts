@@ -7,7 +7,11 @@ import { tags as localTags } from '../data/tags';
 import { users as localUsers } from '../data/user';
 import { db } from '../firebase-config';
 import { saveAnswer } from '../services/answers';
-import { getAllQuestionsIds, saveQuestion } from '../services/questions';
+import {
+  getAllQuestionsIds,
+  saveFakeQuestion,
+  saveQuestion,
+} from '../services/questions';
 import { getAllTagsId, saveTag } from '../services/tags';
 import { getAllUsersIds, saveUserData } from '../services/users';
 
@@ -83,7 +87,7 @@ export const addQuestion = async (i: number) => {
   // 6- generate Votes
   const votesArray = generateVotes(usersIds);
 
-  await saveQuestion(userId, question, tagsIds, votesArray);
+  await saveFakeQuestion(userId, question, tagsIds, votesArray);
 };
 // SCRIPT Add Answer
 export const addAnswer = async (i: number) => {
