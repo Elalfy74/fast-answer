@@ -8,6 +8,7 @@ import { theme } from './contexts/theme';
 import { SecondaryWrapper, Wrapper } from './layouts';
 import {
   AllQuestions,
+  Chat,
   Login,
   QuestionDetails,
   ScriptsPlayground,
@@ -42,6 +43,8 @@ const App = () => {
 
             <Route path="/ask-question" element={<AskQuestion />} />
             <Route path="/edit-account" element={<EditAccount />} />
+            <Route path="/chat" element={<Chat />} />
+
             <Route
               path="/auth/login"
               element={!currentUser ? <Login /> : <Navigate to="/" />}

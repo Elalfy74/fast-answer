@@ -69,16 +69,23 @@ type QuestionParams = {
 export const saveQuestion = async (params: QuestionParams) => {
   const { authorId, title, body, tags } = params;
 
+  const currentTime = Timestamp.fromDate(new Date());
+
   const formatedQuestion = {
     author: doc(db, 'users', authorId),
     title,
     body,
-    creationTime: Timestamp.fromDate(new Date()),
+    creationTime: currentTime,
     tags: tags.map((tag: Tag) => doc(db, 'tags', tag.id)),
   };
-  console.log(formatedQuestion);
 
-  await addDoc(questionsCollectionRef, formatedQuestion);
+  const savedQuestion = await addDoc(questionsCollectionRef, formatedQuestion);
+
+  return {
+    ...formatedQuestion,
+    id: savedQuestion.id,
+    tags,
+  };
 };
 
 export const saveFakeQuestion = async (

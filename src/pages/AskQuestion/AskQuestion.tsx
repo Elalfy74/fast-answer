@@ -7,7 +7,7 @@ import {
   Typography,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
 import MDEditorField from '../../components/MDEditorField';
@@ -33,6 +33,15 @@ const AskQuestion = () => {
     enabled: false,
   });
 
+  const queryClient = useQueryClient();
+
+  const { mutate, isLoading, error } = useMutation(saveQuestion, {
+    onSuccess: async () => {
+      queryClient.invalidateQueries('questions');
+      navigate('/');
+    },
+  });
+
   useEffect(() => {
     const identifier = setTimeout(() => {
       if (queryText.length > 0) {
@@ -43,12 +52,6 @@ const AskQuestion = () => {
       clearTimeout(identifier);
     };
   }, [queryText, refetch]);
-
-  const { mutate, isLoading, error } = useMutation(saveQuestion, {
-    onSuccess: () => {
-      navigate('/');
-    },
-  });
 
   const validateForm =
     bodyValue.length > 0 && titleValue.length > 0 && tagsValue.length !== 0;

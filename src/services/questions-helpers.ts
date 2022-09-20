@@ -1,7 +1,9 @@
 import {
   DocumentData,
+  DocumentReference,
   DocumentSnapshot,
   QueryDocumentSnapshot,
+  Timestamp,
 } from 'firebase/firestore';
 import moment from 'moment';
 
@@ -9,6 +11,15 @@ import { QuestionType, ReceivedQuestionType, Tag } from '../data/types';
 import { getVotesNumber } from '../utils/votes';
 import { getTags } from './tags';
 import { getUserByRef } from './users';
+
+type NewQuestionType = {
+  id: string;
+  author: DocumentReference<DocumentData>;
+  title: string;
+  body: string;
+  tags: Tag[];
+  creationTime: Timestamp;
+};
 
 // Functions replaces tags reference with real tags and author with real author data for a single question
 export const formatQuestion = async (
