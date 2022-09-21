@@ -31,7 +31,55 @@ const RightSideBar = () => {
         <Divider />
 
         {/* Leader Board Memebers */}
-        <Stack spacing={2} alignItems="center" sx={{ mt: 2 }}>
+        <Stack spacing={2} alignItems="center" sx={{ mt: 1.5 }}>
+          <Stack direction="row" gap={1} alignItems="center">
+            <Avatar
+              alt="user avatar"
+              src={avatar}
+              sx={{ width: 35, height: 35 }}
+            />
+            <Stack>
+              <Typography sx={{ fontSize: '14px', fontWeight: '500' }}>
+                Mahmoud Ramadan
+              </Typography>
+              <Typography color="text.secondary" sx={{ fontSize: '12px' }}>
+                124 contributions
+              </Typography>
+            </Stack>
+          </Stack>
+
+          <Stack direction="row" gap={1} alignItems="center">
+            <Avatar
+              alt="user avatar"
+              src={avatar}
+              sx={{ width: 35, height: 35 }}
+            />
+            <Stack>
+              <Typography sx={{ fontSize: '14px', fontWeight: '500' }}>
+                Mahmoud Ramadan
+              </Typography>
+              <Typography color="text.secondary" sx={{ fontSize: '12px' }}>
+                124 contributions
+              </Typography>
+            </Stack>
+          </Stack>
+
+          <Stack direction="row" gap={1} alignItems="center">
+            <Avatar
+              alt="user avatar"
+              src={avatar}
+              sx={{ width: 35, height: 35 }}
+            />
+            <Stack>
+              <Typography sx={{ fontSize: '14px', fontWeight: '500' }}>
+                Mahmoud Ramadan
+              </Typography>
+              <Typography color="text.secondary" sx={{ fontSize: '12px' }}>
+                124 contributions
+              </Typography>
+            </Stack>
+          </Stack>
+
           <Stack direction="row" gap={1} alignItems="center">
             <Avatar
               alt="user avatar"
@@ -83,7 +131,7 @@ const RightSideBar = () => {
         <Divider />
         {/* Questions */}
         {/* ! Can't center this stack, so I made a margin left */}
-        <Stack spacing={2} sx={{ mt: 2, ml: 1.5 }}>
+        <Stack spacing={2} sx={{ mt: 1.5, ml: 1.5 }}>
           <Stack gap={0.5}>
             <Box>
               <Typography sx={{ fontSize: '16px', fontWeight: '500' }}>
@@ -94,13 +142,13 @@ const RightSideBar = () => {
               <Typography
                 sx={{
                   color: 'text.secondary',
-                  fontSize: '12px',
+                  fontSize: '10px',
                   fontWeight: 'bold',
                 }}
               >
                 Asked by
               </Typography>
-              <Typography sx={{ fontWeight: '500', fontSize: '14px' }}>
+              <Typography sx={{ fontWeight: '500', fontSize: '12px' }}>
                 Mahmoud Ramadan
               </Typography>
             </Box>
@@ -115,13 +163,13 @@ const RightSideBar = () => {
               <Typography
                 sx={{
                   color: 'text.secondary',
-                  fontSize: '12px',
+                  fontSize: '10px',
                   fontWeight: 'bold',
                 }}
               >
                 Asked by
               </Typography>
-              <Typography sx={{ fontWeight: '500', fontSize: '14px' }}>
+              <Typography sx={{ fontWeight: '500', fontSize: '12px' }}>
                 Mahmoud Ramadan
               </Typography>
             </Box>
@@ -136,13 +184,13 @@ const RightSideBar = () => {
               <Typography
                 sx={{
                   color: 'text.secondary',
-                  fontSize: '12px',
+                  fontSize: '10px',
                   fontWeight: 'bold',
                 }}
               >
                 Asked by
               </Typography>
-              <Typography sx={{ fontWeight: '500', fontSize: '14px' }}>
+              <Typography sx={{ fontWeight: '500', fontSize: '12px' }}>
                 Mahmoud Ramadan
               </Typography>
             </Box>
