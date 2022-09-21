@@ -5,7 +5,7 @@ import {
   ListItemButton,
   Typography,
 } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 import { FormatedChat } from '../../contexts/ChatContext';
 
@@ -18,11 +18,29 @@ const ChatItem = ({ chat }: ChatItemProps) => {
     <ListItem
       disablePadding
       sx={{
-        mt: 1,
+        mt: 0.4,
       }}
     >
-      <ListItemButton sx={{ borderRadius: '8px', mx: 1 }}>
-        <Link to={chat.id}>
+      <NavLink
+        to={chat.id}
+        style={(navData) =>
+          navData.isActive
+            ? {
+                backgroundColor: 'rgba(0, 0, 0, 0.08)',
+                borderRadius: '10px',
+                margin: '0 8px',
+              }
+            : {
+                borderRadius: '10px',
+                margin: '0 8px',
+              }
+        }
+      >
+        <ListItemButton
+          sx={{
+            borderRadius: '10px',
+          }}
+        >
           <Box display="flex" mb={1.1} alignItems="center" gap={2}>
             <Avatar
               src={chat.otherUser.PhotoUrl || undefined}
@@ -35,8 +53,8 @@ const ChatItem = ({ chat }: ChatItemProps) => {
               sx={{
                 display: 'flex',
                 py: 1.1,
-                borderBottom: '1px solid',
-                borderBottomColor: 'divider',
+                // borderBottom: '1px solid',
+                // borderBottomColor: 'divider',
               }}
             >
               <Box mr={2}>
@@ -58,8 +76,8 @@ const ChatItem = ({ chat }: ChatItemProps) => {
               </Typography>
             </Box>
           </Box>
-        </Link>
-      </ListItemButton>
+        </ListItemButton>
+      </NavLink>
     </ListItem>
   );
 };

@@ -11,7 +11,7 @@ import {
 import moment from 'moment';
 import { QueryFunctionContext } from 'react-query';
 
-import { AnswerType, RececviedAnswerType } from '../data/types';
+import { AnswerType } from '../data/types';
 import { db } from '../firebase-config';
 import { formatAllAnswers } from './answers-helpers';
 import { getUserByRef } from './users';
@@ -30,7 +30,6 @@ export const getAllAnswersOfQuestion = async ({
     answersCollectionRef,
     where('question', '==', questionRef),
     orderBy('creationTime', 'desc')
-    // limit(6)
   );
 
   const answersFromServer = await getDocs(answersQuery);

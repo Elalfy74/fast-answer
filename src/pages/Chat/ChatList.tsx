@@ -14,7 +14,7 @@ const ChatList = ({ chats }: ChatListProps) => {
       sx={{
         bgcolor: 'white',
         borderRadius: '10px',
-        pt: 0,
+        pt: 0.6,
         display: {
           xs: 'none',
           md: 'block',

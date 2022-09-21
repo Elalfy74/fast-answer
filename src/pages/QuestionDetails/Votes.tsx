@@ -10,6 +10,7 @@ import { updateVotes } from '../../services/votes';
 import { getVotesNumber } from '../../utils/votes';
 
 type VotesProps = {
+  type: 'question' | 'answer';
   id: string;
   votes?: {
     author: DocumentReference<DocumentData>;
@@ -17,7 +18,7 @@ type VotesProps = {
   }[];
 };
 
-const Votes = ({ id, votes }: VotesProps) => {
+const Votes = ({ type, id, votes }: VotesProps) => {
   const { currentUser } = useAuth();
 
   const [allVotes, setVotes] = useState(votes);
@@ -57,7 +58,7 @@ const Votes = ({ id, votes }: VotesProps) => {
     // update the votes in the database
     setLoading(true);
     await updateVotes({
-      type: 'answer',
+      type,
       targetId: id,
       votes: newVotesArray,
     });

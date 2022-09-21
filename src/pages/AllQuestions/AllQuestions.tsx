@@ -10,7 +10,6 @@ const AllQuestions = () => {
     useInfiniteQuery('questions', () => getAllQuestions(), {
       refetchOnWindowFocus: false,
       staleTime: Infinity,
-      cacheTime: Infinity,
       refetchOnMount: false,
       getNextPageParam: (lastPage, pages) => {
         if (lastPage.length === 0 || lastPage.length < 6) {

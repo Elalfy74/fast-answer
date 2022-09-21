@@ -1,4 +1,4 @@
-import { Container, Stack } from '@mui/material';
+import { Box, CircularProgress, Container, Stack } from '@mui/material';
 import {
   collection,
   doc,
@@ -9,7 +9,7 @@ import {
   where,
 } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import { Route, Routes, useParams } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
 import { useAuth } from '../../contexts/AuthContext';
 import { User } from '../../data/types';
@@ -36,18 +36,19 @@ const Chat = () => {
     const formatAndSaveChats = async (chatResult: ReceviedChat[]) => {
       if (currentUser) {
         const formatedChat: FormatedChat[] = [];
-        for (let i = 0; i < chatResult.length; i++) {
-          const otherUser = chatResult[i].users.find(
-            (chatUser) => chatUser.id !== currentUser.uid
-          );
-          if (otherUser) {
-            const otherUserData = await getUserByRef(otherUser);
-            formatedChat.push({
-              ...chatResult[i],
-              otherUser: otherUserData,
-            });
-          }
-        }
+
+        await Promise.all(
+          chatResult.map(async (chat) => {
+            const otherUserRef = chat.users.find(
+              (user) => user.id !== currentUser.uid
+            );
+
+            if (otherUserRef) {
+              const otherUser = await getUserByRef(otherUserRef);
+              formatedChat.push({ ...chat, otherUser });
+            }
+          })
+        );
 
         setChats(formatedChat);
         setLoading(false);
@@ -81,12 +82,25 @@ const Chat = () => {
   }, [currentUser]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <Box pt={4} textAlign="center">
+        <CircularProgress />
+      </Box>
+    );
   }
 
   return (
-    <Container sx={{ pt: 10 }}>
-      <Stack direction="row" gap={4}>
+    <Container
+      sx={{
+        py: {
+          xs: 2,
+          md: 4,
+          lg: 10,
+        },
+        height: '100vh',
+      }}
+    >
+      <Stack direction="row" gap={4} height="100%">
         <ChatList chats={chats} />
         <Routes>
           <Route path="/" element={<div>Please Select A chat</div>} />

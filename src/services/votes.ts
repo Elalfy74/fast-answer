@@ -1,4 +1,4 @@
-import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc } from 'firebase/firestore';
 
 import { Vote } from '../data/types';
 import { db } from '../firebase-config';

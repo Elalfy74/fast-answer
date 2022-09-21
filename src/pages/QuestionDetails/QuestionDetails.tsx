@@ -1,4 +1,5 @@
 import { Alert, CircularProgress, Stack } from '@mui/material';
+import { useEffect } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 import { useParams } from 'react-router-dom';
 
@@ -11,7 +12,7 @@ const QuestionDetails = () => {
 
   const queryClient = useQueryClient();
 
-  const { data, isLoading, error, isFetching } = useQuery(
+  const { data, isLoading, error } = useQuery(
     ['question details', qId],
     getQuestionById,
     {
@@ -21,8 +22,10 @@ const QuestionDetails = () => {
         };
         if (questions) {
           let question;
-          questions.pages.forEach((group) => {
+          questions.pages.every((group) => {
             question = group.find((q) => q.id === qId);
+            if (question) return false;
+            return true;
           });
           if (question) {
             return question as QuestionType;
@@ -33,6 +36,10 @@ const QuestionDetails = () => {
       staleTime: 30000,
     }
   );
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   if (isLoading) {
     return (

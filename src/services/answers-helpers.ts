@@ -30,9 +30,12 @@ export const formatAllAnswers = async (
 ) => {
   const answersList: AnswerType[] = [];
 
-  for (let i = 0; i < answersDocs.length; i++) {
-    answersList.push(await formatAnswer(answersDocs[i]));
-  }
+  await Promise.all(
+    answersDocs.map(async (answer) => {
+      const formatedAnswer = await formatAnswer(answer);
+      answersList.push(formatedAnswer);
+    })
+  );
 
   for (let i = 0; i < answersList.length; i++) {
     // Assign upVotes and downVotes

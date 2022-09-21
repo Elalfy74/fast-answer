@@ -12,12 +12,15 @@ import {
   Timestamp,
   where,
 } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
 import { useAuth } from '../../contexts/AuthContext';
 import { User } from '../../data/types';
 import { db } from '../../firebase-config';
+import { useReactQuerySubscription } from '../../hooks/useReactQuerySubscription';
+import { getAllMessages } from '../../services/messages';
 import { Message } from '.';
 import { FormatedChat } from './Chat';
 
@@ -35,40 +38,37 @@ type ChatDetailsProps = {
 };
 
 const ChatDetails = ({ chats }: ChatDetailsProps) => {
-  const [Messages, setMessages] = useState<ReceviveMessage[]>();
   const [messageValue, setMessage] = useState('');
 
   const { currentUser } = useAuth();
   const { chatId } = useParams();
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // eslint-disable-next-line consistent-return
-  useEffect(() => {
-    if (currentUser) {
-      const { otherUser } = chats![0];
-      const chatRef = doc(db, 'chat', chatId!);
+  const otherUser = chats.find((chat) => chat.id === chatId)?.otherUser;
 
-      const q = query(
-        collection(db, 'messages'),
-        where('chat', '==', chatRef),
-        orderBy('creationTime')
-      );
-
-      const unsub = onSnapshot(q, (querySnapshot) => {
-        const receviveMesssages: ReceviveMessage[] = [];
-
-        querySnapshot.forEach((messageDoc) => {
-          receviveMesssages.push({
-            id: messageDoc.id,
-            ...messageDoc.data(),
-            senderData: otherUser,
-          } as ReceviveMessage);
-        });
-
-        setMessages(receviveMesssages);
-      });
-      return unsub;
+  const { data } = useQuery(
+    ['messages', chatId],
+    () =>
+      getAllMessages({
+        chatId: chatId!,
+        otherUser,
+      }),
+    {
+      staleTime: Infinity,
     }
-  }, [chats, currentUser, chatId]);
+  );
+
+  useEffect(() => {
+    const scrollToBottom = () => {
+      messagesEndRef.current?.scrollIntoView();
+    };
+    scrollToBottom();
+  }, [data]);
+
+  useReactQuerySubscription({
+    otherUser: otherUser!,
+    chatId: chatId!,
+  });
 
   const sendMessageHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -96,7 +96,7 @@ const ChatDetails = ({ chats }: ChatDetailsProps) => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        height: '800px',
+        height: '100%',
         flex: 1,
         bgcolor: 'white',
         borderRadius: '10px',
@@ -106,9 +106,10 @@ const ChatDetails = ({ chats }: ChatDetailsProps) => {
       }}
     >
       <Stack overflow="auto" px={2}>
-        {Messages?.map((message) => (
+        {data?.map((message) => (
           <Message key={message.id} message={message} />
         ))}
+        <div ref={messagesEndRef} />
       </Stack>
       <Box
         component="form"
