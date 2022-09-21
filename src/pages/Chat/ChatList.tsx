@@ -1,8 +1,13 @@
-import { List, Stack } from '@mui/material';
+import { List } from '@mui/material';
 
 import { ChatItem } from '.';
+import { FormatedChat } from './Chat';
 
-const ChatList = () => {
+type ChatListProps = {
+  chats: FormatedChat[];
+};
+
+const ChatList = ({ chats }: ChatListProps) => {
   return (
     <List
       component="ul"
@@ -16,11 +21,9 @@ const ChatList = () => {
         },
       }}
     >
-      <ChatItem />
-      <ChatItem />
-      <ChatItem />
-      <ChatItem />
-      {/* <ChatItem /> */}
+      {chats.map((chat) => (
+        <ChatItem key={chat.id} chat={chat} />
+      ))}
     </List>
   );
 };

@@ -1,8 +1,23 @@
 import { Avatar, Box, Stack, Typography } from '@mui/material';
 
-import avatar from '../../assets/avatar.jpg';
+import { useAuth } from '../../contexts/AuthContext';
+import { ReceviveMessage } from './ChatDetails';
 
-const Message = ({ mine }: { mine: boolean }) => {
+type MessageProps = {
+  message: ReceviveMessage;
+};
+
+const Message = ({ message }: MessageProps) => {
+  const { currentUser } = useAuth();
+
+  let mine = false;
+
+  if (currentUser) {
+    if (currentUser.uid === message.sender.id) {
+      mine = true;
+    }
+  }
+
   if (mine) {
     return (
       <Box
@@ -17,7 +32,7 @@ const Message = ({ mine }: { mine: boolean }) => {
         }}
       >
         <Typography variant="body2" color="white">
-          Lorem ipsum dolor sit amet.
+          {message.body}
         </Typography>
       </Box>
     );
@@ -25,18 +40,18 @@ const Message = ({ mine }: { mine: boolean }) => {
 
   return (
     <Box display="flex" mb={2}>
-      <Stack alignItems="center">
-        <Avatar
-          src={avatar}
-          sx={{
-            width: 50,
-            height: 50,
-          }}
-        />
-        <Typography variant="body2" fontWeight="500">
+      {/* <Stack alignItems="center"> */}
+      <Avatar
+        src={message.senderData.PhotoUrl || undefined}
+        sx={{
+          width: 50,
+          height: 50,
+        }}
+      />
+      {/* <Typography variant="body2" fontWeight="500">
           09:00
-        </Typography>
-      </Stack>
+        </Typography> */}
+      {/* </Stack> */}
       <Box
         ml={1}
         p={3}
@@ -46,7 +61,7 @@ const Message = ({ mine }: { mine: boolean }) => {
           borderTopLeftRadius: '0px',
         }}
       >
-        <Typography variant="body2">Lorem ipsum dolor sit amet.</Typography>
+        <Typography variant="body2">{message.body}</Typography>
       </Box>
     </Box>
   );

@@ -4,6 +4,7 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import AuthProvider, { useAuth } from './contexts/AuthContext';
+import ChatProvider, { useChat } from './contexts/ChatContext';
 import { theme } from './contexts/theme';
 import { SecondaryWrapper, Wrapper } from './layouts';
 import {
@@ -26,39 +27,39 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
+      {/* <ChatProvider> */}
       <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          {/* <ScriptsPlayground /> */}
-          <Routes>
-            <Route path="/" element={<Wrapper />}>
-              <Route path="/" element={<AllQuestions />} />
-            </Route>
-            <Route path="/questions/:qId" element={<Wrapper />}>
-              <Route path="/questions/:qId" element={<QuestionDetails />} />
-            </Route>
+        {/* <ScriptsPlayground /> */}
+        <Routes>
+          <Route path="/" element={<Wrapper />}>
+            <Route path="/" element={<AllQuestions />} />
+          </Route>
+          <Route path="/questions/:qId" element={<Wrapper />}>
+            <Route path="/questions/:qId" element={<QuestionDetails />} />
+          </Route>
 
-            <Route path="/user" element={<SecondaryWrapper />}>
-              <Route path="/user" element={<UserProfile />} />
-            </Route>
+          <Route path="/user" element={<SecondaryWrapper />}>
+            <Route path="/user" element={<UserProfile />} />
+          </Route>
 
-            <Route path="/ask-question" element={<AskQuestion />} />
-            <Route path="/edit-account" element={<EditAccount />} />
-            <Route path="/chat" element={<Chat />} />
+          <Route path="/ask-question" element={<AskQuestion />} />
+          <Route path="/edit-account" element={<EditAccount />} />
+          <Route path="/chat/*" element={<Chat />} />
 
-            <Route
-              path="/auth/login"
-              element={!currentUser ? <Login /> : <Navigate to="/" />}
-            />
-            <Route
-              path="/auth/signup"
-              element={!currentUser ? <Signup /> : <Navigate to="/" />}
-            />
-            {/* <Route path="*" element={<Navigate to="/not-found" />} />
+          <Route
+            path="/auth/login"
+            element={!currentUser ? <Login /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/auth/signup"
+            element={!currentUser ? <Signup /> : <Navigate to="/" />}
+          />
+          {/* <Route path="*" element={<Navigate to="/not-found" />} />
             <Routes path="/not-found" element={<NotFound />} /> */}
-          </Routes>
-        </AuthProvider>
+        </Routes>
         <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
       </QueryClientProvider>
+      {/* </ChatProvider> */}
     </ThemeProvider>
   );
 };

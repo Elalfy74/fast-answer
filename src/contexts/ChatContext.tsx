@@ -1,4 +1,3 @@
-import { Container, Stack } from '@mui/material';
 import {
   collection,
   doc,
@@ -6,16 +5,22 @@ import {
   DocumentReference,
   onSnapshot,
   query,
+  Timestamp,
   where,
 } from 'firebase/firestore';
-import { useEffect, useState } from 'react';
-import { Route, Routes, useParams } from 'react-router-dom';
+import { createContext, useContext, useEffect, useState } from 'react';
 
-import { useAuth } from '../../contexts/AuthContext';
-import { User } from '../../data/types';
-import { db } from '../../firebase-config';
-import { getUserByRef } from '../../services/users';
-import { ChatDetails, ChatList } from '.';
+import { User } from '../data/types';
+import { db } from '../firebase-config';
+import { getUserByRef } from '../services/users';
+import { useAuth } from './AuthContext';
+
+// type Message = {
+//   body: string;
+//   chat: DocumentReference<DocumentData>;
+//   creationTime: Timestamp;
+//   sender: DocumentReference<DocumentData>;
+// };
 
 type ReceviedChat = {
   id: string;
@@ -26,10 +31,24 @@ export type FormatedChat = ReceviedChat & {
   otherUser: User;
 };
 
-const Chat = () => {
+type Context = {
+  chats: FormatedChat[] | null;
+  loading: boolean;
+};
+
+const ChatContext = createContext<Context>({} as Context);
+
+export function useChat() {
+  return useContext(ChatContext);
+}
+
+type ChatProviderProps = {
+  children: React.ReactNode;
+};
+const ChatProvider = ({ children }: ChatProviderProps) => {
   const { currentUser } = useAuth();
-  const [chats, setChats] = useState<FormatedChat[]>([]);
-  const [isLoading, setLoading] = useState(true);
+  const [chats, setChats] = useState<FormatedChat[] | null>(null);
+  const [loading, setLoading] = useState(true);
 
   // eslint-disable-next-line consistent-return
   useEffect(() => {
@@ -42,6 +61,7 @@ const Chat = () => {
           );
           if (otherUser) {
             const otherUserData = await getUserByRef(otherUser);
+            // console.log(otherUserData);
             formatedChat.push({
               ...chatResult[i],
               otherUser: otherUserData,
@@ -80,21 +100,17 @@ const Chat = () => {
     }
   }, [currentUser]);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  // eslint-disable-next-line react/jsx-no-constructed-context-values
+  const value = {
+    loading,
+    chats,
+  };
 
   return (
-    <Container sx={{ pt: 10 }}>
-      <Stack direction="row" gap={4}>
-        <ChatList chats={chats} />
-        <Routes>
-          <Route path="/" element={<div>Please Select A chat</div>} />
-          <Route path=":chatId" element={<ChatDetails chats={chats} />} />
-        </Routes>
-      </Stack>
-    </Container>
+    <ChatContext.Provider value={value}>
+      {!loading && children}
+    </ChatContext.Provider>
   );
 };
 
-export default Chat;
+export default ChatProvider;
