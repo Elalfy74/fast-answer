@@ -23,7 +23,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { Logo } from '../components';
 import { useAuth } from '../contexts/AuthContext';
 
-const LeftSideBarList = [
+export const LeftSideBarList = [
   // {
   //   label: 'Home',
   //   icon: <Feed />,

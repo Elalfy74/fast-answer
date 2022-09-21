@@ -1,11 +1,12 @@
 import {
   Avatar,
   Box,
+  Divider,
   ListItem,
   ListItemButton,
   Typography,
 } from '@mui/material';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import { FormatedChat } from '../../contexts/ChatContext';
 
@@ -15,70 +16,71 @@ type ChatItemProps = {
 
 const ChatItem = ({ chat }: ChatItemProps) => {
   return (
-    <ListItem
-      disablePadding
-      sx={{
-        mt: 0.4,
-      }}
-    >
-      <NavLink
-        to={chat.id}
-        style={(navData) =>
-          navData.isActive
-            ? {
-                backgroundColor: 'rgba(0, 0, 0, 0.08)',
-                borderRadius: '10px',
-                margin: '0 8px',
-              }
-            : {
-                borderRadius: '10px',
-                margin: '0 8px',
-              }
-        }
+    <>
+      <ListItem
+        disablePadding
+        sx={{
+          mt: 0.4,
+          width: '100%',
+          display: 'flex',
+          justifyContent: {
+            xs: 'flex-start',
+            md: 'center',
+          },
+        }}
       >
-        <ListItemButton
-          sx={{
-            borderRadius: '10px',
-          }}
+        <NavLink
+          to={chat.id}
+          style={(navData) =>
+            navData.isActive
+              ? {
+                  backgroundColor: 'rgba(0, 0, 0, 0.08)',
+                  borderRadius: '10px',
+                  width: '90%',
+                  margin: '0 auto',
+                }
+              : {
+                  borderRadius: '10px',
+                  width: '90%',
+                  margin: '0 auto',
+                }
+          }
         >
-          <Box display="flex" mb={1.1} alignItems="center" gap={2}>
-            <Avatar
-              src={chat.otherUser.PhotoUrl || undefined}
-              sx={{
-                width: 50,
-                height: 50,
-              }}
-            />
-            <Box
-              sx={{
-                display: 'flex',
-                py: 1.1,
-                // borderBottom: '1px solid',
-                // borderBottomColor: 'divider',
-              }}
-            >
-              <Box mr={2}>
-                <Typography variant="h6">
-                  {chat.otherUser.FirstName} {chat.otherUser.LastName || ''}
-                </Typography>
-                <Typography variant="caption" color="gray">
-                  Lorem ipsum dolor sit amet.
-                </Typography>
-              </Box>
-              <Typography
-                variant="body2"
+          <ListItemButton
+            sx={{
+              borderRadius: '10px',
+              px: {
+                md: 2,
+                lg: 4,
+              },
+              width: '100%',
+            }}
+          >
+            <Box display="flex" mb={1.1} alignItems="center" gap={2}>
+              <Avatar
+                src={chat.otherUser.PhotoUrl || undefined}
                 sx={{
-                  fontWeight: '500',
-                  alignSelf: 'flex-start',
+                  width: 50,
+                  height: 50,
                 }}
-              >
-                09:00
+              />
+              <Typography variant="h6">
+                {chat.otherUser.FirstName} {chat.otherUser.LastName || ''}
               </Typography>
             </Box>
-          </Box>
-        </ListItemButton>
-      </NavLink>
-    </ListItem>
+          </ListItemButton>
+        </NavLink>
+      </ListItem>
+      <Divider
+        sx={{
+          width: '90%',
+          m: '10px auto',
+          display: {
+            md: 'none',
+          },
+        }}
+      />
+    </>
   );
 };
 

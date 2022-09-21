@@ -44,7 +44,10 @@ const App = () => {
 
           <Route path="/ask-question" element={<AskQuestion />} />
           <Route path="/edit-account" element={<EditAccount />} />
+
+          {/* <Route path="/chat/*" element={<ChatWrapper />}> */}
           <Route path="/chat/*" element={<Chat />} />
+          {/* </Route> */}
 
           <Route
             path="/auth/login"

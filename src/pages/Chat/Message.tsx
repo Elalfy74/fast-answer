@@ -29,9 +29,16 @@ const Message = ({ message }: MessageProps) => {
           p: 3,
           borderRadius: '20px',
           borderTopRightRadius: '0px',
+          maxWidth: '80%',
         }}
       >
-        <Typography variant="body2" color="white">
+        <Typography
+          variant="body2"
+          color="white"
+          sx={{
+            wordBreak: 'break-all',
+          }}
+        >
           {message.body}
         </Typography>
       </Box>

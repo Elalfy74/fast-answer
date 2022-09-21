@@ -10,14 +10,19 @@ type ChatListProps = {
 const ChatList = ({ chats }: ChatListProps) => {
   return (
     <List
-      component="ul"
       sx={{
         bgcolor: 'white',
         borderRadius: '10px',
-        pt: 0.6,
-        display: {
-          xs: 'none',
-          md: 'block',
+        pt: {
+          xs: 2.5,
+          md: 0.6,
+        },
+        minWidth: {
+          md: '320px',
+        },
+        width: {
+          xs: '100%',
+          md: 'auto',
         },
       }}
     >
