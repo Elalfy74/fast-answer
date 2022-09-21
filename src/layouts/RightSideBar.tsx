@@ -8,17 +8,14 @@ const RightSideBar = () => {
   return (
     <Stack
       spacing={4}
-      borderRadius="8px"
-      bgcolor="white"
-      height="400px"
-      p="8px"
       sx={{
+        width: '230px',
         position: 'sticky',
         top: 20,
       }}
     >
       {/* LeaderBoard */}
-      <Box borderRadius="8px" bgcolor="white" height="400px" p="8px">
+      <Box borderRadius="8px" bgcolor="white" height="320px" pt="8px">
         {/* Leader Board Header */}
         <Stack
           direction="row"
@@ -27,19 +24,19 @@ const RightSideBar = () => {
           sx={{ mb: 0.5 }}
         >
           <LeaderboardIcon fontSize="small" color="primary" />
-          <Typography sx={{ fontWeight: '500', fontSize: '18px' }}>
+          <Typography sx={{ fontWeight: '500', fontSize: '16px' }}>
             LeaderBoard
           </Typography>
         </Stack>
         <Divider />
 
         {/* Leader Board Memebers */}
-        <Stack sx={{ mt: 1 }} spacing={2} alignItems="center">
+        <Stack spacing={2} alignItems="center" sx={{ mt: 2 }}>
           <Stack direction="row" gap={1} alignItems="center">
             <Avatar
               alt="user avatar"
               src={avatar}
-              sx={{ width: 30, height: 30 }}
+              sx={{ width: 35, height: 35 }}
             />
             <Stack>
               <Typography sx={{ fontSize: '14px', fontWeight: '500' }}>
@@ -55,7 +52,7 @@ const RightSideBar = () => {
             <Avatar
               alt="user avatar"
               src={avatar}
-              sx={{ width: 30, height: 30 }}
+              sx={{ width: 35, height: 35 }}
             />
             <Stack>
               <Typography sx={{ fontSize: '14px', fontWeight: '500' }}>
@@ -70,7 +67,7 @@ const RightSideBar = () => {
       </Box>
 
       {/* Trending Questions */}
-      <Box borderRadius="8px" bgcolor="white" height="400px" p="8px">
+      <Box borderRadius="8px" bgcolor="white" height="320px" pt="8px">
         {/* Header */}
         <Stack
           direction="row"
@@ -79,17 +76,20 @@ const RightSideBar = () => {
           sx={{ mb: 0.5 }}
         >
           <TrendingUpIcon fontSize="small" color="success" />
-          <Typography sx={{ fontWeight: '500', fontSize: '18px' }}>
+          <Typography sx={{ fontWeight: '500', fontSize: '16px' }}>
             Trending Questions
           </Typography>
         </Stack>
         <Divider />
         {/* Questions */}
-        <Stack spacing={2} alignItems="center" sx={{ mt: 2 }}>
-          <Stack>
-            <Typography sx={{ fontSize: '16px', fontWeight: '500' }}>
-              How to create horizontal carousel in JavaScript?
-            </Typography>
+        {/* ! Can't center this stack, so I made a margin left */}
+        <Stack spacing={2} sx={{ mt: 2, ml: 1.5 }}>
+          <Stack gap={0.5}>
+            <Box>
+              <Typography sx={{ fontSize: '16px', fontWeight: '500' }}>
+                How to create horizontal carousel in JavaScript?
+              </Typography>
+            </Box>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
               <Typography
                 sx={{
@@ -105,11 +105,12 @@ const RightSideBar = () => {
               </Typography>
             </Box>
           </Stack>
-
-          <Box>
-            <Typography sx={{ fontSize: '16px', fontWeight: '500' }}>
-              How to create horizontal carousel in JavaScript?
-            </Typography>
+          <Stack gap={0.5}>
+            <Box>
+              <Typography sx={{ fontSize: '16px', fontWeight: '500' }}>
+                How to create horizontal carousel in JavaScript?
+              </Typography>
+            </Box>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
               <Typography
                 sx={{
@@ -124,12 +125,13 @@ const RightSideBar = () => {
                 Mahmoud Ramadan
               </Typography>
             </Box>
-          </Box>
-
-          <Box>
-            <Typography sx={{ fontSize: '16px', fontWeight: '500' }}>
-              How to create horizontal carousel in JavaScript?
-            </Typography>
+          </Stack>
+          <Stack gap={0.5}>
+            <Box>
+              <Typography sx={{ fontSize: '16px', fontWeight: '500' }}>
+                How to create horizontal carousel in JavaScript?
+              </Typography>
+            </Box>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
               <Typography
                 sx={{
@@ -144,7 +146,7 @@ const RightSideBar = () => {
                 Mahmoud Ramadan
               </Typography>
             </Box>
-          </Box>
+          </Stack>
         </Stack>
       </Box>
     </Stack>
