@@ -8,8 +8,14 @@ import {
   Tag,
   TagOutlined,
 } from '@mui/icons-material';
-import { BottomNavigation, BottomNavigationAction, Paper } from '@mui/material';
+import {
+  BottomNavigation,
+  BottomNavigationAction,
+  Box,
+  Paper,
+} from '@mui/material';
 import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
 const BottomList = [
   {
@@ -22,24 +28,23 @@ const BottomList = [
     label: 'Favourites',
     activeIcon: <Bookmark />,
     icon: <BookmarkBorderOutlined />,
-    path: '/',
+    path: '/favorites',
   },
   {
     label: 'Tags',
     activeIcon: <Tag />,
     icon: <TagOutlined />,
-    path: '/',
+    path: '/tags',
   },
   {
-    label: 'Account',
+    label: 'Profile',
     activeIcon: <Person />,
     icon: <PersonOutlined />,
-    path: '/',
+    path: '/user',
   },
 ];
 
 const BottomNavigationBar = () => {
-  const [value, setValue] = useState(0);
   return (
     <Paper
       sx={{
@@ -54,21 +59,28 @@ const BottomNavigationBar = () => {
       }}
       elevation={3}
     >
-      <BottomNavigation
-        showLabels
-        value={value}
-        onChange={(event, newValue) => {
-          setValue(newValue);
+      <Box
+        sx={{
+          display: 'flex',
+          pt: 2,
+          justifyContent: 'space-around',
         }}
       >
-        {BottomList.map((link, index) => (
-          <BottomNavigationAction
-            key={link.label}
-            label={link.label}
-            icon={value === index ? link.activeIcon : link.icon}
-          />
+        {BottomList.map((link) => (
+          <NavLink to={link.path} key={link.label} end>
+            {({ isActive }) => (
+              <BottomNavigationAction
+                label={link.label}
+                showLabel
+                icon={isActive ? link.activeIcon : link.icon}
+                sx={{
+                  color: isActive ? 'primary.main' : 'text.secondary',
+                }}
+              />
+            )}
+          </NavLink>
         ))}
-      </BottomNavigation>
+      </Box>
     </Paper>
   );
 };

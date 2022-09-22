@@ -127,7 +127,7 @@ function Question({ question }: QuestionProps) {
             </Box>
           </Box>
           {/* Tags */}
-          <TagsList tags={question.tags} />
+          <TagsList tags={question.tags} align />
         </Box>
         {/* End of Tags And User Display */}
       </CardContent>

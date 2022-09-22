@@ -13,6 +13,7 @@ import {
   startAfter,
   Timestamp,
 } from 'firebase/firestore';
+import moment from 'moment';
 import { QueryFunctionContext } from 'react-query';
 
 import { QuestionType, Tag } from '../data/types';
@@ -81,11 +82,18 @@ export const saveQuestion = async (params: QuestionParams) => {
 
   const savedQuestion = await addDoc(questionsCollectionRef, formatedQuestion);
 
+  const authorData = await getDoc(doc(db, 'users', authorId));
+  const formatedDate = moment.unix(currentTime.seconds).fromNow();
+
   return {
     ...formatedQuestion,
+    author: authorData.data(),
+    creationTime: formatedDate,
     id: savedQuestion.id,
     tags,
-  };
+    upVotes: 0,
+    downVotes: 0,
+  } as QuestionType;
 };
 
 export const saveFakeQuestion = async (

@@ -3,8 +3,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-import AuthProvider, { useAuth } from './contexts/AuthContext';
-import ChatProvider, { useChat } from './contexts/ChatContext';
+import { useAuth } from './contexts/AuthContext';
 import { theme } from './contexts/theme';
 import { SecondaryWrapper, Wrapper } from './layouts';
 import {
@@ -38,7 +37,7 @@ const App = () => {
             <Route path="/questions/:qId" element={<QuestionDetails />} />
           </Route>
 
-          <Route path="/user" element={<SecondaryWrapper />}>
+          <Route element={<SecondaryWrapper />}>
             <Route path="/user" element={<UserProfile />} />
           </Route>
 

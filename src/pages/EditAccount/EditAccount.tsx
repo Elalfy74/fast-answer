@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import EditIcon from '@mui/icons-material/Edit';
 import {
   Avatar,

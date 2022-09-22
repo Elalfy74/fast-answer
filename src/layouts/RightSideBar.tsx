@@ -115,6 +115,7 @@ const RightSideBar = () => {
       </Box>
 
       {/* Trending Questions */}
+
       <Box borderRadius="8px" bgcolor="white" height="320px" pt="8px">
         {/* Header */}
         <Stack

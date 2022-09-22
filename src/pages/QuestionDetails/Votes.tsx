@@ -1,8 +1,14 @@
 import { PlayArrow, PlayArrowOutlined } from '@mui/icons-material';
-import { IconButton, Stack } from '@mui/material';
+import { IconButton, Stack, Typography } from '@mui/material';
 import { doc, DocumentData, DocumentReference } from 'firebase/firestore';
 import { useState } from 'react';
 
+import {
+  DownVote,
+  DownVoteOutlined,
+  UpVote,
+  UpVoteOutlined,
+} from '../../components/svg';
 import { useAuth } from '../../contexts/AuthContext';
 import { Vote } from '../../data/types';
 import { db } from '../../firebase-config';
@@ -71,14 +77,11 @@ const Votes = ({ type, id, votes }: VotesProps) => {
   return (
     <Stack direction="row" gap={2} mt={2}>
       <Stack direction="row" alignItems="center">
-        {upVotes}{' '}
+        <Typography component="span" width={15}>
+          {upVotes}{' '}
+        </Typography>
         {isVoted?.value === 'up' ? (
-          <PlayArrow
-            color="primary"
-            sx={{
-              transform: 'rotate(-90deg)',
-            }}
-          />
+          <UpVote />
         ) : (
           <IconButton
             disabled={loading}
@@ -86,23 +89,16 @@ const Votes = ({ type, id, votes }: VotesProps) => {
             disableRipple
             size="small"
           >
-            <PlayArrowOutlined
-              sx={{
-                transform: 'rotate(-90deg)',
-              }}
-            />
+            <UpVoteOutlined />
           </IconButton>
         )}
       </Stack>
       <Stack direction="row" alignItems="center">
-        {downVotes}{' '}
+        <Typography component="span" width={15}>
+          {downVotes}{' '}
+        </Typography>
         {isVoted?.value === 'down' ? (
-          <PlayArrow
-            color="primary"
-            sx={{
-              transform: 'rotate(90deg)',
-            }}
-          />
+          <DownVote />
         ) : (
           <IconButton
             disabled={loading}
@@ -110,11 +106,7 @@ const Votes = ({ type, id, votes }: VotesProps) => {
             disableRipple
             size="small"
           >
-            <PlayArrowOutlined
-              sx={{
-                transform: 'rotate(90deg)',
-              }}
-            />
+            <DownVoteOutlined />
           </IconButton>
         )}
       </Stack>
