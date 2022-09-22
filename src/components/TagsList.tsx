@@ -14,7 +14,6 @@ const TagsList = ({ tags }: TagsListProps) => {
         display: 'flex',
         flexWrap: 'wrap',
         gap: 1,
-        justifyContent: 'flex-end',
       }}
     >
       {tags.map((tag) => (
