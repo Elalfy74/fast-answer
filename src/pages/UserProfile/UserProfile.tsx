@@ -49,7 +49,6 @@ const UserProfile = () => {
           sx={{
             width: 200,
             height: 200,
-            mb: 2,
           }}
         />
         <Divider
