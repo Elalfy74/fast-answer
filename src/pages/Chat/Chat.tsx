@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Container, Stack } from '@mui/material';
+import { Box, CircularProgress, Container, Grid, Stack } from '@mui/material';
 import {
   collection,
   doc,
@@ -9,11 +9,13 @@ import {
   where,
 } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useParams } from 'react-router-dom';
 
 import { useAuth } from '../../contexts/AuthContext';
 import { User } from '../../data/types';
 import { db } from '../../firebase-config';
+import { MiniLeftSideBar } from '../../layouts';
+import BottomNavigationBar from '../../layouts/BottomNavigationBar';
 import { getUserByRef } from '../../services/users';
 import { ChatDetails, ChatList } from '.';
 
@@ -27,6 +29,11 @@ export type FormatedChat = ReceviedChat & {
 };
 
 const Chat = () => {
+  const [mobile, setMobile] = useState(true);
+  const [sm, setSm] = useState(true);
+
+  const param = useParams();
+
   const { currentUser } = useAuth();
   const [chats, setChats] = useState<FormatedChat[]>([]);
   const [isLoading, setLoading] = useState(true);
@@ -81,6 +88,15 @@ const Chat = () => {
     }
   }, [currentUser]);
 
+  useEffect(() => {
+    if (window.innerWidth > 600) {
+      setMobile(false);
+    }
+    if (window.innerWidth > 900) {
+      setSm(false);
+    }
+  }, []);
+
   if (isLoading) {
     return (
       <Box pt={4} textAlign="center">
@@ -91,22 +107,70 @@ const Chat = () => {
 
   return (
     <Container
+      maxWidth="lg"
       sx={{
         py: {
-          xs: 2,
-          md: 4,
-          lg: 10,
+          xs: 0,
+          sm: '20px',
         },
         height: '100vh',
+        px: {
+          xs: 0,
+          sm: 1,
+          md: 2,
+        },
       }}
     >
-      <Stack direction="row" gap={4} height="100%">
-        <ChatList chats={chats} />
-        <Routes>
-          <Route path="/" element={<div>Please Select A chat</div>} />
-          <Route path=":chatId" element={<ChatDetails chats={chats} />} />
-        </Routes>
-      </Stack>
+      <Grid
+        container
+        columnSpacing={{ xs: 3, lg: 4 }}
+        sx={{
+          height: '100%',
+          width: '100%',
+        }}
+      >
+        {!mobile && (
+          <Grid item sm={1.5}>
+            <MiniLeftSideBar />
+          </Grid>
+        )}
+        <Grid
+          item
+          xs={12}
+          sm={10.5}
+          sx={{
+            height: '100%',
+          }}
+        >
+          <Stack
+            direction="row"
+            gap={3}
+            sx={{
+              height: '100%',
+            }}
+          >
+            {((sm && !param['*']) || !sm) && (
+              <>
+                <ChatList chats={chats} />
+                {mobile && <BottomNavigationBar />}
+              </>
+            )}
+            {((sm && param['*']) || !sm) && (
+              <Routes>
+                <Route
+                  path="/"
+                  element={
+                    <Box mx="auto" mt={20}>
+                      Please Select A chat
+                    </Box>
+                  }
+                />
+                <Route path=":chatId" element={<ChatDetails chats={chats} />} />
+              </Routes>
+            )}
+          </Stack>
+        </Grid>
+      </Grid>
     </Container>
   );
 };

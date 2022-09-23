@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 
 import MDEditorField from '../../components/MDEditorField';
 import { useAuth } from '../../contexts/AuthContext';
-import { Tag } from '../../data/types';
+import { QuestionType, Tag } from '../../data/types';
 import { saveQuestion } from '../../services/questions';
 import { getTagsByQuery } from '../../services/tags';
 import { MarginBox, SecondHeader, Title } from './CustomComponents';
@@ -36,8 +36,14 @@ const AskQuestion = () => {
   const queryClient = useQueryClient();
 
   const { mutate, isLoading, error } = useMutation(saveQuestion, {
-    onSuccess: async () => {
-      queryClient.invalidateQueries('questions');
+    onSuccess: (newQues) => {
+      queryClient.setQueryData('questions', (questions: any) => {
+        if (questions) {
+          const newQuestions = { ...questions };
+          newQuestions.pages[0].unshift(newQues);
+          return newQuestions;
+        }
+      });
       navigate('/');
     },
   });

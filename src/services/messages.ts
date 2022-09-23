@@ -1,9 +1,11 @@
 import {
+  addDoc,
   collection,
   doc,
   getDocs,
   orderBy,
   query,
+  Timestamp,
   where,
 } from 'firebase/firestore';
 
@@ -30,4 +32,28 @@ export const getAllMessages = async ({ chatId, otherUser }: any) => {
   });
 
   return formatedMessages;
+};
+
+type SaveMessageParams = {
+  body: string;
+  chatId: string;
+  userId: string;
+};
+
+export const saveMessage = async ({
+  body,
+  chatId,
+  userId,
+}: SaveMessageParams) => {
+  const chatRef = doc(db, 'chat', chatId!);
+  const userRef = doc(db, 'users', userId);
+
+  const message = {
+    body,
+    creationTime: Timestamp.now(),
+    sender: userRef,
+    chat: chatRef,
+  };
+
+  await addDoc(collection(db, 'messages'), message);
 };

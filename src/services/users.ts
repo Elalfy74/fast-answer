@@ -5,11 +5,14 @@ import {
   DocumentReference,
   getDoc,
   getDocs,
+  orderBy,
+  query,
   setDoc,
 } from 'firebase/firestore';
 
 import { User } from '../data/types';
 import { db } from '../firebase-config';
+import { getLastThreeDaysAnswers } from './answers';
 
 const usersCollectionRef = collection(db, 'users');
 
@@ -52,4 +55,36 @@ export const saveUserData = async (user: {
     PhoneNumber: null,
   };
   await setDoc(doc(usersCollectionRef, user.userId), newUser);
+};
+
+export const getTopUsers = async () => {
+  const asnwersOfLastThreeDays = await getLastThreeDaysAnswers();
+
+  if (asnwersOfLastThreeDays.length === 0) {
+    return [];
+  }
+  const countsOfUsers: {
+    [key: string]: number;
+  } = {};
+
+  asnwersOfLastThreeDays.forEach((answer) => {
+    countsOfUsers[answer.author.id] = countsOfUsers[answer.author.id]
+      ? countsOfUsers[answer.author.id] + 1
+      : 1;
+  });
+
+  const sortedUsers = Object.keys(countsOfUsers).sort(
+    (a, b) => countsOfUsers[b] - countsOfUsers[a]
+  );
+
+  sortedUsers.splice(3);
+
+  const topUsersData = await Promise.all(
+    sortedUsers.map(async (userId) => {
+      const user = await getUserByRef(doc(db, 'users', userId));
+      return { ...user, answersCount: countsOfUsers[userId] };
+    })
+  );
+
+  return topUsersData;
 };
