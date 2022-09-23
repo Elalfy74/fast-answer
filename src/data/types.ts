@@ -47,6 +47,7 @@ export type QuestionType = Omit<
 > & {
   author: User;
   tags: Tag[];
+  answersNumber: number;
   creationTime: string;
   upVotes: number;
   downVotes: number;

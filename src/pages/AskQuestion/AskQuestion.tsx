@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 
 import MDEditorField from '../../components/MDEditorField';
 import { useAuth } from '../../contexts/AuthContext';
-import { QuestionType, Tag } from '../../data/types';
+import { Tag } from '../../data/types';
 import { saveQuestion } from '../../services/questions';
 import { getTagsByQuery } from '../../services/tags';
 import { MarginBox, SecondHeader, Title } from './CustomComponents';

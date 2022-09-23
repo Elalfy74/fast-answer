@@ -12,21 +12,23 @@ const GoogleLogin = () => {
 
   const { mutate, isLoading } = useMutation(signInWithGoogle, {
     onSuccess: async (data) => {
-      console.log(data.user);
-
       const userRef = doc(db, 'users', data.user.uid);
 
       const user = await getUserByRef(userRef);
 
-      if (!user) {
-        saveUserData({
+      const displayNameAsArray = data.user.displayName?.split(' ');
+
+      if (!user.Email) {
+        await saveUserData({
           userId: data.user.uid,
           Email: data.user.email!,
-          FirstName: data.user.displayName!,
+          FirstName: displayNameAsArray![0],
+          LastName: displayNameAsArray ? displayNameAsArray[1] : undefined,
         });
       }
     },
   });
+
   const signInWithGoogleHandler = () => {
     mutate();
   };

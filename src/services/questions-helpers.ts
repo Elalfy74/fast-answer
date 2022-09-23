@@ -7,6 +7,7 @@ import moment from 'moment';
 
 import { QuestionType, ReceivedQuestionType, Tag } from '../data/types';
 import { getVotesNumber } from '../utils/votes';
+import { getAnswersOfQuestion } from './answers';
 import { getTags } from './tags';
 import { getUserByRef } from './users';
 
@@ -25,6 +26,8 @@ export const formatQuestion = async (
 
   const author = await getUserByRef(questionData.author);
 
+  const answersNumber = await getAnswersOfQuestion(question.id);
+
   let upVotes = 0;
   let downVotes = 0;
 
@@ -37,6 +40,7 @@ export const formatQuestion = async (
     ...questionData,
     author,
     tags,
+    answersNumber: answersNumber.length,
     creationTime: formatedDate,
     upVotes,
     downVotes,

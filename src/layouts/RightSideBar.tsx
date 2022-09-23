@@ -37,7 +37,6 @@ const RightSideBar = () => {
     <Stack
       spacing={4}
       sx={{
-        width: '230px',
         position: 'sticky',
         top: 20,
       }}
@@ -52,27 +51,76 @@ const RightSideBar = () => {
           sx={{ mb: 0.5 }}
         >
           <LeaderboardIcon fontSize="small" color="primary" />
-          <Typography sx={{ fontWeight: '500', fontSize: '16px' }}>
+          <Typography
+            sx={{
+              fontWeight: '500',
+              fontSize: {
+                md: '13px',
+                lg: '16px',
+              },
+            }}
+          >
             LeaderBoard
           </Typography>
         </Stack>
         <Divider />
 
         {/* Leader Board Memebers */}
-        <Stack spacing={2} sx={{ mt: 1.5, px: 3 }}>
-          {usersLoading && <CircularProgress size={20} />}
+        <Stack
+          spacing={2}
+          sx={{
+            mt: 1.5,
+            px: {
+              md: 1,
+              lg: 3,
+            },
+          }}
+        >
+          {usersLoading && (
+            <CircularProgress
+              size={20}
+              sx={{
+                mx: 'auto',
+              }}
+            />
+          )}
           {topUsers?.map((user) => (
             <Stack direction="row" gap={1} alignItems="center" key={user.id}>
               <Avatar
                 alt="user avatar"
                 src={user.PhotoUrl || undefined}
-                sx={{ width: 35, height: 35 }}
+                sx={{
+                  width: {
+                    md: 30,
+                    lg: 35,
+                  },
+                  height: {
+                    md: 30,
+                    lg: 35,
+                  },
+                }}
               />
               <Stack>
-                <Typography sx={{ fontSize: '14px', fontWeight: '500' }}>
+                <Typography
+                  sx={{
+                    fontSize: {
+                      md: '12px',
+                      lg: '14px',
+                    },
+                    fontWeight: '500',
+                  }}
+                >
                   {user.FirstName} {user.LastName || ''}
                 </Typography>
-                <Typography color="text.secondary" sx={{ fontSize: '12px' }}>
+                <Typography
+                  color="text.secondary"
+                  sx={{
+                    fontSize: {
+                      md: '10px',
+                      lg: '12px',
+                    },
+                  }}
+                >
                   {user.answersCount} Contrubutions
                 </Typography>
               </Stack>
@@ -89,17 +137,26 @@ const RightSideBar = () => {
           direction="row"
           spacing={1}
           justifyContent="center"
+          alignItems="center"
           sx={{ mb: 0.5 }}
         >
           <TrendingUpIcon fontSize="small" color="success" />
-          <Typography sx={{ fontWeight: '500', fontSize: '16px' }}>
+          <Typography
+            sx={{
+              fontWeight: '500',
+              fontSize: {
+                md: '13px',
+                lg: '16px',
+              },
+            }}
+          >
             Trending Questions
           </Typography>
         </Stack>
         <Divider />
         {/* Questions */}
         {/* ! Can't center this stack, so I made a margin left */}
-        <Stack spacing={2} width="90%" sx={{ mt: 1.5, mx: 'auto' }}>
+        <Stack spacing={2} sx={{ mt: 1.5, px: 2 }}>
           {isLoading && (
             <CircularProgress
               size={20}
@@ -111,11 +168,21 @@ const RightSideBar = () => {
           {data?.map((question) => (
             <Stack gap={0.5} key={question.id}>
               <Link to={`/questions/${question.id}`}>
-                <Typography sx={{ fontSize: '16px', fontWeight: '500' }}>
+                <Typography
+                  color="primary.main"
+                  sx={{ fontSize: '14px', fontWeight: '500' }}
+                >
                   {question.title}
                 </Typography>
               </Link>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  flexWrap: 'wrap',
+                }}
+              >
                 <Typography
                   sx={{
                     color: 'text.secondary',

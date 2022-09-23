@@ -20,11 +20,8 @@ import { getUserByRef } from './users';
 const answersCollectionRef = collection(db, 'answers');
 
 // Start Of APIS
-export const getAllAnswersOfQuestion = async ({
-  queryKey,
-}: QueryFunctionContext<[string, string | null | undefined]>) => {
-  const qId = queryKey[1]!;
-
+// Only the docs
+export const getAnswersOfQuestion = async (qId: string) => {
   const questionRef = doc(db, 'questions', qId);
 
   const answersQuery = query(
@@ -35,7 +32,18 @@ export const getAllAnswersOfQuestion = async ({
 
   const answersFromServer = await getDocs(answersQuery);
 
-  const answersList = await formatAllAnswers(answersFromServer.docs);
+  return answersFromServer.docs;
+};
+
+// The answers with the users
+export const getAllAnswersOfQuestion = async ({
+  queryKey,
+}: QueryFunctionContext<[string, string | null | undefined]>) => {
+  const qId = queryKey[1]!;
+
+  const answersFromServer = await getAnswersOfQuestion(qId);
+
+  const answersList = await formatAllAnswers(answersFromServer);
 
   return answersList;
 };

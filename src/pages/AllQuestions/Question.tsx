@@ -68,14 +68,14 @@ function Question({ question }: QuestionProps) {
             </Stack>
             {/* Answers */}
             <Box mb={1} display="flex" alignItems="center" color="#0FA958">
-              <Typography sx={{ mr: 0.5 }}>13</Typography>
+              <Typography sx={{ mr: 0.5 }}>{question.answersNumber}</Typography>
               <Forum fontSize="small" />
             </Box>
             {/* Views */}
-            <Box display="flex" alignItems="center" color="#E4A951">
+            {/* <Box display="flex" alignItems="center" color="#E4A951">
               <Typography sx={{ mr: 0.5 }}>13</Typography>
               <Visibility fontSize="small" />
-            </Box>
+            </Box> */}
           </Box>
           {/* End of UpVotes */}
         </Stack>
