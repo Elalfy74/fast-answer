@@ -8,25 +8,13 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import {
-  addDoc,
-  collection,
-  doc,
-  DocumentData,
-  DocumentReference,
-  onSnapshot,
-  orderBy,
-  query,
-  Timestamp,
-  where,
-} from 'firebase/firestore';
+import { DocumentData, DocumentReference, Timestamp } from 'firebase/firestore';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { useAuth } from '../../contexts/AuthContext';
 import { User } from '../../data/types';
-import { db } from '../../firebase-config';
 import { useReactQuerySubscription } from '../../hooks/useReactQuerySubscription';
 import { getAllMessages, saveMessage } from '../../services/messages';
 import { Message } from '.';

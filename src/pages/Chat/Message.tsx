@@ -1,4 +1,4 @@
-import { Avatar, Box, Stack, Typography } from '@mui/material';
+import { Avatar, Box, Typography } from '@mui/material';
 
 import { useAuth } from '../../contexts/AuthContext';
 import { ReceviveMessage } from './ChatDetails';
