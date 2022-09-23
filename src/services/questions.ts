@@ -12,12 +12,14 @@ import {
   QueryDocumentSnapshot,
   startAfter,
   Timestamp,
+  where,
 } from 'firebase/firestore';
 import moment from 'moment';
 import { QueryFunctionContext } from 'react-query';
 
 import { QuestionType, Tag } from '../data/types';
 import { db } from '../firebase-config';
+import { getLastThreeDaysDate } from '../utils/last-week-date';
 import { formatAllQuestions, formatQuestion } from './questions-helpers';
 
 const questionsCollectionRef = collection(db, 'questions');
@@ -137,4 +139,22 @@ export const getAllQuestionsIds = async () => {
     ids.push(question.id);
   });
   return ids;
+};
+
+export const getFeaturedQuestions = async () => {
+  const q = query(
+    questionsCollectionRef,
+    where('creationTime', '>', getLastThreeDaysDate()),
+    orderBy('creationTime', 'desc')
+  );
+  const questionsFromServer = await getDocs(q);
+  const questionsList: QuestionType[] = await formatAllQuestions(
+    questionsFromServer.docs
+  );
+
+  questionsList.sort((a, b) => a.upVotes - b.upVotes);
+
+  questionsList.splice(3);
+
+  return questionsList;
 };

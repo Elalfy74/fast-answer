@@ -11,8 +11,9 @@ import {
 import moment from 'moment';
 import { QueryFunctionContext } from 'react-query';
 
-import { AnswerType } from '../data/types';
+import { AnswerType, RececviedAnswerType } from '../data/types';
 import { db } from '../firebase-config';
+import { getLastThreeDaysDate } from '../utils/last-week-date';
 import { formatAllAnswers } from './answers-helpers';
 import { getUserByRef } from './users';
 
@@ -67,4 +68,25 @@ export const saveAnswer = async ({
     upVotes: 0,
     downVotes: 0,
   } as AnswerType;
+};
+
+export const getLastThreeDaysAnswers = async () => {
+  const q = query(
+    answersCollectionRef,
+    where('creationTime', '>', getLastThreeDaysDate()),
+    orderBy('creationTime', 'desc')
+  );
+
+  const answersFromServer = await getDocs(q);
+
+  const answersList: RececviedAnswerType[] = answersFromServer.docs.map(
+    (answerDoc) => {
+      return {
+        id: answerDoc.id,
+        ...answerDoc.data(),
+      } as RececviedAnswerType;
+    }
+  );
+
+  return answersList;
 };

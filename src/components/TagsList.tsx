@@ -15,6 +15,7 @@ const TagsList = ({ tags, align }: TagsListProps) => {
         display: 'flex',
         flexWrap: 'wrap',
         gap: 1,
+        flex: align ? '1' : '',
         justifyContent: align ? 'flex-end' : 'flex-start',
       }}
     >
