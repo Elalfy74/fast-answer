@@ -12,6 +12,7 @@ import {
 
 import { User } from '../data/types';
 import { db } from '../firebase-config';
+import { queue } from '../utils/queue';
 import { getLastThreeDaysAnswers } from './answers';
 
 const usersCollectionRef = collection(db, 'users');
@@ -79,10 +80,12 @@ export const getTopUsers = async () => {
 
   sortedUsers.splice(3);
 
-  const topUsersData = await Promise.all(
-    sortedUsers.map(async (userId) => {
-      const user = await getUserByRef(doc(db, 'users', userId));
-      return { ...user, answersCount: countsOfUsers[userId] };
+  const topUsersData = await queue.addAll(
+    sortedUsers.map((userId) => {
+      return async () => {
+        const user = await getUserByRef(doc(db, 'users', userId));
+        return { ...user, answersCount: countsOfUsers[userId] };
+      };
     })
   );
 

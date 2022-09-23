@@ -2,6 +2,7 @@ import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
 import moment from 'moment';
 
 import { AnswerType, RececviedAnswerType } from '../data/types';
+import { queue } from '../utils/queue';
 import { getUserByRef } from './users';
 
 export const formatAnswer = async (
@@ -30,10 +31,12 @@ export const formatAllAnswers = async (
 ) => {
   const answersList: AnswerType[] = [];
 
-  await Promise.all(
-    answersDocs.map(async (answer) => {
-      const formatedAnswer = await formatAnswer(answer);
-      answersList.push(formatedAnswer);
+  await queue.addAll(
+    answersDocs.map((answer) => {
+      return async () => {
+        const formatedAnswer = await formatAnswer(answer);
+        answersList.push(formatedAnswer);
+      };
     })
   );
 

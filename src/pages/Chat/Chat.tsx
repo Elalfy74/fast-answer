@@ -17,6 +17,7 @@ import { db } from '../../firebase-config';
 import { MiniLeftSideBar } from '../../layouts';
 import BottomNavigationBar from '../../layouts/BottomNavigationBar';
 import { getUserByRef } from '../../services/users';
+import { queue } from '../../utils/queue';
 import { ChatDetails, ChatList } from '.';
 
 type ReceviedChat = {
@@ -44,16 +45,18 @@ const Chat = () => {
       if (currentUser) {
         const formatedChat: FormatedChat[] = [];
 
-        await Promise.all(
-          chatResult.map(async (chat) => {
-            const otherUserRef = chat.users.find(
-              (user) => user.id !== currentUser.uid
-            );
+        await queue.addAll(
+          chatResult.map((chat) => {
+            return async () => {
+              const otherUserRef = chat.users.find(
+                (user) => user.id !== currentUser.uid
+              );
 
-            if (otherUserRef) {
-              const otherUser = await getUserByRef(otherUserRef);
-              formatedChat.push({ ...chat, otherUser });
-            }
+              if (otherUserRef) {
+                const otherUser = await getUserByRef(otherUserRef);
+                formatedChat.push({ ...chat, otherUser });
+              }
+            };
           })
         );
 

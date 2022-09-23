@@ -6,6 +6,7 @@ import {
 import moment from 'moment';
 
 import { QuestionType, ReceivedQuestionType, Tag } from '../data/types';
+import { queue } from '../utils/queue';
 import { getVotesNumber } from '../utils/votes';
 import { getAnswersOfQuestion } from './answers';
 import { getTags } from './tags';
@@ -53,10 +54,12 @@ export const formatAllQuestions = async (
 ) => {
   const result: QuestionType[] = [];
 
-  await Promise.all(
-    questions.map(async (question) => {
-      const formatedQuestion = await formatQuestion(question);
-      result.push(formatedQuestion);
+  await queue.addAll(
+    questions.map((question) => {
+      return async () => {
+        const formatedQuestion = await formatQuestion(question);
+        result.push(formatedQuestion);
+      };
     })
   );
 
