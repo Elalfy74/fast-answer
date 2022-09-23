@@ -5,7 +5,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { useAuth } from './contexts/AuthContext';
 import { theme } from './contexts/theme';
-import { SecondaryWrapper, Wrapper } from './layouts';
+import { ProtectedRoute, SecondaryWrapper, Wrapper } from './layouts';
 import {
   AllQuestions,
   Chat,
@@ -33,7 +33,8 @@ const App = () => {
           <Route path="/" element={<Wrapper />}>
             <Route path="/" element={<AllQuestions />} />
           </Route>
-          <Route path="/questions/:qId" element={<Wrapper />}>
+
+          <Route element={<Wrapper />}>
             <Route path="/questions/:qId" element={<QuestionDetails />} />
           </Route>
 
@@ -41,12 +42,11 @@ const App = () => {
             <Route path="/user" element={<UserProfile />} />
           </Route>
 
-          <Route path="/ask-question" element={<AskQuestion />} />
-          <Route path="/edit-account" element={<EditAccount />} />
-
-          {/* <Route path="/chat/*" element={<ChatWrapper />}> */}
-          <Route path="/chat/*" element={<Chat />} />
-          {/* </Route> */}
+          <Route element={<ProtectedRoute />}>
+            <Route path="/ask-question" element={<AskQuestion />} />
+            <Route path="/edit-account" element={<EditAccount />} />
+            <Route path="/chat/*" element={<Chat />} />
+          </Route>
 
           <Route
             path="/auth/login"

@@ -97,14 +97,6 @@ const Chat = () => {
     }
   }, []);
 
-  if (isLoading) {
-    return (
-      <Box pt={4} textAlign="center">
-        <CircularProgress />
-      </Box>
-    );
-  }
-
   return (
     <Container
       maxWidth="lg"
@@ -130,7 +122,14 @@ const Chat = () => {
         }}
       >
         {!mobile && (
-          <Grid item sm={1.5}>
+          <Grid
+            item
+            sm={1.5}
+            sx={{
+              position: 'sticky',
+              top: 20,
+            }}
+          >
             <MiniLeftSideBar />
           </Grid>
         )}
@@ -142,33 +141,43 @@ const Chat = () => {
             height: '100%',
           }}
         >
-          <Stack
-            direction="row"
-            gap={3}
-            sx={{
-              height: '100%',
-            }}
-          >
-            {((sm && !param['*']) || !sm) && (
-              <>
-                <ChatList chats={chats} />
-                {mobile && <BottomNavigationBar />}
-              </>
-            )}
-            {((sm && param['*']) || !sm) && (
-              <Routes>
-                <Route
-                  path="/"
-                  element={
-                    <Box mx="auto" mt={20}>
-                      Please Select A chat
-                    </Box>
-                  }
-                />
-                <Route path=":chatId" element={<ChatDetails chats={chats} />} />
-              </Routes>
-            )}
-          </Stack>
+          {isLoading && (
+            <Box pt={4} textAlign="center">
+              <CircularProgress />
+            </Box>
+          )}
+          {!isLoading && (
+            <Stack
+              direction="row"
+              gap={3}
+              sx={{
+                height: '100%',
+              }}
+            >
+              {((sm && !param['*']) || !sm) && (
+                <>
+                  <ChatList chats={chats} />
+                  {mobile && <BottomNavigationBar />}
+                </>
+              )}
+              {((sm && param['*']) || !sm) && (
+                <Routes>
+                  <Route
+                    path="/"
+                    element={
+                      <Box mx="auto" mt={20}>
+                        Please Select A chat
+                      </Box>
+                    }
+                  />
+                  <Route
+                    path=":chatId"
+                    element={<ChatDetails chats={chats} />}
+                  />
+                </Routes>
+              )}
+            </Stack>
+          )}
         </Grid>
       </Grid>
     </Container>

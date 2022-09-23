@@ -8,13 +8,7 @@ import {
   Tag,
   TagOutlined,
 } from '@mui/icons-material';
-import {
-  BottomNavigation,
-  BottomNavigationAction,
-  Box,
-  Paper,
-} from '@mui/material';
-import { useState } from 'react';
+import { BottomNavigationAction, Box, Paper } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 
 const BottomList = [

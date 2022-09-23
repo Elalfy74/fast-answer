@@ -155,7 +155,6 @@ const RightSideBar = () => {
         </Stack>
         <Divider />
         {/* Questions */}
-        {/* ! Can't center this stack, so I made a margin left */}
         <Stack spacing={2} sx={{ mt: 1.5, px: 2 }}>
           {isLoading && (
             <CircularProgress

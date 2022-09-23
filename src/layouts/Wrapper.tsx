@@ -1,8 +1,8 @@
-import { Container, Grid } from '@mui/material';
+import { Box, Container, Grid } from '@mui/material';
 import { useLayoutEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { LeftSideBar, RightSideBar } from '.';
+import { LeftSideBar, MiniLeftSideBar, RightSideBar } from '.';
 import BottomNavigationBar from './BottomNavigationBar';
 
 const Wrapper = () => {
@@ -27,7 +27,31 @@ const Wrapper = () => {
               display: { xs: 'none', sm: 'block' },
             }}
           >
-            <LeftSideBar />
+            <Box
+              sx={{
+                display: {
+                  xs: 'none',
+                  xl: 'block',
+                },
+                position: 'sticky',
+                top: 20,
+              }}
+            >
+              <LeftSideBar />
+            </Box>
+            <Box
+              sx={{
+                display: {
+                  xs: 'none',
+                  sm: 'block',
+                  xl: 'none',
+                },
+                position: 'sticky',
+                top: 20,
+              }}
+            >
+              <MiniLeftSideBar />
+            </Box>
           </Grid>
         )}
         <Grid

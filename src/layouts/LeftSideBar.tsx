@@ -59,13 +59,7 @@ export const LeftSideBarList = [
 const LeftSideBar = () => {
   const { currentUser, logout } = useAuth();
   return (
-    <Box
-      component="nav"
-      sx={{
-        position: 'sticky',
-        top: 20,
-      }}
-    >
+    <Box component="nav">
       <List
         sx={{
           bgcolor: 'background.paper',
@@ -88,52 +82,37 @@ const LeftSideBar = () => {
               }}
             >
               {({ isActive }) => (
-                <>
-                  <Button
-                    disableElevation
-                    color={isActive ? 'primary' : 'info'}
-                    variant={isActive ? 'contained' : 'text'}
-                    sx={{
-                      width: '100%',
-                      borderRadius: '9999px',
-                      px: 2,
-                      display: { xs: 'none', xl: 'flex' },
-                    }}
-                  >
-                    <ListItemIcon
-                      sx={{
-                        minWidth: 'auto',
-                        mr: 1,
-                        color: isActive ? 'white' : 'gray',
-                      }}
-                    >
-                      {item.icon}
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={item.label}
-                      sx={{
-                        fontWeight: '500',
-                        textTransform: 'capitalize',
-                        fontSize: '16px',
-                        textAlign: 'left',
-                      }}
-                      disableTypography
-                    />
-                  </Button>
+                <Button
+                  disableElevation
+                  color={isActive ? 'primary' : 'info'}
+                  variant={isActive ? 'contained' : 'text'}
+                  sx={{
+                    width: '100%',
+                    borderRadius: '9999px',
+                    px: 2,
+                    display: { xs: 'none', xl: 'flex' },
+                  }}
+                >
                   <ListItemIcon
                     sx={{
-                      width: '100%',
-                      display: { xs: 'none', sm: 'flex', xl: 'none' },
-                      justifyContent: 'center',
+                      minWidth: 'auto',
+                      mr: 1,
+                      color: isActive ? 'white' : 'gray',
                     }}
                   >
-                    <Tooltip title={item.label}>
-                      <IconButton color={isActive ? 'primary' : 'info'}>
-                        {item.icon}
-                      </IconButton>
-                    </Tooltip>
+                    {item.icon}
                   </ListItemIcon>
-                </>
+                  <ListItemText
+                    primary={item.label}
+                    sx={{
+                      fontWeight: '500',
+                      textTransform: 'capitalize',
+                      fontSize: '16px',
+                      textAlign: 'left',
+                    }}
+                    disableTypography
+                  />
+                </Button>
               )}
             </NavLink>
           </ListItem>
