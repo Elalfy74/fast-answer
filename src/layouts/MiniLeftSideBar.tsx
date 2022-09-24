@@ -11,10 +11,13 @@ import { Link, NavLink } from 'react-router-dom';
 
 import { Logo } from '../components';
 import { useAuth } from '../contexts/AuthContext';
-import { LeftSideBarList } from './LeftSideBar';
+import { LeftSideBarListPrivate, LeftSideBarListPublic } from './LeftSideBar';
 
 const MiniLeftSideBar = () => {
   const { currentUser, logout } = useAuth();
+  const linksList = currentUser
+    ? LeftSideBarListPrivate
+    : LeftSideBarListPublic;
 
   return (
     <Box
@@ -33,8 +36,7 @@ const MiniLeftSideBar = () => {
         <ListItem>
           <Logo />
         </ListItem>
-
-        {LeftSideBarList.map((item) => (
+        {linksList.map((item) => (
           <ListItem
             key={item.label}
             sx={{ px: { xs: 0, xl: '32px' }, mb: '10px' }}

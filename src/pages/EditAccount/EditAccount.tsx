@@ -77,6 +77,7 @@ const EditAccount = () => {
                         fontSize: { xs: '14px', sm: 'inherit' },
                         fontWeight: { xs: '500', sm: '400' },
                         ml: { xs: 1, sm: 0 },
+                        width: '55%',
                       }}
                     >
                       First Name
@@ -96,6 +97,7 @@ const EditAccount = () => {
                         fontSize: { xs: '14px', sm: 'inherit' },
                         fontWeight: { xs: '500', sm: '400' },
                         ml: { xs: 1, sm: 0 },
+                        width: '55%',
                       }}
                     >
                       Last Name
@@ -115,6 +117,7 @@ const EditAccount = () => {
                         fontSize: { xs: '14px', sm: 'inherit' },
                         fontWeight: { xs: '500', sm: '400' },
                         ml: { xs: 1, sm: 0 },
+                        width: '55%',
                       }}
                     >
                       Email
@@ -141,6 +144,7 @@ const EditAccount = () => {
                         fontSize: { xs: '14px', sm: 'inherit' },
                         fontWeight: { xs: '500', sm: '400' },
                         ml: { xs: 1, sm: 0 },
+                        width: '55%',
                       }}
                     >
                       Password
@@ -177,6 +181,7 @@ const EditAccount = () => {
                         fontSize: { xs: '14px', sm: 'inherit' },
                         fontWeight: { xs: '500', sm: '400' },
                         ml: { xs: 1, sm: 0 },
+                        width: '55%',
                       }}
                     >
                       Birth Date
@@ -196,6 +201,7 @@ const EditAccount = () => {
                         fontSize: { xs: '14px', sm: 'inherit' },
                         fontWeight: { xs: '500', sm: '400' },
                         ml: { xs: 1, sm: 0 },
+                        width: '55%',
                       }}
                     >
                       Location
@@ -215,6 +221,7 @@ const EditAccount = () => {
                         fontSize: { xs: '14px', sm: 'inherit' },
                         fontWeight: { xs: '500', sm: '400' },
                         ml: { xs: 1, sm: 0 },
+                        width: '55%',
                       }}
                     >
                       Phone Number

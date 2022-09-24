@@ -1,9 +1,11 @@
 import {
+  AddBoxOutlined,
   Bookmark,
   Group,
   Login,
   Logout,
   Mail,
+  ManageAccounts,
   Person,
   QuestionAnswer,
   Tag,
@@ -14,6 +16,7 @@ import {
   IconButton,
   List,
   ListItem,
+  ListItemButton,
   ListItemIcon,
   ListItemText,
   Tooltip,
@@ -23,25 +26,42 @@ import { Link, NavLink } from 'react-router-dom';
 import { Logo } from '../components';
 import { useAuth } from '../contexts/AuthContext';
 
-export const LeftSideBarList = [
+export const LeftSideBarListPublic = [
   {
     label: 'Questions',
     icon: <QuestionAnswer />,
     path: '/',
   },
+  // {
+  //   label: 'Tags',
+  //   icon: <Tag />,
+  //   path: '/tags',
+  // },
+];
+export const LeftSideBarListPrivate = [
   {
-    label: 'Favorites',
-    icon: <Bookmark />,
-    path: '/favorites',
+    label: 'Questions',
+    icon: <QuestionAnswer />,
+    path: '/',
   },
+  // {
+  //   label: 'Favorites',
+  //   icon: <Bookmark />,
+  //   path: '/favorites',
+  // },
+  // {
+  //   label: 'Tags',
+  //   icon: <Tag />,
+  //   path: '/tags',
+  // },
+  // {
+  //   label: 'Users',
+  //   icon: <Group />,
+  //   path: '/user',
+  // },
   {
-    label: 'Tags',
-    icon: <Tag />,
-    path: '/tags',
-  },
-  {
-    label: 'Users',
-    icon: <Group />,
+    label: 'Profile',
+    icon: <Person />,
     path: '/user',
   },
   {
@@ -50,14 +70,18 @@ export const LeftSideBarList = [
     path: '/chat',
   },
   {
-    label: 'Profile',
-    icon: <Person />,
-    path: '/ask-question',
+    label: 'Settings',
+    icon: <ManageAccounts />,
+    path: '/edit-account',
   },
 ];
-
 const LeftSideBar = () => {
   const { currentUser, logout } = useAuth();
+
+  const linksList = currentUser
+    ? LeftSideBarListPrivate
+    : LeftSideBarListPublic;
+
   return (
     <Box component="nav">
       <List
@@ -69,7 +93,7 @@ const LeftSideBar = () => {
         <ListItem>
           <Logo />
         </ListItem>
-        {LeftSideBarList.map((item) => (
+        {linksList.map((item) => (
           <ListItem
             key={item.label}
             sx={{ px: { xs: 0, xl: '32px' }, mb: '10px' }}
@@ -117,18 +141,36 @@ const LeftSideBar = () => {
             </NavLink>
           </ListItem>
         ))}
+        <ListItem sx={{ px: { xs: 0, xl: '32px' }, mb: '10px', mt: 4 }}>
+          <Link
+            to="/ask-question"
+            style={{
+              width: '100%',
+            }}
+          >
+            <Button variant="outlined" fullWidth>
+              Ask
+            </Button>
+          </Link>
+        </ListItem>
         {currentUser && (
           <ListItem
             sx={{
-              px: { xs: 0, xl: 6 },
+              width: '90%',
+              justifyContent: 'center',
+              mt: 8,
+              mx: 'auto',
               mb: '10px',
+              px: { xs: 0, xl: 4 },
+              borderTop: '1px solid ',
+              borderColor: 'divider',
             }}
           >
             <Button
-              variant="outlined"
+              variant="text"
               type="button"
               onClick={logout}
-              sx={{ display: { xs: 'none', xl: 'flex' } }}
+              sx={{ display: { xs: 'none', xl: 'flex' }, mt: 2 }}
             >
               Logout
             </Button>
@@ -150,20 +192,26 @@ const LeftSideBar = () => {
         {!currentUser && (
           <ListItem
             sx={{
-              px: { xs: 0, xl: 6 },
+              width: '90%',
+              mt: 8,
+              mx: 'auto',
               mb: '10px',
+              px: { xs: 0, xl: 4 },
+              borderTop: '1px solid ',
+              borderColor: 'divider',
             }}
           >
             <Link
               to="/auth/login"
               style={{
                 width: '100%',
+                marginTop: '16px',
               }}
             >
               <Button
-                variant="outlined"
+                variant="text"
                 type="button"
-                sx={{ display: { xs: 'none', xl: 'flex' } }}
+                sx={{ display: { xs: 'none', xl: 'flex' }, mx: 'auto' }}
               >
                 Login
               </Button>
