@@ -90,16 +90,17 @@ const UserProfile = () => {
           <Typography variant="body2" component="p" mt={1} color="primary">
             Frontend Developer
           </Typography>
+          {/* Chat/follow buttons */}
           <Stack
             direction="row"
             alignItems="center"
             mt={4}
             sx={{
               gap: {
-                xs: 1,
-                sm: 2,
+                xs: 4,
                 md: 6,
               },
+              justifyContent: { xs: 'center', md: 'flex-start' },
             }}
           >
             <Button
@@ -119,54 +120,56 @@ const UserProfile = () => {
               Follow
             </Button>
           </Stack>
+          {/* Bio and tags */}
+          <Stack sx={{ maxWidth: '300px' }}>
+            <Divider
+              textAlign="left"
+              sx={{
+                mt: 2,
+                mb: 1,
+                fontWeight: '500',
+              }}
+            >
+              Bio
+            </Divider>
+            <Typography
+              sx={{ textAlign: { xs: 'center', lg: 'start' } }}
+              variant="body2"
+            >
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
+              adipisicing elit. Quisquam
+            </Typography>
+            <Divider
+              textAlign="left"
+              sx={{
+                mt: 2,
+                mb: 1,
+                fontWeight: '500',
+              }}
+            >
+              Tags
+            </Divider>
+            <TagsList
+              tags={[
+                {
+                  id: '1',
+                  name: 'React',
+                },
+                {
+                  id: '2',
+                  name: 'React',
+                },
+                {
+                  id: '3',
+                  name: 'React',
+                },
+              ]}
+            />
+          </Stack>
         </Stack>
       </Box>
       <Stack flex={2} sx={{ alignItems: { xs: 'center', lg: 'flex-start' } }}>
-        <Box>
-          <Divider
-            textAlign="left"
-            sx={{
-              mt: 2,
-              mb: 1,
-              fontWeight: '500',
-            }}
-          >
-            Bio
-          </Divider>
-          <Typography
-            sx={{ textAlign: { xs: 'center', lg: 'start' } }}
-            variant="body2"
-          >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-          </Typography>
-          <Divider
-            textAlign="left"
-            sx={{
-              mt: 2,
-              mb: 1,
-              fontWeight: '500',
-            }}
-          >
-            Tags
-          </Divider>
-          <TagsList
-            tags={[
-              {
-                id: '1',
-                name: 'React',
-              },
-              {
-                id: '2',
-                name: 'React',
-              },
-              {
-                id: '3',
-                name: 'React',
-              },
-            ]}
-          />
-        </Box>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider', mt: 6 }}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={value} onChange={handleChange}>
             <Tab label="About" />
             <Tab label="Questions" />

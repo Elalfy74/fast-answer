@@ -99,7 +99,7 @@ function Question({ question }: QuestionProps) {
             />
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
               <Typography
-                variant="body2"
+                variant="h5"
                 sx={{
                   fontWeight: '500',
                   fontSize: {
