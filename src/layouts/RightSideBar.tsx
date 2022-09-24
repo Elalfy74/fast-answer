@@ -35,7 +35,7 @@ const RightSideBar = () => {
   );
   return (
     <Stack
-      spacing={4}
+      spacing={2}
       sx={{
         position: 'sticky',
         top: 20,
@@ -168,8 +168,18 @@ const RightSideBar = () => {
             <Stack gap={0.5} key={question.id}>
               <Link to={`/questions/${question.id}`}>
                 <Typography
-                  color="primary.main"
-                  sx={{ fontSize: '14px', fontWeight: '500' }}
+                  noWrap
+                  color="secondary.main"
+                  sx={{
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    transition: 'all 0.2s ',
+                    '&:hover': {
+                      color: 'secondary.100',
+                    },
+                    textOverflow: 'ellipsis',
+                    overflow: 'hidden',
+                  }}
                 >
                   {question.title}
                 </Typography>
@@ -191,7 +201,7 @@ const RightSideBar = () => {
                 >
                   Asked by
                 </Typography>
-                <Typography sx={{ fontWeight: '500', fontSize: '12px' }}>
+                <Typography sx={{ fontWeight: '600', fontSize: '12px' }}>
                   {question.author.FirstName} {question.author.LastName || ''}
                 </Typography>
               </Box>
