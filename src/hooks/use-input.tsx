@@ -33,8 +33,7 @@ function inputReducer(state: InputState, action: InputAction) {
 }
 
 const useInput = (
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  validateFunc: Function,
+  validateFunc: (value: string, otherValue?: string) => boolean,
   errorMessage: string,
   comparedValue?: string
 ) => {

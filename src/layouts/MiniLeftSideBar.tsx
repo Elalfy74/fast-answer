@@ -46,6 +46,7 @@ const MiniLeftSideBar = () => {
               style={{
                 width: '100%',
               }}
+              end
             >
               {({ isActive }) => (
                 <ListItemIcon
@@ -70,6 +71,7 @@ const MiniLeftSideBar = () => {
             sx={{
               px: { xs: 0, xl: '32px' },
               mb: '10px',
+              mt: 8,
               mx: 'auto',
             }}
           >
@@ -91,9 +93,14 @@ const MiniLeftSideBar = () => {
         {!currentUser && (
           <ListItem
             sx={{
+              width: '70%',
+              justifyContent: 'center',
               px: { xs: 0, xl: '32px' },
               mx: 'auto',
               mb: '10px',
+              mt: 8,
+              borderTop: '1px solid ',
+              borderColor: 'divider',
             }}
           >
             <Link

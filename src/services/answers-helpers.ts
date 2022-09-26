@@ -1,9 +1,11 @@
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
 import moment from 'moment';
+import PQueue from 'p-queue';
 
 import { AnswerType, RececviedAnswerType } from '../data/types';
-import { queue } from '../utils/queue';
 import { getUserByRef } from './users';
+
+export const queue = new PQueue({ concurrency: 1 });
 
 export const formatAnswer = async (
   answer: QueryDocumentSnapshot<DocumentData>

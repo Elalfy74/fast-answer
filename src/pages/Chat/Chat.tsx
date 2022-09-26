@@ -8,6 +8,7 @@ import {
   query,
   where,
 } from 'firebase/firestore';
+import PQueue from 'p-queue';
 import { useEffect, useState } from 'react';
 import { Route, Routes, useParams } from 'react-router-dom';
 
@@ -17,8 +18,9 @@ import { db } from '../../firebase-config';
 import { MiniLeftSideBar } from '../../layouts';
 import BottomNavigationBar from '../../layouts/BottomNavigationBar';
 import { getUserByRef } from '../../services/users';
-import { queue } from '../../utils/queue';
 import { ChatDetails, ChatList } from '.';
+
+const queue = new PQueue({ concurrency: 1 });
 
 type ReceviedChat = {
   id: string;

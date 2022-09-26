@@ -1,5 +1,9 @@
 import { DocumentData, DocumentReference } from 'firebase/firestore';
 
+export type ChildrenProps = {
+  children: React.ReactNode;
+};
+
 export type Loading = 'idle' | 'pending' | 'succeeded' | 'failed' | 'finished';
 
 export type User = {

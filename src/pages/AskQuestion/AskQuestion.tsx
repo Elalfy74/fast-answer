@@ -53,7 +53,7 @@ const AskQuestion = () => {
       if (queryText.length > 0) {
         refetch();
       }
-    }, 1000);
+    }, 500);
     return () => {
       clearTimeout(identifier);
     };

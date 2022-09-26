@@ -1,10 +1,9 @@
-import { CssBaseline, ThemeProvider } from '@mui/material';
-import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { useAuth } from './contexts/AuthContext';
-import { theme } from './contexts/theme';
+import QueryProvider from './contexts/QueryProvider';
+import AppTheme from './contexts/theme';
 import { ProtectedRoute, SecondaryWrapper, Wrapper } from './layouts';
 import {
   AllQuestions,
@@ -21,20 +20,13 @@ import EditAccount from './pages/EditAccount/EditAccount';
 const App = () => {
   const { currentUser } = useAuth();
 
-  const queryClient = new QueryClient();
-
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      {/* <ChatProvider> */}
-      <QueryClientProvider client={queryClient}>
+    <AppTheme>
+      <QueryProvider>
         {/* <ScriptsPlayground /> */}
         <Routes>
           <Route path="/" element={<Wrapper />}>
             <Route path="/" element={<AllQuestions />} />
-          </Route>
-
-          <Route element={<Wrapper />}>
             <Route path="/questions/:qId" element={<QuestionDetails />} />
           </Route>
 
@@ -60,9 +52,9 @@ const App = () => {
             <Routes path="/not-found" element={<NotFound />} /> */}
         </Routes>
         <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
-      </QueryClientProvider>
+      </QueryProvider>
       {/* </ChatProvider> */}
-    </ThemeProvider>
+    </AppTheme>
   );
 };
 

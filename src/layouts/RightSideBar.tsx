@@ -11,7 +11,6 @@ import {
 import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 
-import avatar from '../assets/avatar.jpg';
 import { getFeaturedQuestions } from '../services/questions';
 import { getTopUsers } from '../services/users';
 
@@ -33,6 +32,7 @@ const RightSideBar = () => {
       staleTime: 3000,
     }
   );
+
   return (
     <Stack
       spacing={2}

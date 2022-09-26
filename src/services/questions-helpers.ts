@@ -4,13 +4,15 @@ import {
   QueryDocumentSnapshot,
 } from 'firebase/firestore';
 import moment from 'moment';
+import PQueue from 'p-queue';
 
 import { QuestionType, ReceivedQuestionType, Tag } from '../data/types';
-import { queue } from '../utils/queue';
 import { getVotesNumber } from '../utils/votes';
 import { getAnswersOfQuestion } from './answers';
 import { getTags } from './tags';
 import { getUserByRef } from './users';
+
+const queue = new PQueue({ concurrency: 1 });
 
 // Functions replaces tags reference with real tags and author with real author data for a single question
 export const formatQuestion = async (

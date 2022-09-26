@@ -9,11 +9,13 @@ import {
   query,
   setDoc,
 } from 'firebase/firestore';
+import PQueue from 'p-queue';
 
 import { User } from '../data/types';
 import { db } from '../firebase-config';
-import { queue } from '../utils/queue';
 import { getLastThreeDaysAnswers } from './answers';
+
+const queue = new PQueue({ concurrency: 1 });
 
 const usersCollectionRef = collection(db, 'users');
 
@@ -37,8 +39,16 @@ export const getUserByRef = async (
   return { ...userDoc.data(), id: userDoc.id } as User;
 };
 
+export const getUserById = async (id: string) => {
+  const userRef = doc(db, 'users', id);
+
+  const userData = await getUserByRef(userRef);
+
+  return userData;
+};
+
 export const saveUserData = async (user: {
-  userId: string;
+  id: string;
   Email: string;
   FirstName: string;
   LastName?: string;
@@ -55,9 +65,16 @@ export const saveUserData = async (user: {
     Birthdate: null,
     PhoneNumber: null,
   };
-  await setDoc(doc(usersCollectionRef, user.userId), newUser);
+  await setDoc(doc(usersCollectionRef, user.id), newUser);
 };
 
+export const updateUserData = async (user: User) => {
+  console.log(user);
+  const userRef = doc(db, 'users', user.id);
+  const updateResult = await setDoc(userRef, user);
+
+  return updateResult;
+};
 export const getTopUsers = async () => {
   const asnwersOfLastThreeDays = await getLastThreeDaysAnswers();
 

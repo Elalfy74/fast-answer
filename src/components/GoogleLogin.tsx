@@ -5,7 +5,7 @@ import { useMutation } from 'react-query';
 import { useAuth } from '../contexts/AuthContext';
 import { db } from '../firebase-config';
 import { getUserByRef, saveUserData } from '../services/users';
-import GoogleLogo from './GoogleLogo';
+import { GoogleLogo } from './svg';
 
 const GoogleLogin = () => {
   const { signInWithGoogle } = useAuth();

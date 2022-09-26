@@ -1,4 +1,12 @@
-import { colors, createTheme, responsiveFontSizes } from '@mui/material';
+import {
+  colors,
+  createTheme,
+  CssBaseline,
+  responsiveFontSizes,
+  ThemeProvider,
+} from '@mui/material';
+
+import { ChildrenProps } from '../data/types';
 
 export const theme = responsiveFontSizes(
   createTheme({
@@ -42,3 +50,12 @@ export const theme = responsiveFontSizes(
     },
   })
 );
+
+const AppTheme = ({ children }: ChildrenProps) => (
+  <ThemeProvider theme={theme}>
+    <CssBaseline />
+    {children}
+  </ThemeProvider>
+);
+
+export default AppTheme;

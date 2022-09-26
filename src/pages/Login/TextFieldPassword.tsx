@@ -33,6 +33,7 @@ const TextFieldPassword = ({
       </InputLabel>
       <OutlinedInput
         fullWidth
+        inputProps={{ 'data-testid': 'password' }}
         name="password"
         label="Password"
         id="password"

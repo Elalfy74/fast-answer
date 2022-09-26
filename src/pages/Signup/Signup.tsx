@@ -59,7 +59,7 @@ const Signup = () => {
     const user = await signup({ email: emailValue, password: passwordValue });
 
     await saveUserData({
-      userId: user.user.uid,
+      id: user.user.uid,
       FirstName: firstNameValue,
       LastName: lastNameValue.current?.value,
       Email: emailValue,

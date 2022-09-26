@@ -34,7 +34,6 @@ function TabPanel(props: TabPanelProps) {
 
 const UserProfile = () => {
   const [value, setValue] = useState(0);
-  const [mobile, setMobile] = useState(true);
 
   const handleChange = (
     _event: React.SyntheticEvent<Element, Event>,
@@ -42,12 +41,6 @@ const UserProfile = () => {
   ) => {
     setValue(newValue);
   };
-
-  useLayoutEffect(() => {
-    if (window.innerWidth > 600) {
-      setMobile(false);
-    }
-  }, []);
 
   return (
     <Container

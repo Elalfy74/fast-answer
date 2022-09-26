@@ -7,7 +7,7 @@ import { Question } from '.';
 
 const AllQuestions = () => {
   const { data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    useInfiniteQuery('questions', () => getAllQuestions(), {
+    useInfiniteQuery('questions', getAllQuestions, {
       refetchOnWindowFocus: false,
       staleTime: Infinity,
       refetchOnMount: false,
