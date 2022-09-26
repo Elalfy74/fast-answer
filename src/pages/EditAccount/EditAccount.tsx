@@ -13,6 +13,92 @@ import {
 
 import avatar from '../../assets/avatar.jpg';
 
+const GeneralInfoList = [
+  {
+    id: 1,
+    name: 'First Name',
+  },
+  {
+    id: 2,
+    name: 'Last Name',
+  },
+  {
+    id: 3,
+    name: 'Email',
+  },
+  {
+    id: 4,
+    name: 'Password',
+  },
+];
+
+const PersonalInfoList = [
+  {
+    id: 1,
+    name: 'Birth Date',
+  },
+  {
+    id: 2,
+    name: 'Location',
+  },
+  {
+    id: 3,
+    name: 'Phone Number',
+  },
+];
+
+const EducationalInfoList = [
+  {
+    id: 1,
+    name: 'Major',
+  },
+  {
+    id: 2,
+    name: 'University Level',
+  },
+  {
+    id: 3,
+    name: 'College',
+  },
+];
+
+type EditFieldTextProps = {
+  children: string;
+};
+
+const EditFieldText = ({ children }: EditFieldTextProps) => {
+  return (
+    <Typography
+      sx={{
+        fontSize: { xs: '14px', sm: 'inherit' },
+        fontWeight: { xs: '500', sm: '400' },
+        ml: { xs: 1, sm: 0 },
+        width: '120px',
+      }}
+    >
+      {children}
+    </Typography>
+  );
+};
+
+type StackEditFieldProps = {
+  children: JSX.Element[];
+};
+const StackEditField = ({ children }: StackEditFieldProps) => {
+  return (
+    <Stack
+      sx={{
+        flexDirection: { xs: 'column', sm: 'row' },
+        alignItems: { xs: 'flex-start', sm: 'center' },
+        justifyContent: 'space-between',
+        gap: 0.5,
+      }}
+    >
+      {children}
+    </Stack>
+  );
+};
+
 const EditAccount = () => {
   return (
     /*
@@ -64,6 +150,14 @@ const EditAccount = () => {
                   General Information
                 </Typography>
                 <Stack p={2} spacing={2} justifyContent="space-between">
+                  {GeneralInfoList.map((listItem) => (
+                    <StackEditField key={listItem.id}>
+                      <EditFieldText>{listItem.name}</EditFieldText>
+                      <TextField fullWidth size="small" />
+                    </StackEditField>
+                  ))}
+
+                  {/*
                   <Stack
                     sx={{
                       flexDirection: { xs: 'column', sm: 'row' },
@@ -77,47 +171,7 @@ const EditAccount = () => {
                         fontSize: { xs: '14px', sm: 'inherit' },
                         fontWeight: { xs: '500', sm: '400' },
                         ml: { xs: 1, sm: 0 },
-                        width: '55%',
-                      }}
-                    >
-                      First Name
-                    </Typography>
-                    <TextField fullWidth size="small" />
-                  </Stack>
-                  <Stack
-                    sx={{
-                      flexDirection: { xs: 'column', sm: 'row' },
-                      alignItems: { xs: 'flex-start', sm: 'center' },
-                      justifyContent: 'space-between',
-                      gap: 0.5,
-                    }}
-                  >
-                    <Typography
-                      sx={{
-                        fontSize: { xs: '14px', sm: 'inherit' },
-                        fontWeight: { xs: '500', sm: '400' },
-                        ml: { xs: 1, sm: 0 },
-                        width: '55%',
-                      }}
-                    >
-                      Last Name
-                    </Typography>
-                    <TextField fullWidth size="small" />
-                  </Stack>
-                  <Stack
-                    sx={{
-                      flexDirection: { xs: 'column', sm: 'row' },
-                      alignItems: { xs: 'flex-start', sm: 'center' },
-                      justifyContent: 'space-between',
-                      gap: 0.5,
-                    }}
-                  >
-                    <Typography
-                      sx={{
-                        fontSize: { xs: '14px', sm: 'inherit' },
-                        fontWeight: { xs: '500', sm: '400' },
-                        ml: { xs: 1, sm: 0 },
-                        width: '55%',
+                        width: '120px',
                       }}
                     >
                       Email
@@ -144,7 +198,7 @@ const EditAccount = () => {
                         fontSize: { xs: '14px', sm: 'inherit' },
                         fontWeight: { xs: '500', sm: '400' },
                         ml: { xs: 1, sm: 0 },
-                        width: '55%',
+                        width: '120px',
                       }}
                     >
                       Password
@@ -158,7 +212,7 @@ const EditAccount = () => {
                         readOnly: true,
                       }}
                     />
-                  </Stack>
+                  </Stack> */}
                 </Stack>
               </Stack>
 
@@ -168,66 +222,12 @@ const EditAccount = () => {
                   Personal Info
                 </Typography>
                 <Stack p={2} spacing={2} justifyContent="space-between">
-                  <Stack
-                    sx={{
-                      flexDirection: { xs: 'column', sm: 'row' },
-                      alignItems: { xs: 'flex-start', sm: 'center' },
-                      justifyContent: 'space-between',
-                      gap: 0.5,
-                    }}
-                  >
-                    <Typography
-                      sx={{
-                        fontSize: { xs: '14px', sm: 'inherit' },
-                        fontWeight: { xs: '500', sm: '400' },
-                        ml: { xs: 1, sm: 0 },
-                        width: '55%',
-                      }}
-                    >
-                      Birth Date
-                    </Typography>
-                    <TextField fullWidth size="small" />
-                  </Stack>
-                  <Stack
-                    sx={{
-                      flexDirection: { xs: 'column', sm: 'row' },
-                      alignItems: { xs: 'flex-start', sm: 'center' },
-                      justifyContent: 'space-between',
-                      gap: 0.5,
-                    }}
-                  >
-                    <Typography
-                      sx={{
-                        fontSize: { xs: '14px', sm: 'inherit' },
-                        fontWeight: { xs: '500', sm: '400' },
-                        ml: { xs: 1, sm: 0 },
-                        width: '55%',
-                      }}
-                    >
-                      Location
-                    </Typography>
-                    <TextField fullWidth size="small" />
-                  </Stack>
-                  <Stack
-                    sx={{
-                      flexDirection: { xs: 'column', sm: 'row' },
-                      alignItems: { xs: 'flex-start', sm: 'center' },
-                      justifyContent: 'space-between',
-                      gap: 0.5,
-                    }}
-                  >
-                    <Typography
-                      sx={{
-                        fontSize: { xs: '14px', sm: 'inherit' },
-                        fontWeight: { xs: '500', sm: '400' },
-                        ml: { xs: 1, sm: 0 },
-                        width: '55%',
-                      }}
-                    >
-                      Phone Number
-                    </Typography>
-                    <TextField fullWidth size="small" />
-                  </Stack>
+                  {PersonalInfoList.map((listItem) => (
+                    <StackEditField key={listItem.id}>
+                      <EditFieldText>{listItem.name}</EditFieldText>
+                      <TextField fullWidth size="small" />
+                    </StackEditField>
+                  ))}
                 </Stack>
               </Stack>
             </Box>
@@ -238,63 +238,12 @@ const EditAccount = () => {
                 Education Info
               </Typography>
               <Stack p={2} spacing={2} justifyContent="space-between">
-                <Stack
-                  sx={{
-                    flexDirection: { xs: 'column', sm: 'row' },
-                    alignItems: { xs: 'flex-start', sm: 'center' },
-                    justifyContent: 'space-between',
-                    gap: 0.5,
-                  }}
-                >
-                  <Typography
-                    sx={{
-                      fontSize: { xs: '14px', sm: 'inherit' },
-                      fontWeight: { xs: '500', sm: '400' },
-                      ml: { xs: 1, sm: 0 },
-                    }}
-                  >
-                    Major
-                  </Typography>
-                  <TextField fullWidth size="small" />
-                </Stack>
-                <Stack
-                  sx={{
-                    flexDirection: { xs: 'column', sm: 'row' },
-                    alignItems: { xs: 'flex-start', sm: 'center' },
-                    justifyContent: 'space-between',
-                    gap: 0.5,
-                  }}
-                >
-                  <Typography
-                    sx={{
-                      fontSize: { xs: '14px', sm: 'inherit' },
-                      fontWeight: { xs: '500', sm: '400' },
-                      ml: { xs: 1, sm: 0 },
-                    }}
-                  >
-                    University Level
-                  </Typography>
-                  <TextField fullWidth size="small" />
-                </Stack>
-                <Stack
-                  sx={{
-                    flexDirection: { xs: 'column', sm: 'row' },
-                    alignItems: { xs: 'flex-start', sm: 'center' },
-                    justifyContent: 'space-between',
-                    gap: 0.5,
-                  }}
-                >
-                  <Typography
-                    sx={{
-                      fontSize: { xs: '14px', sm: 'inherit' },
-                      fontWeight: { xs: '500', sm: '400' },
-                      ml: { xs: 1, sm: 0 },
-                    }}
-                  >
-                    College
-                  </Typography>
-                  <TextField fullWidth size="small" />
-                </Stack>
+                {EducationalInfoList.map((listItem) => (
+                  <StackEditField key={listItem.id}>
+                    <EditFieldText>{listItem.name}</EditFieldText>
+                    <TextField fullWidth size="small" />
+                  </StackEditField>
+                ))}
               </Stack>
             </Stack>
           </Stack>
