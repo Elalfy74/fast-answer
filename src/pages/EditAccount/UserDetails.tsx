@@ -1,112 +1,46 @@
-import { Box, Divider, Stack, TextField, Typography } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+import {
+  Box,
+  Button,
+  Divider,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material';
+import { useFormik } from 'formik';
 
-import { ChildrenProps, User } from '../../data/types';
-
-const GeneralInfoList = [
-  {
-    id: 1,
-    name: 'First Name',
-    value: 'FirstName',
-  },
-  {
-    id: 2,
-    name: 'Last Name',
-    value: 'LastName',
-  },
-  {
-    id: 3,
-    name: 'Email',
-    value: 'Email',
-  },
-  // {
-  //   id: 4,
-  //   name: 'Password',
-  //   value: 'Password',
-  // },
-];
-
-const PersonalInfoList = [
-  {
-    id: 1,
-    name: 'Birth Date',
-    value: 'Birthdate',
-    type: 'date',
-  },
-  {
-    id: 2,
-    name: 'Location',
-    value: 'Location',
-    type: 'string',
-  },
-  {
-    id: 3,
-    name: 'Phone Number',
-    value: 'PhoneNumber',
-    type: 'number',
-  },
-];
-
-const EducationalInfoList = [
-  {
-    id: 1,
-    name: 'Major',
-    value: 'Major',
-  },
-  {
-    id: 2,
-    name: 'University Level',
-    value: 'UniversityLevel',
-  },
-  {
-    id: 3,
-    name: 'College',
-    value: 'College',
-  },
-];
-
-type EditFieldTextProps = {
-  children: string;
-};
-
-const EditFieldText = ({ children }: EditFieldTextProps) => {
-  return (
-    <Typography
-      sx={{
-        fontSize: { xs: '14px', sm: 'inherit' },
-        fontWeight: { xs: '500', sm: '400' },
-        ml: { xs: 1, sm: 0 },
-        width: '120px',
-      }}
-    >
-      {children}
-    </Typography>
-  );
-};
-
-const StackEditField = ({ children }: ChildrenProps) => {
-  return (
-    <Stack
-      sx={{
-        flexDirection: { xs: 'column', sm: 'row' },
-        alignItems: { xs: 'flex-start', sm: 'center' },
-        justifyContent: 'space-between',
-        gap: 0.5,
-      }}
-    >
-      {children}
-    </Stack>
-  );
-};
+import {
+  EditFieldText,
+  EducationalInfoList,
+  GeneralInfoList,
+  PersonalInfoList,
+  StackEditField,
+  validationSchema,
+} from './CustomComponents';
 
 type UserDetailsProps = {
-  onChangeHandler: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    value: string
-  ) => void;
-  data: User;
+  initialValues: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    birthdate: string;
+    location: string;
+    phoneNumber: string;
+    major: string;
+    college: string;
+    universityLevel: string;
+  };
 };
 
-const UserDetails = ({ onChangeHandler, data }: UserDetailsProps) => {
+const UserDetails = ({ initialValues }: UserDetailsProps) => {
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: (values) => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
+
   return (
     <Box
       sx={{
@@ -124,9 +58,11 @@ const UserDetails = ({ onChangeHandler, data }: UserDetailsProps) => {
         USER DETAILS
       </Typography>
       <Divider />
+
       {/* Box holding two boxes inside one box is also two boxes */}
-      <Stack spacing={2}>
+      <Stack spacing={2} component="form" onSubmit={formik.handleSubmit}>
         {/* Major Box contain General and personal info */}
+
         <Box
           sx={{
             display: 'flex',
@@ -141,14 +77,20 @@ const UserDetails = ({ onChangeHandler, data }: UserDetailsProps) => {
               General Information
             </Typography>
             <Stack p={2} spacing={2} justifyContent="space-between">
-              {GeneralInfoList.map((listItem) => (
-                <StackEditField key={listItem.id}>
-                  <EditFieldText>{listItem.name}</EditFieldText>
+              {GeneralInfoList.map(({ name, label, type, readonly }) => (
+                <StackEditField key={name}>
+                  <EditFieldText>{label}</EditFieldText>
                   <TextField
-                    value={data![listItem.value as keyof User] || ''}
-                    onChange={(e) => onChangeHandler(e, listItem.value)}
+                    id={name}
+                    name={name}
+                    type={type}
                     fullWidth
                     size="small"
+                    value={formik.values[name]}
+                    onChange={formik.handleChange}
+                    error={formik.touched[name] && Boolean(formik.errors[name])}
+                    helperText={formik.touched[name] && formik.errors[name]}
+                    disabled={readonly}
                   />
                 </StackEditField>
               ))}
@@ -161,15 +103,19 @@ const UserDetails = ({ onChangeHandler, data }: UserDetailsProps) => {
               Personal Info
             </Typography>
             <Stack p={2} spacing={2} justifyContent="space-between">
-              {PersonalInfoList.map((listItem) => (
-                <StackEditField key={listItem.id}>
-                  <EditFieldText>{listItem.name}</EditFieldText>
+              {PersonalInfoList.map(({ name, label, type }) => (
+                <StackEditField key={name}>
+                  <EditFieldText>{label}</EditFieldText>
                   <TextField
-                    type={listItem.type}
+                    id={name}
+                    name={name}
+                    type={type}
                     fullWidth
                     size="small"
-                    value={data![listItem.value as keyof User] || ''}
-                    onChange={(e) => onChangeHandler(e, listItem.value)}
+                    value={formik.values[name]}
+                    onChange={formik.handleChange}
+                    error={formik.touched[name] && Boolean(formik.errors[name])}
+                    helperText={formik.touched[name] && formik.errors[name]}
                   />
                 </StackEditField>
               ))}
@@ -183,18 +129,34 @@ const UserDetails = ({ onChangeHandler, data }: UserDetailsProps) => {
             Education Info
           </Typography>
           <Stack p={2} spacing={2} justifyContent="space-between">
-            {EducationalInfoList.map((listItem) => (
-              <StackEditField key={listItem.id}>
-                <EditFieldText>{listItem.name}</EditFieldText>
+            {EducationalInfoList.map(({ name, label }) => (
+              <StackEditField key={name}>
+                <EditFieldText>{label}</EditFieldText>
                 <TextField
+                  id={name}
+                  name={name}
                   fullWidth
                   size="small"
-                  value={data![listItem.value as keyof User] || ''}
-                  onChange={(e) => onChangeHandler(e, listItem.value)}
+                  value={formik.values[name]}
+                  onChange={formik.handleChange}
+                  error={formik.touched[name] && Boolean(formik.errors[name])}
+                  helperText={formik.touched[name] && formik.errors[name]}
                 />
               </StackEditField>
             ))}
           </Stack>
+        </Stack>
+        {/* action buttons */}
+        <Stack direction="row" spacing={2} sx={{ p: 2, mt: 2 }}>
+          <LoadingButton
+            // loading
+            type="submit"
+            variant="contained"
+            sx={{ p: '6px 60px 6px 60px' }}
+          >
+            Save
+          </LoadingButton>
+          <Button sx={{ p: '6px 50px 6px 50px' }}>Cancel</Button>
         </Stack>
       </Stack>
     </Box>

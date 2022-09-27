@@ -47,6 +47,13 @@ export const theme = responsiveFontSizes(
           },
         },
       },
+      MuiAvatar: {
+        styleOverrides: {
+          img: {
+            objectFit: 'inherit',
+          },
+        },
+      },
     },
   })
 );

@@ -69,7 +69,6 @@ export const saveUserData = async (user: {
 };
 
 export const updateUserData = async (user: User) => {
-  console.log(user);
   const userRef = doc(db, 'users', user.id);
   const updateResult = await setDoc(userRef, user);
 

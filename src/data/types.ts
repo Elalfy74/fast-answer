@@ -17,6 +17,7 @@ export type User = {
   PhotoUrl?: string;
   College?: string;
   Major?: string;
+  location?: string;
   Birthdate?: string;
   // As My fake Data is already a string
   PhoneNumber?: string;

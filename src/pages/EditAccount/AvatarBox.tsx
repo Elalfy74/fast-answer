@@ -1,12 +1,15 @@
 import EditIcon from '@mui/icons-material/Edit';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
+import { LoadingButton } from '@mui/lab';
 import {
   Avatar,
   Box,
+  Button,
   Divider,
   IconButton,
   InputLabel,
   Stack,
+  TextField,
   Tooltip,
   Typography,
 } from '@mui/material';
@@ -23,48 +26,49 @@ type AvatarBoxProps = {
 
 const AvatarBox = ({ avatar, bio, onChangeHandler }: AvatarBoxProps) => {
   const [file, setFile] = useState<File | null>(null);
+  const [bioEdit, setBioEdit] = useState(false);
 
-  useEffect(() => {
-    const uploadFile = () => {
-      if (!file) return;
-      const name = new Date().getTime() + file.name;
+  // useEffect(() => {
+  //   const uploadFile = () => {
+  //     if (!file) return;
+  //     const name = new Date().getTime() + file.name;
 
-      const storageRef = ref(storage, name);
-      const uploadTask = uploadBytesResumable(storageRef, file);
+  //     const storageRef = ref(storage, name);
+  //     const uploadTask = uploadBytesResumable(storageRef, file);
 
-      uploadTask.on(
-        'state_changed',
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log(`Upload is ${progress}% done`);
-          switch (snapshot.state) {
-            case 'paused':
-              console.log('Upload is paused');
-              break;
-            case 'running':
-              console.log('Upload is running');
-              break;
-            default:
-              break;
-          }
-        },
-        (error) => {
-          console.log(error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            // setData((prev) => ({ ...prev, img: downloadURL }));
-            console.log(downloadURL);
-            onChangeHandler('PhotoUrl', downloadURL);
-          });
-        }
-      );
-    };
-    if (file) {
-      uploadFile();
-    }
-  }, [file, onChangeHandler]);
+  //     uploadTask.on(
+  //       'state_changed',
+  //       (snapshot) => {
+  //         const progress =
+  //           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+  //         console.log(`Upload is ${progress}% done`);
+  //         switch (snapshot.state) {
+  //           case 'paused':
+  //             console.log('Upload is paused');
+  //             break;
+  //           case 'running':
+  //             console.log('Upload is running');
+  //             break;
+  //           default:
+  //             break;
+  //         }
+  //       },
+  //       (error) => {
+  //         console.log(error);
+  //       },
+  //       () => {
+  //         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+  //           // setData((prev) => ({ ...prev, img: downloadURL }));
+  //           console.log(downloadURL);
+  //           onChangeHandler('PhotoUrl', downloadURL);
+  //         });
+  //       }
+  //     );
+  //   };
+  //   if (file) {
+  //     uploadFile();
+  //   }
+  // }, [file, onChangeHandler]);
 
   return (
     <Box
@@ -89,7 +93,13 @@ const AvatarBox = ({ avatar, bio, onChangeHandler }: AvatarBoxProps) => {
           <Avatar
             alt="user avatar"
             src={file ? URL.createObjectURL(file) : avatar}
-            sx={{ width: 200, height: 200 }}
+            sx={{
+              width: 200,
+              height: 200,
+              objectFit: 'contain',
+              border: '1px solid',
+              borderColor: 'divider',
+            }}
           />
           <Stack>
             <InputLabel htmlFor="file">
@@ -125,24 +135,55 @@ const AvatarBox = ({ avatar, bio, onChangeHandler }: AvatarBoxProps) => {
             <Typography fontWeight="500">@0xRamadan</Typography>
             <EditIcon fontSize="small" />
           </Stack>
-          <Stack
-            direction="row"
-            alignItems="center"
-            justifyContent="center"
-            spacing={1}
-            sx={{ mt: 2 }}
-          >
-            <Typography fontWeight="500">Bio</Typography>
-            <EditIcon fontSize="small" />
-          </Stack>
-          <Divider />
-          <Typography sx={{ mt: 2, alignSelf: 'center', fontStyle: 'italic' }}>
-            &quot;Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex,
+          {!bioEdit && (
+            <>
+              <Stack
+                direction="row"
+                alignItems="center"
+                justifyContent="center"
+                spacing={1}
+                sx={{ mt: 2 }}
+              >
+                <Typography fontWeight="500">Bio</Typography>
+                <IconButton onClick={() => setBioEdit(true)}>
+                  <EditIcon fontSize="small" />
+                </IconButton>
+              </Stack>
+              <Divider />
+              <Typography
+                sx={{ mt: 2, alignSelf: 'center', fontStyle: 'italic' }}
+              >
+                &quot;Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Ex, corporis nostrum ad magni deleniti voluptatum voluptates in
+                sit exercitationem rem sapiente aut neque nisi.&quot;
+              </Typography>
+            </>
+          )}
+          {bioEdit && (
+            <TextField
+              sx={{
+                mt: 2,
+                alignSelf: 'center',
+                width: '100%',
+              }}
+              defaultValue="Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex,
             corporis nostrum ad magni deleniti voluptatum voluptates in sit
-            exercitationem rem sapiente aut neque nisi.&quot;
-          </Typography>
+            exercitationem rem sapiente aut neque nisi."
+              multiline
+              // minRows={2}
+              maxRows={6}
+            />
+          )}
         </Stack>
       </Stack>
+      {bioEdit && (
+        <Stack direction="row" gap={3}>
+          <LoadingButton variant="contained" fullWidth>
+            Save
+          </LoadingButton>
+          <Button fullWidth>Cancel</Button>
+        </Stack>
+      )}
     </Box>
   );
 };

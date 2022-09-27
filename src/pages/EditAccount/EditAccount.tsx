@@ -1,17 +1,16 @@
 import {
   Box,
-  Button,
   CircularProgress,
   Container,
   Stack,
   Typography,
 } from '@mui/material';
 import { useCallback } from 'react';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 
 import { useAuth } from '../../contexts/AuthContext';
 import { User } from '../../data/types';
-import { getUserById, updateUserData } from '../../services/users';
+import { getUserById } from '../../services/users';
 import AvatarBox from './AvatarBox';
 import UserDetails from './UserDetails';
 
@@ -27,7 +26,17 @@ const EditAccount = () => {
     }
   );
 
-  const { mutate } = useMutation(updateUserData);
+  const initialValues = {
+    firstName: data?.FirstName || '',
+    lastName: data?.LastName || '',
+    email: data?.Email || '',
+    birthdate: data?.Birthdate || '',
+    location: data?.location || '',
+    phoneNumber: data?.PhoneNumber || '',
+    major: data?.Major || '',
+    college: data?.College || '',
+    universityLevel: data?.UniversityLevel || '',
+  };
 
   const handleChangeImg = useCallback(
     (value: string, newValue: string) => {
@@ -38,23 +47,14 @@ const EditAccount = () => {
     [queryClinet]
   );
 
-  const handleChangeValue = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    value: string
-  ) => {
-    queryClinet.setQueryData('Profile Data', (oldData: User | undefined) => {
-      return { ...oldData, [value]: e.target.value } as User;
-    });
-  };
-
-  const handleUpdate = () => {
-    mutate(data!);
-  };
-
   if (isLoading) {
     return (
-      <Box pt={4} mx="auto">
-        <CircularProgress />
+      <Box pt={4}>
+        <CircularProgress
+          sx={{
+            mx: 'auto',
+          }}
+        />
       </Box>
     );
   }
@@ -80,7 +80,10 @@ const EditAccount = () => {
         }}
       >
         {/* User Details Box */}
-        <UserDetails onChangeHandler={handleChangeValue} data={data!} />
+        <UserDetails
+          // onChangeHandler={handleChangeValue}
+          initialValues={initialValues}
+        />
 
         {/* Avatar Box */}
         <AvatarBox
@@ -88,18 +91,6 @@ const EditAccount = () => {
           bio={data?.Bio}
           onChangeHandler={handleChangeImg}
         />
-      </Stack>
-
-      {/* action buttons */}
-      <Stack direction="row" spacing={2} sx={{ p: 2, mt: 2 }}>
-        <Button
-          variant="contained"
-          sx={{ p: '6px 60px 6px 60px' }}
-          onClick={handleUpdate}
-        >
-          Save
-        </Button>
-        <Button sx={{ p: '6px 50px 6px 50px' }}>Cancel</Button>
       </Stack>
     </Container>
   );
