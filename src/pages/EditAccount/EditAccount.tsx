@@ -49,13 +49,9 @@ const EditAccount = () => {
 
   if (isLoading) {
     return (
-      <Box pt={4}>
-        <CircularProgress
-          sx={{
-            mx: 'auto',
-          }}
-        />
-      </Box>
+      <Stack alignItems="center" pt={4}>
+        <CircularProgress />
+      </Stack>
     );
   }
 

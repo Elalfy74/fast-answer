@@ -31,15 +31,18 @@ const App = () => {
           </Route>
 
           <Route element={<SecondaryWrapper />}>
-            <Route path="/user" element={<UserProfile />} />
+            <Route path="/users/:userId" element={<UserProfile />} />
           </Route>
 
           <Route element={<ProtectedRoute />}>
-            <Route path="/ask-question" element={<AskQuestion />} />
-            <Route path="/edit-account" element={<EditAccount />} />
+            <Route element={<SecondaryWrapper />}>
+              <Route path="/profile" element={<UserProfile />} />
+            </Route>
+            <Route path="/profile-settings" element={<EditAccount />} />
             <Route path="/chat/*" element={<Chat />} />
           </Route>
 
+          <Route path="/ask-question" element={<AskQuestion />} />
           <Route
             path="/auth/login"
             element={!currentUser ? <Login /> : <Navigate to="/" />}

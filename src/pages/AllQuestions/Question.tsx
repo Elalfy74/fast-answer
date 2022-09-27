@@ -1,9 +1,4 @@
-import {
-  ArrowDownward,
-  ArrowUpward,
-  Forum,
-  Visibility,
-} from '@mui/icons-material';
+import { ArrowDownward, ArrowUpward, Forum } from '@mui/icons-material';
 import {
   Avatar,
   Box,
@@ -71,11 +66,6 @@ function Question({ question }: QuestionProps) {
               <Typography sx={{ mr: 0.5 }}>{question.answersNumber}</Typography>
               <Forum fontSize="small" />
             </Box>
-            {/* Views */}
-            {/* <Box display="flex" alignItems="center" color="#E4A951">
-              <Typography sx={{ mr: 0.5 }}>13</Typography>
-              <Visibility fontSize="small" />
-            </Box> */}
           </Box>
           {/* End of UpVotes */}
         </Stack>
@@ -99,6 +89,8 @@ function Question({ question }: QuestionProps) {
             />
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
               <Typography
+                component={Link}
+                to={`/users/${question.author.id}`}
                 variant="h5"
                 sx={{
                   fontWeight: '500',

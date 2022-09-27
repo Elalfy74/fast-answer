@@ -84,7 +84,7 @@ const Votes = ({ type, id, votes }: VotesProps) => {
           <UpVote />
         ) : (
           <IconButton
-            disabled={loading}
+            disabled={loading || !currentUser}
             onClick={() => handleVote('up')}
             disableRipple
             size="small"
@@ -101,7 +101,7 @@ const Votes = ({ type, id, votes }: VotesProps) => {
           <DownVote />
         ) : (
           <IconButton
-            disabled={loading}
+            disabled={loading || !currentUser}
             onClick={() => handleVote('down')}
             disableRipple
             size="small"

@@ -1,14 +1,14 @@
-import { Container, Grid } from '@mui/material';
-import { useLayoutEffect, useState } from 'react';
+import { Box, Container, Grid } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { LeftSideBar } from '.';
+import { LeftSideBar, MiniLeftSideBar } from '.';
 import BottomNavigationBar from './BottomNavigationBar';
 
 const Wrapper = () => {
   const [mobile, setMobile] = useState(true);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (window.innerWidth > 600) {
       setMobile(false);
     }
@@ -27,7 +27,31 @@ const Wrapper = () => {
               display: { xs: 'none', sm: 'block' },
             }}
           >
-            <LeftSideBar />
+            <Box
+              sx={{
+                display: {
+                  xs: 'none',
+                  xl: 'block',
+                },
+                position: 'sticky',
+                top: 20,
+              }}
+            >
+              <LeftSideBar />
+            </Box>
+            <Box
+              sx={{
+                display: {
+                  xs: 'none',
+                  sm: 'block',
+                  xl: 'none',
+                },
+                position: 'sticky',
+                top: 20,
+              }}
+            >
+              <MiniLeftSideBar />
+            </Box>
           </Grid>
         )}
         <Grid

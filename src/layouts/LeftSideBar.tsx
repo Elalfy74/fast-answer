@@ -16,7 +16,6 @@ import {
   IconButton,
   List,
   ListItem,
-  ListItemButton,
   ListItemIcon,
   ListItemText,
   Tooltip,
@@ -62,18 +61,18 @@ export const LeftSideBarListPrivate = [
   {
     label: 'Profile',
     icon: <Person />,
-    path: '/user',
+    path: '/profile',
   },
   {
     label: 'Messages',
     icon: <Mail />,
     path: '/chat',
   },
-  {
-    label: 'Settings',
-    icon: <ManageAccounts />,
-    path: '/edit-account',
-  },
+  // {
+  //   label: 'Settings',
+  //   icon: <ManageAccounts />,
+  //   path: '/edit-account',
+  // },
 ];
 const LeftSideBar = () => {
   const { currentUser, logout } = useAuth();
