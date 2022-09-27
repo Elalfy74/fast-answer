@@ -14,6 +14,7 @@ import PQueue from 'p-queue';
 
 import { User } from '../data/types';
 import { db } from '../firebase-config';
+import UserDetails, { FormikValues } from '../pages/EditAccount/UserDetails';
 import { getLastThreeDaysAnswers } from './answers';
 
 const queue = new PQueue({ concurrency: 1 });
@@ -69,15 +70,26 @@ export const saveUserData = async (user: {
   await setDoc(doc(usersCollectionRef, user.id), newUser);
 };
 
-export const updateUserData = async (user: any) => {
-  const newUserData = { ...user };
-  delete newUserData.Email;
+type UpdateUserAvatarParams = {
+  id: string;
+  PhotoUrl: string;
+  Bio: string;
+  UserName: string;
+};
 
+type UserDetailsParams = Omit<FormikValues, 'Email'> & {
+  id: string;
+};
+
+export const updateUserData = async (
+  user: UpdateUserAvatarParams | UserDetailsParams
+) => {
   const userRef = doc(db, 'users', user.id);
-  const updateResult = await updateDoc(userRef, newUserData);
+  const updateResult = await updateDoc(userRef, user);
 
   return updateResult;
 };
+
 export const getTopUsers = async () => {
   const asnwersOfLastThreeDays = await getLastThreeDaysAnswers();
 

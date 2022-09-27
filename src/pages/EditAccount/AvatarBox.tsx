@@ -14,64 +14,116 @@ import {
   Typography,
 } from '@mui/material';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
-import { useEffect, useState } from 'react';
+import { FormikState, useFormik } from 'formik';
+import { ChangeEventHandler, useState } from 'react';
+import * as Yup from 'yup';
 
+import { useAuth } from '../../contexts/AuthContext';
 import { storage } from '../../firebase-config';
+import { updateUserData } from '../../services/users';
 
-type AvatarBoxProps = {
-  avatar?: string;
-  bio?: string;
-  onChangeHandler: (value: string, newValue: string) => void;
+export const validationSchema = Yup.object({
+  UserName: Yup.string().required('Required'),
+});
+
+type FormikValues = {
+  PhotoUrl: string;
+  Bio: string;
+  UserName: string;
 };
 
-const AvatarBox = ({ avatar, bio, onChangeHandler }: AvatarBoxProps) => {
+type AvatarBoxProps = {
+  initialValues: FormikValues;
+};
+
+type ResetForm = (
+  nextState?: Partial<FormikState<FormikValues>> | undefined
+) => void;
+
+const AvatarBox = ({ initialValues }: AvatarBoxProps) => {
+  const { currentUser } = useAuth();
+
   const [file, setFile] = useState<File | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [userNameEdit, setUserNameEdit] = useState(false);
   const [bioEdit, setBioEdit] = useState(false);
 
-  // useEffect(() => {
-  //   const uploadFile = () => {
-  //     if (!file) return;
-  //     const name = new Date().getTime() + file.name;
+  const handleCancel = (resetForm: ResetForm, values?: FormikValues) => {
+    setBioEdit(false);
+    setUserNameEdit(false);
 
-  //     const storageRef = ref(storage, name);
-  //     const uploadTask = uploadBytesResumable(storageRef, file);
+    if (values) {
+      resetForm({ values });
+    } else {
+      resetForm();
+    }
+  };
 
-  //     uploadTask.on(
-  //       'state_changed',
-  //       (snapshot) => {
-  //         const progress =
-  //           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-  //         console.log(`Upload is ${progress}% done`);
-  //         switch (snapshot.state) {
-  //           case 'paused':
-  //             console.log('Upload is paused');
-  //             break;
-  //           case 'running':
-  //             console.log('Upload is running');
-  //             break;
-  //           default:
-  //             break;
-  //         }
-  //       },
-  //       (error) => {
-  //         console.log(error);
-  //       },
-  //       () => {
-  //         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-  //           // setData((prev) => ({ ...prev, img: downloadURL }));
-  //           console.log(downloadURL);
-  //           onChangeHandler('PhotoUrl', downloadURL);
-  //         });
-  //       }
-  //     );
-  //   };
-  //   if (file) {
-  //     uploadFile();
-  //   }
-  // }, [file, onChangeHandler]);
+  const handleSaveUserData = async (
+    resetForm: ResetForm,
+    values: FormikValues
+  ) => {
+    setIsLoading(true);
+
+    await updateUserData({
+      id: currentUser!.uid,
+      ...values,
+    });
+
+    handleCancel(resetForm, values);
+    setIsLoading(false);
+  };
+
+  const uploadFile = (UserName: string, Bio: string, resetForm: ResetForm) => {
+    if (!file) return;
+    const name = new Date().getTime() + file.name;
+
+    const storageRef = ref(storage, name);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+    setIsLoading(true);
+
+    uploadTask.on(
+      'state_changed',
+      undefined,
+      (error) => {
+        console.log(error);
+      },
+      async () => {
+        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+        await handleSaveUserData(resetForm, {
+          PhotoUrl: downloadURL,
+          UserName,
+          Bio,
+        });
+      }
+    );
+  };
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: (values, submitProps) => {
+      if (file) {
+        uploadFile(values.UserName, values.Bio, submitProps.resetForm);
+        return;
+      }
+      handleSaveUserData(submitProps.resetForm, formik.values);
+    },
+  });
+
+  const handleImgChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+    setFile(e.target.files![0]);
+
+    formik.setFieldValue(
+      'PhotoUrl',
+      URL.createObjectURL(e.target.files![0]) || ''
+    );
+  };
 
   return (
     <Box
+      component="form"
+      onSubmit={formik.handleSubmit}
       sx={{
         bgcolor: 'white',
         boxShadow: 2,
@@ -92,7 +144,7 @@ const AvatarBox = ({ avatar, bio, onChangeHandler }: AvatarBoxProps) => {
         <Stack alignItems="center">
           <Avatar
             alt="user avatar"
-            src={file ? URL.createObjectURL(file) : avatar}
+            src={formik.values.PhotoUrl}
             sx={{
               width: 200,
               height: 200,
@@ -102,7 +154,7 @@ const AvatarBox = ({ avatar, bio, onChangeHandler }: AvatarBoxProps) => {
             }}
           />
           <Stack>
-            <InputLabel htmlFor="file">
+            <InputLabel htmlFor="PhotoUrl">
               <Tooltip
                 title="Upload"
                 sx={{
@@ -115,26 +167,39 @@ const AvatarBox = ({ avatar, bio, onChangeHandler }: AvatarBoxProps) => {
             </InputLabel>
             <input
               type="file"
-              id="file"
+              id="PhotoUrl"
+              name="PhotoUrl"
               accept="image/png, image/gif, image/jpeg"
-              onChange={(e) =>
-                setFile(e.target.files ? e.target.files[0] : null)
-              }
+              onChange={handleImgChange}
               style={{ display: 'none' }}
             />
           </Stack>
         </Stack>
         <Stack>
-          <Stack
-            direction="row"
-            alignItems="center"
-            justifyContent="center"
-            spacing={1}
-            sx={{ mt: 2 }}
-          >
-            <Typography fontWeight="500">@0xRamadan</Typography>
-            <EditIcon fontSize="small" />
-          </Stack>
+          {!userNameEdit && (
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="center"
+              spacing={1}
+              sx={{ mt: 2 }}
+            >
+              <Typography fontWeight="500">
+                @{formik.values.UserName}
+              </Typography>
+              <IconButton onClick={() => setUserNameEdit(true)}>
+                <EditIcon fontSize="small" />
+              </IconButton>
+            </Stack>
+          )}
+          {userNameEdit && (
+            <TextField
+              name="UserName"
+              value={formik.values.UserName}
+              onChange={formik.handleChange}
+              size="small"
+            />
+          )}
           {!bioEdit && (
             <>
               <Stack
@@ -142,20 +207,22 @@ const AvatarBox = ({ avatar, bio, onChangeHandler }: AvatarBoxProps) => {
                 alignItems="center"
                 justifyContent="center"
                 spacing={1}
-                sx={{ mt: 2 }}
+                sx={{
+                  mt: 1,
+                  borderBottom: '1px solid',
+                  borderColor: 'divider',
+                }}
               >
                 <Typography fontWeight="500">Bio</Typography>
                 <IconButton onClick={() => setBioEdit(true)}>
                   <EditIcon fontSize="small" />
                 </IconButton>
               </Stack>
-              <Divider />
+
               <Typography
                 sx={{ mt: 2, alignSelf: 'center', fontStyle: 'italic' }}
               >
-                &quot;Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Ex, corporis nostrum ad magni deleniti voluptatum voluptates in
-                sit exercitationem rem sapiente aut neque nisi.&quot;
+                {formik.values.Bio || 'No bio'}
               </Typography>
             </>
           )}
@@ -166,24 +233,37 @@ const AvatarBox = ({ avatar, bio, onChangeHandler }: AvatarBoxProps) => {
                 alignSelf: 'center',
                 width: '100%',
               }}
-              defaultValue="Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex,
-            corporis nostrum ad magni deleniti voluptatum voluptates in sit
-            exercitationem rem sapiente aut neque nisi."
+              name="Bio"
+              value={formik.values.Bio}
+              onChange={formik.handleChange}
               multiline
-              // minRows={2}
               maxRows={6}
             />
           )}
         </Stack>
       </Stack>
-      {bioEdit && (
-        <Stack direction="row" gap={3}>
-          <LoadingButton variant="contained" fullWidth>
+
+      <Stack gap={3}>
+        {formik.dirty && (
+          <LoadingButton
+            variant="contained"
+            fullWidth
+            type="submit"
+            loading={isLoading}
+          >
             Save
           </LoadingButton>
-          <Button fullWidth>Cancel</Button>
-        </Stack>
-      )}
+        )}
+        {(bioEdit || userNameEdit || formik.dirty) && (
+          <Button
+            fullWidth
+            onClick={() => handleCancel(formik.resetForm)}
+            disabled={isLoading}
+          >
+            Cancel
+          </Button>
+        )}
+      </Stack>
     </Box>
   );
 };

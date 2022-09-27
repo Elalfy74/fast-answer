@@ -2,6 +2,7 @@ import { LoadingButton } from '@mui/lab';
 import { Box, Button, Divider, Stack, Typography } from '@mui/material';
 import { FormikProps, useFormik } from 'formik';
 import { useMutation } from 'react-query';
+import * as Yup from 'yup';
 
 import { updateUserData } from '../../services/users';
 import FieldsStack from './FieldsStack';
@@ -9,8 +10,12 @@ import {
   EducationalInfoList,
   GeneralInfoList,
   PersonalInfoList,
-  validationSchema,
 } from './utils';
+
+const validationSchema = Yup.object({
+  FirstName: Yup.string().required('Required'),
+  LastName: Yup.string().required('Required'),
+});
 
 export type FormikValues = {
   FirstName: string;
@@ -38,7 +43,9 @@ const UserDetails = ({ initialValues, userId }: UserDetailsProps) => {
     initialValues,
     validationSchema,
     onSubmit: (values, submitProps) => {
-      mutate({ id: userId, ...values });
+      const { Email, ...sentValues } = { ...values };
+
+      mutate({ id: userId, ...sentValues });
 
       submitProps.resetForm({ values });
     },
@@ -105,7 +112,11 @@ const UserDetails = ({ initialValues, userId }: UserDetailsProps) => {
           >
             Save
           </LoadingButton>
-          <Button sx={{ p: '6px 50px 6px 50px' }} disabled={!formik.dirty}>
+          <Button
+            sx={{ p: '6px 50px 6px 50px' }}
+            disabled={!formik.dirty}
+            onClick={() => formik.resetForm()}
+          >
             Cancel
           </Button>
         </Stack>

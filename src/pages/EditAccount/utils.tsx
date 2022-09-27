@@ -1,10 +1,4 @@
 import { HTMLInputTypeAttribute } from 'react';
-import * as Yup from 'yup';
-
-export const validationSchema = Yup.object({
-  FirstName: Yup.string().required('Required'),
-  LastName: Yup.string().required('Required'),
-});
 
 export type Input = {
   name:

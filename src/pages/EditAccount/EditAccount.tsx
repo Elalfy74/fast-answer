@@ -80,17 +80,15 @@ const EditAccount = () => {
         }}
       >
         {/* User Details Box */}
-        <UserDetails
-          // onChangeHandler={handleChangeValue}
-          userId={currentUser!.uid}
-          initialValues={initialValues}
-        />
+        <UserDetails userId={currentUser!.uid} initialValues={initialValues} />
 
         {/* Avatar Box */}
         <AvatarBox
-          avatar={data?.PhotoUrl}
-          bio={data?.Bio}
-          onChangeHandler={handleChangeImg}
+          initialValues={{
+            PhotoUrl: data?.PhotoUrl || '',
+            Bio: data?.Bio || '',
+            UserName: data?.UserName || '',
+          }}
         />
       </Stack>
     </Container>
