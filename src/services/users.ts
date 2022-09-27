@@ -8,6 +8,7 @@ import {
   orderBy,
   query,
   setDoc,
+  updateDoc,
 } from 'firebase/firestore';
 import PQueue from 'p-queue';
 
@@ -68,9 +69,12 @@ export const saveUserData = async (user: {
   await setDoc(doc(usersCollectionRef, user.id), newUser);
 };
 
-export const updateUserData = async (user: User) => {
+export const updateUserData = async (user: any) => {
+  const newUserData = { ...user };
+  delete newUserData.Email;
+
   const userRef = doc(db, 'users', user.id);
-  const updateResult = await setDoc(userRef, user);
+  const updateResult = await updateDoc(userRef, newUserData);
 
   return updateResult;
 };

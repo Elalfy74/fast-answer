@@ -27,15 +27,15 @@ const EditAccount = () => {
   );
 
   const initialValues = {
-    firstName: data?.FirstName || '',
-    lastName: data?.LastName || '',
-    email: data?.Email || '',
-    birthdate: data?.Birthdate || '',
-    location: data?.location || '',
-    phoneNumber: data?.PhoneNumber || '',
-    major: data?.Major || '',
-    college: data?.College || '',
-    universityLevel: data?.UniversityLevel || '',
+    FirstName: data?.FirstName || '',
+    LastName: data?.LastName || '',
+    Email: data?.Email || '',
+    Birthdate: data?.Birthdate || '',
+    Country: data?.Country || '',
+    PhoneNumber: data?.PhoneNumber || '',
+    Major: data?.Major || '',
+    College: data?.College || '',
+    UniversityLevel: data?.UniversityLevel || '',
   };
 
   const handleChangeImg = useCallback(
@@ -82,6 +82,7 @@ const EditAccount = () => {
         {/* User Details Box */}
         <UserDetails
           // onChangeHandler={handleChangeValue}
+          userId={currentUser!.uid}
           initialValues={initialValues}
         />
 

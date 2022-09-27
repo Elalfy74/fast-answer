@@ -1,43 +1,46 @@
 import { LoadingButton } from '@mui/lab';
-import {
-  Box,
-  Button,
-  Divider,
-  Stack,
-  TextField,
-  Typography,
-} from '@mui/material';
-import { useFormik } from 'formik';
+import { Box, Button, Divider, Stack, Typography } from '@mui/material';
+import { FormikProps, useFormik } from 'formik';
+import { useMutation } from 'react-query';
 
+import { updateUserData } from '../../services/users';
+import FieldsStack from './FieldsStack';
 import {
-  EditFieldText,
   EducationalInfoList,
   GeneralInfoList,
   PersonalInfoList,
-  StackEditField,
   validationSchema,
-} from './CustomComponents';
+} from './utils';
 
-type UserDetailsProps = {
-  initialValues: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    birthdate: string;
-    location: string;
-    phoneNumber: string;
-    major: string;
-    college: string;
-    universityLevel: string;
-  };
+export type FormikValues = {
+  FirstName: string;
+  LastName: string;
+  Email: string;
+  Birthdate: string;
+  Country: string;
+  PhoneNumber: string;
+  Major: string;
+  College: string;
+  UniversityLevel: string;
 };
 
-const UserDetails = ({ initialValues }: UserDetailsProps) => {
-  const formik = useFormik({
+type UserDetailsProps = {
+  initialValues: FormikValues;
+  userId: string;
+};
+
+const UserDetails = ({ initialValues, userId }: UserDetailsProps) => {
+  const { mutate, isLoading } = useMutation(updateUserData, {
+    onSuccess: () => {},
+  });
+
+  const formik: FormikProps<FormikValues> = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: (values, submitProps) => {
+      mutate({ id: userId, ...values });
+
+      submitProps.resetForm({ values });
     },
   });
 
@@ -72,91 +75,39 @@ const UserDetails = ({ initialValues }: UserDetailsProps) => {
           }}
         >
           {/* 1/2 General Info Stack */}
-          <Stack>
-            <Typography variant="h6" fontWeight="500" sx={{ pl: 2 }}>
-              General Information
-            </Typography>
-            <Stack p={2} spacing={2} justifyContent="space-between">
-              {GeneralInfoList.map(({ name, label, type, readonly }) => (
-                <StackEditField key={name}>
-                  <EditFieldText>{label}</EditFieldText>
-                  <TextField
-                    id={name}
-                    name={name}
-                    type={type}
-                    fullWidth
-                    size="small"
-                    value={formik.values[name]}
-                    onChange={formik.handleChange}
-                    error={formik.touched[name] && Boolean(formik.errors[name])}
-                    helperText={formik.touched[name] && formik.errors[name]}
-                    disabled={readonly}
-                  />
-                </StackEditField>
-              ))}
-            </Stack>
-          </Stack>
-
+          <FieldsStack
+            title="General Information"
+            formik={formik}
+            list={GeneralInfoList}
+          />
           {/* 2/2 personal Stack */}
-          <Stack>
-            <Typography variant="h6" fontWeight="500" sx={{ pl: 2 }}>
-              Personal Info
-            </Typography>
-            <Stack p={2} spacing={2} justifyContent="space-between">
-              {PersonalInfoList.map(({ name, label, type }) => (
-                <StackEditField key={name}>
-                  <EditFieldText>{label}</EditFieldText>
-                  <TextField
-                    id={name}
-                    name={name}
-                    type={type}
-                    fullWidth
-                    size="small"
-                    value={formik.values[name]}
-                    onChange={formik.handleChange}
-                    error={formik.touched[name] && Boolean(formik.errors[name])}
-                    helperText={formik.touched[name] && formik.errors[name]}
-                  />
-                </StackEditField>
-              ))}
-            </Stack>
-          </Stack>
+          <FieldsStack
+            title="Personal Info"
+            formik={formik}
+            list={PersonalInfoList}
+          />
         </Box>
-
         {/* Education Stack */}
-        <Stack>
-          <Typography variant="h6" fontWeight="500" sx={{ pl: 2 }}>
-            Education Info
-          </Typography>
-          <Stack p={2} spacing={2} justifyContent="space-between">
-            {EducationalInfoList.map(({ name, label }) => (
-              <StackEditField key={name}>
-                <EditFieldText>{label}</EditFieldText>
-                <TextField
-                  id={name}
-                  name={name}
-                  fullWidth
-                  size="small"
-                  value={formik.values[name]}
-                  onChange={formik.handleChange}
-                  error={formik.touched[name] && Boolean(formik.errors[name])}
-                  helperText={formik.touched[name] && formik.errors[name]}
-                />
-              </StackEditField>
-            ))}
-          </Stack>
-        </Stack>
+        <FieldsStack
+          title="Education Info"
+          formik={formik}
+          list={EducationalInfoList}
+        />
+
         {/* action buttons */}
         <Stack direction="row" spacing={2} sx={{ p: 2, mt: 2 }}>
           <LoadingButton
-            // loading
+            loading={isLoading}
             type="submit"
             variant="contained"
             sx={{ p: '6px 60px 6px 60px' }}
+            disabled={!formik.dirty}
           >
             Save
           </LoadingButton>
-          <Button sx={{ p: '6px 50px 6px 50px' }}>Cancel</Button>
+          <Button sx={{ p: '6px 50px 6px 50px' }} disabled={!formik.dirty}>
+            Cancel
+          </Button>
         </Stack>
       </Stack>
     </Box>
