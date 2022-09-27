@@ -1,10 +1,8 @@
 import { LoadingButton } from '@mui/lab';
-import { doc } from 'firebase/firestore';
 import { useMutation } from 'react-query';
 
 import { useAuth } from '../contexts/AuthContext';
-import { db } from '../firebase-config';
-import { getUserByRef, saveUserData } from '../services/users';
+import { getUserById, saveUserData } from '../services/users';
 import { GoogleLogo } from './svg';
 
 const GoogleLogin = () => {
@@ -12,15 +10,13 @@ const GoogleLogin = () => {
 
   const { mutate, isLoading } = useMutation(signInWithGoogle, {
     onSuccess: async (data) => {
-      const userRef = doc(db, 'users', data.user.uid);
-
-      const user = await getUserByRef(userRef);
+      const user = await getUserById(data.user.uid);
 
       const displayNameAsArray = data.user.displayName?.split(' ');
 
       if (!user.Email) {
         await saveUserData({
-          userId: data.user.uid,
+          id: data.user.uid,
           Email: data.user.email!,
           FirstName: displayNameAsArray![0],
           LastName: displayNameAsArray ? displayNameAsArray[1] : undefined,
