@@ -28,8 +28,16 @@ const questionsCollectionRef = collection(db, 'questions');
 
 let lastDoc: QueryDocumentSnapshot<DocumentData> | null = null;
 // Get All Questions API
-export const getAllQuestions = async () => {
+export const getAllQuestions = async ({
+  pageParam = 1,
+}: {
+  pageParam?: number;
+}) => {
   const numberOfQuestions = 6;
+
+  if (pageParam === 1) {
+    lastDoc = null;
+  }
 
   let requestQuery: Query<DocumentData>;
 

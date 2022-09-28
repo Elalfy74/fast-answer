@@ -5,6 +5,7 @@ import { useAuth } from './contexts/AuthContext';
 import QueryProvider from './contexts/QueryProvider';
 import AppTheme from './contexts/theme';
 import { ProtectedRoute, SecondaryWrapper, Wrapper } from './layouts';
+import OverView from './layouts/OverView';
 import {
   AllQuestions,
   Chat,

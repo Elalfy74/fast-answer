@@ -11,7 +11,7 @@ import Answer from './Answer';
 
 const AllAnswers = ({ qId }: { qId: string }) => {
   const { currentUser } = useAuth();
-  const [value, setValue] = useState<unknown>('');
+  const [value, setValue] = useState('');
 
   const { data: answers, isLoading } = useQuery(
     ['answers', qId],

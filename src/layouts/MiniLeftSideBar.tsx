@@ -7,17 +7,28 @@ import {
   ListItemIcon,
   Tooltip,
 } from '@mui/material';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 
 import { Logo } from '../components';
+import { Ask } from '../components/svg';
 import { useAuth } from '../contexts/AuthContext';
 import { LeftSideBarListPrivate, LeftSideBarListPublic } from './LeftSideBar';
 
 const MiniLeftSideBar = () => {
   const { currentUser, logout } = useAuth();
+  const navigate = useNavigate();
+
   const linksList = currentUser
     ? LeftSideBarListPrivate
     : LeftSideBarListPublic;
+
+  const handleAsk = () => {
+    if (currentUser) {
+      navigate('/ask-question');
+    } else {
+      navigate('/auth/login');
+    }
+  };
 
   return (
     <Box
@@ -66,6 +77,21 @@ const MiniLeftSideBar = () => {
             </NavLink>
           </ListItem>
         ))}
+        <ListItem sx={{ px: { xs: 0, xl: '32px' }, mb: '10px' }}>
+          <ListItemIcon
+            sx={{
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            <Tooltip title="Ask">
+              <IconButton onClick={handleAsk}>
+                <Ask />
+              </IconButton>
+            </Tooltip>
+          </ListItemIcon>
+        </ListItem>
         {currentUser && (
           <ListItem
             sx={{

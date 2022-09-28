@@ -1,27 +1,28 @@
 import 'react-mde/lib/styles/css/react-mde-all.css';
 
 import { Box } from '@mui/material';
-import React from 'react';
+import MDEditor from '@uiw/react-md-editor';
 import ReactMarkdown from 'react-markdown';
 import ReactMde from 'react-mde';
 
 import { CodeBlock } from '../pages/QuestionDetails/QA';
 
-const MDEditorField = ({ value, onChange }: any) => {
-  const [selectedTab, setSelectedTab] = React.useState<'write' | 'preview'>(
-    'write'
-  );
-
+const MDEditorField = ({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: any;
+}) => {
   return (
     <Box width="100%" mt={4}>
-      <ReactMde
+      <MDEditor
         value={value}
         onChange={onChange}
-        selectedTab={selectedTab}
-        onTabChange={setSelectedTab}
-        generateMarkdownPreview={(markdown) =>
-          Promise.resolve(<ReactMarkdown>{markdown}</ReactMarkdown>)
-        }
+        preview="edit"
+        textareaProps={{
+          placeholder: 'What are your thoughts ?',
+        }}
       />
       <ReactMarkdown components={CodeBlock}>{value}</ReactMarkdown>
     </Box>
