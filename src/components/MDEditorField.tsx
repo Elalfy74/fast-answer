@@ -1,9 +1,6 @@
-import 'react-mde/lib/styles/css/react-mde-all.css';
-
 import { Box } from '@mui/material';
 import MDEditor from '@uiw/react-md-editor';
 import ReactMarkdown from 'react-markdown';
-import ReactMde from 'react-mde';
 
 import { CodeBlock } from '../pages/QuestionDetails/QA';
 

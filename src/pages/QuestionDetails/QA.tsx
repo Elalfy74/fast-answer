@@ -43,7 +43,7 @@ const QA = ({
     <Box>
       {/* Author display */}
       <Stack direction="row" alignItems="center" gap={1} mb={3}>
-        <Avatar src={authorAvatar || undefined} />
+        <Avatar src={authorAvatar} />
         <Stack>
           <Typography component="h6" variant="body1" fontWeight="500">
             {authorFirstName} {authorLastName && authorLastName}

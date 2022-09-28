@@ -19,7 +19,10 @@ const getChat = async (
 ) => {
   const chatQuery = query(
     chatCollectionRef,
-    where('users', 'array-contains-any', [firstUser, secondUser])
+    where('users', 'in', [
+      [firstUser, secondUser],
+      [secondUser, firstUser],
+    ])
   );
 
   const chatDoc = await getDocs(chatQuery);
