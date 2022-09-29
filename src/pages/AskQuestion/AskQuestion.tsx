@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 
 import MDEditorField from '../../components/MDEditorField';
 import { useAuth } from '../../contexts/AuthContext';
-import { Tag } from '../../data/types';
+import { Tag } from '../../data/global.types';
 import { saveQuestion } from '../../services/questions';
 import { getTagsByQuery } from '../../services/tags';
 import { MarginBox, SecondHeader, Title } from './CustomComponents';
@@ -87,6 +87,7 @@ const AskQuestion = () => {
       tags: tagsValue,
     });
   };
+
   return (
     <Container sx={{ display: 'flex', flexDirection: 'column', pt: 6 }}>
       <Typography

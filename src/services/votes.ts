@@ -1,6 +1,6 @@
 import { doc, updateDoc } from 'firebase/firestore';
 
-import { Vote } from '../data/types';
+import { Vote } from '../data/global.types';
 import { db } from '../firebase-config';
 
 type UpdateVotesParams = {

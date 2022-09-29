@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 import { MDEditorField } from '../../components';
 import { useAuth } from '../../contexts/AuthContext';
-import { AnswerType } from '../../data/types';
+import { AnswerType } from '../../data/global.types';
 import { getAllAnswersOfQuestion, saveAnswer } from '../../services/answers';
 import Answer from './Answer';
 

@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material';
 
-import { Tag } from '../data/types';
+import { Tag } from '../data/global.types';
 
 type TagItemProps = {
   tag: Tag;

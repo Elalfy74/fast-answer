@@ -39,7 +39,7 @@ input[type='number'] {
   background: #fff !important;
 }
 
-/* .md-preview pre,
-code {
-  background-color: #fff !important;
-} */
+.md-preview {
+  /* background-color: #fff !important; */
+  word-break: break-all;
+}

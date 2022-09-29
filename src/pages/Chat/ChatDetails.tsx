@@ -14,7 +14,7 @@ import { useMutation, useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { useAuth } from '../../contexts/AuthContext';
-import { User } from '../../data/types';
+import { User } from '../../data/global.types';
 import { useReactQuerySubscription } from '../../hooks/useReactQuerySubscription';
 import { getAllMessages, saveMessage } from '../../services/messages';
 import { Message } from '.';
@@ -126,10 +126,8 @@ const ChatDetails = ({ chats }: ChatDetailsProps) => {
           <ArrowBack />
         </IconButton>
         <Box display="flex" alignItems="center" gap={1}>
-          <Avatar src={otherUser?.PhotoUrl || undefined} />
-          <Typography variant="body1">
-            {otherUser?.FirstName} {otherUser?.LastName || ''}
-          </Typography>
+          <Avatar src={otherUser?.avatar} />
+          <Typography variant="body1">{otherUser?.userName}</Typography>
         </Box>
       </Paper>
 

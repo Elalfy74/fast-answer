@@ -1,7 +1,7 @@
 import { BookmarkAddOutlined } from '@mui/icons-material';
 import { Box, Stack, Typography } from '@mui/material';
 
-import { QuestionType } from '../../data/types';
+import { QuestionType } from '../../data/global.types';
 import { QA, Votes } from '.';
 
 type QuestionProps = {
@@ -15,9 +15,8 @@ const Question = ({ question }: QuestionProps) => {
         {question.title}
       </Typography>
       <QA
-        authorAvatar={question.author?.PhotoUrl}
-        authorFirstName={question.author?.FirstName}
-        authorLastName={question.author?.LastName}
+        authorUserName={question.author?.userName}
+        authorAvatar={question.author?.avatar}
         creationTime={question.creationTime}
         body={question.body}
       />

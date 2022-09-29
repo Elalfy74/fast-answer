@@ -58,15 +58,13 @@ const ChatItem = ({ chat }: ChatItemProps) => {
           >
             <Box display="flex" mb={1.1} alignItems="center" gap={2}>
               <Avatar
-                src={chat.otherUser.PhotoUrl || undefined}
+                src={chat.otherUser.avatar}
                 sx={{
                   width: 50,
                   height: 50,
                 }}
               />
-              <Typography variant="h6">
-                {chat.otherUser.FirstName} {chat.otherUser.LastName || ''}
-              </Typography>
+              <Typography variant="h6">{chat.otherUser.userName}</Typography>
             </Box>
           </ListItemButton>
         </NavLink>

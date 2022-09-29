@@ -6,7 +6,7 @@ import {
 import moment from 'moment';
 import PQueue from 'p-queue';
 
-import { QuestionType, ReceivedQuestionType, Tag } from '../data/types';
+import { QuestionType, ReceivedQuestionType, Tag } from '../data/global.types';
 import { getVotesNumber } from '../utils/votes';
 import { getAnswersOfQuestion } from './answers';
 import { getTags } from './tags';

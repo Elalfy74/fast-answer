@@ -8,7 +8,7 @@ import {
   where,
 } from 'firebase/firestore';
 
-import { Tag } from '../data/types';
+import { Tag } from '../data/global.types';
 import { db } from '../firebase-config';
 
 const tagsCollectionRef = collection(db, 'tags');
@@ -34,12 +34,6 @@ export const getTags = async (tagsRef: DocumentReference<DocumentData>[]) => {
   });
 
   return tags;
-};
-
-export const getAllTagsId = async () => {
-  const tags = await getDocs(tagsCollectionRef);
-
-  return tags.docs.map((doc) => doc.id);
 };
 
 // get Tags By Query API

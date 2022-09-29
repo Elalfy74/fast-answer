@@ -11,12 +11,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { TagsList } from '../../components';
-import { QuestionType } from '../../data/types';
+import { QuestionType } from '../../data/global.types';
 
 type QuestionProps = {
   question: QuestionType;
 };
-function Question({ question }: QuestionProps) {
+
+const Question = ({ question }: QuestionProps) => {
   return (
     <Card variant="outlined" sx={{ width: '100%', minHeight: '163px' }}>
       <CardContent>
@@ -84,7 +85,7 @@ function Question({ question }: QuestionProps) {
           <Box sx={{ display: 'flex', gap: 0.7, alignItems: 'center' }}>
             <Avatar
               alt="user avatar"
-              src={question.author && question.author.PhotoUrl}
+              src={question.author && question.author.avatar}
               sx={{ width: 35, height: 35 }}
             />
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -102,8 +103,7 @@ function Question({ question }: QuestionProps) {
                   }}
                   color="#6AA5FF"
                 >
-                  {question.author.FirstName}{' '}
-                  {question.author.LastName && question.author.LastName}
+                  {question.author.userName}
                 </Typography>
               )}
               {!question.author && (
@@ -142,5 +142,5 @@ function Question({ question }: QuestionProps) {
       </CardContent>
     </Card>
   );
-}
+};
 export default React.memo(Question);

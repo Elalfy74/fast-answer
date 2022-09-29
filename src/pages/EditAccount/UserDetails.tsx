@@ -13,20 +13,16 @@ import {
 } from './utils';
 
 const validationSchema = Yup.object({
-  FirstName: Yup.string().required('Required'),
-  LastName: Yup.string().required('Required'),
+  firstName: Yup.string().required('Required'),
+  lastName: Yup.string().required('Required'),
 });
 
 export type FormikValues = {
-  FirstName: string;
-  LastName: string;
-  Email: string;
-  Birthdate: string;
-  Country: string;
-  PhoneNumber: string;
-  Major: string;
-  College: string;
-  UniversityLevel: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  birthdate: string;
+  country: string;
 };
 
 type UserDetailsProps = {
@@ -43,7 +39,7 @@ const UserDetails = ({ initialValues, userId }: UserDetailsProps) => {
     initialValues,
     validationSchema,
     onSubmit: (values, submitProps) => {
-      const { Email, ...sentValues } = { ...values };
+      const { email, ...sentValues } = { ...values };
 
       mutate({ id: userId, ...sentValues });
 

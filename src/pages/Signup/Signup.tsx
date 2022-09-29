@@ -51,18 +51,24 @@ const Signup = () => {
     onChangeHandler: firstNameChangeHandler,
     onBlurHandler: firstNameBlurHandler,
   } = useInput(validateFirstName, errorMessages.firstNameMessage);
-  // End Input Hook Usage
 
-  const lastNameValue = useRef<HTMLInputElement>(null);
+  const {
+    value: lastNameValue,
+    isValid: lastNameIsValid,
+    error: lastNameError,
+    onChangeHandler: lastNameChangeHandler,
+    onBlurHandler: lastNameBlurHandler,
+  } = useInput(validateFirstName, 'Requied');
+
+  // End Input Hook Usage
 
   const signupAndSaveUserData = async () => {
     const user = await signup({ email: emailValue, password: passwordValue });
 
-    await saveUserData({
-      id: user.user.uid,
-      FirstName: firstNameValue,
-      LastName: lastNameValue.current?.value,
-      Email: emailValue,
+    await saveUserData(user.user.uid, {
+      firstName: firstNameValue,
+      lastName: lastNameValue,
+      email: emailValue,
     });
   };
 
@@ -80,7 +86,8 @@ const Signup = () => {
 
   const signupError = getErrorMessage();
 
-  const formIsValid = firstNameIsValid && emailIsValid && passwordIsValid;
+  const formIsValid =
+    firstNameIsValid && lastNameIsValid && emailIsValid && passwordIsValid;
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -141,7 +148,11 @@ const Signup = () => {
               label="Last Name"
               name="lastName"
               autoComplete="family-name"
-              inputRef={lastNameValue}
+              value={lastNameValue}
+              onChange={lastNameChangeHandler}
+              onBlur={lastNameBlurHandler}
+              error={!!lastNameError}
+              helperText={lastNameError}
             />
           </Grid>
           {/* End Of First Name And Last Name */}

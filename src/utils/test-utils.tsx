@@ -4,7 +4,7 @@ import { ReactElement } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 
 import QueryProvider from '../contexts/QueryProvider';
-import { ChildrenProps } from '../data/types';
+import { ChildrenProps } from '../data/global.types';
 
 const AllTheProviders = ({ children }: ChildrenProps) => (
   <QueryProvider>

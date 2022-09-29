@@ -5,7 +5,6 @@ import { useAuth } from './contexts/AuthContext';
 import QueryProvider from './contexts/QueryProvider';
 import AppTheme from './contexts/theme';
 import { ProtectedRoute, SecondaryWrapper, Wrapper } from './layouts';
-import OverView from './layouts/OverView';
 import {
   AllQuestions,
   Chat,
@@ -26,17 +25,14 @@ const App = () => {
       <QueryProvider>
         {/* <ScriptsPlayground /> */}
         <Routes>
-          <Route path="/" element={<Wrapper />}>
+          <Route path="/" element={<Wrapper full />}>
             <Route path="/" element={<AllQuestions />} />
+            <Route path="/users/:userId" element={<UserProfile />} />
             <Route path="/questions/:qId" element={<QuestionDetails />} />
           </Route>
 
-          <Route element={<SecondaryWrapper />}>
-            <Route path="/users/:userId" element={<UserProfile />} />
-          </Route>
-
           <Route element={<ProtectedRoute />}>
-            <Route element={<SecondaryWrapper />}>
+            <Route element={<Wrapper full={false} />}>
               <Route path="/profile" element={<UserProfile />} />
             </Route>
             <Route path="/profile-settings" element={<EditAccount />} />
@@ -52,12 +48,11 @@ const App = () => {
             path="/auth/signup"
             element={!currentUser ? <Signup /> : <Navigate to="/" />}
           />
-          {/* <Route path="*" element={<Navigate to="/not-found" />} />
-            <Routes path="/not-found" element={<NotFound />} /> */}
+          {/* <Route path="*" element={<Navigate to="/not-found" />} /> */}
+          {/* <Routes path="/not-found" element={<NotFound />} /> */}
         </Routes>
         <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
       </QueryProvider>
-      {/* </ChatProvider> */}
     </AppTheme>
   );
 };
