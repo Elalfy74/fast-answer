@@ -84,26 +84,43 @@ function Question({ question }: QuestionProps) {
           <Box sx={{ display: 'flex', gap: 0.7, alignItems: 'center' }}>
             <Avatar
               alt="user avatar"
-              src={question.author.PhotoUrl}
+              src={question.author && question.author.PhotoUrl}
               sx={{ width: 35, height: 35 }}
             />
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-              <Typography
-                component={Link}
-                to={`/users/${question.author.id}`}
-                variant="h5"
-                sx={{
-                  fontWeight: '500',
-                  fontSize: {
-                    xs: 12,
-                    sm: 'inherit',
-                  },
-                }}
-                color="#6AA5FF"
-              >
-                {question.author.FirstName}{' '}
-                {question.author.LastName && question.author.LastName}
-              </Typography>
+              {question.author && (
+                <Typography
+                  component={Link}
+                  to={`/users/${question.author.id}`}
+                  variant="h5"
+                  sx={{
+                    fontWeight: '500',
+                    fontSize: {
+                      xs: 12,
+                      sm: 'inherit',
+                    },
+                  }}
+                  color="#6AA5FF"
+                >
+                  {question.author.FirstName}{' '}
+                  {question.author.LastName && question.author.LastName}
+                </Typography>
+              )}
+              {!question.author && (
+                <Typography
+                  variant="h5"
+                  sx={{
+                    fontWeight: '500',
+                    fontSize: {
+                      xs: 12,
+                      sm: 'inherit',
+                    },
+                  }}
+                  color="#6AA5FF"
+                >
+                  Anonymous
+                </Typography>
+              )}
               <Typography
                 variant="caption"
                 color="gray"

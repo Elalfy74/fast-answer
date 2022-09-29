@@ -27,7 +27,11 @@ export const formatQuestion = async (
 
   const tags: Tag[] = await getTags(questionData.tags);
 
-  const author = await getUserByRef(questionData.author);
+  let author;
+
+  if (questionData.author) {
+    author = await getUserByRef(questionData.author);
+  }
 
   const answersNumber = await getAnswersOfQuestion(question.id);
 

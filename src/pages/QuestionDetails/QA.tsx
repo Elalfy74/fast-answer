@@ -26,7 +26,7 @@ export const CodeBlock = {
 };
 
 type QAProps = {
-  authorFirstName: string;
+  authorFirstName?: string;
   authorLastName?: string;
   authorAvatar?: string;
   body: string;
@@ -46,7 +46,9 @@ const QA = ({
         <Avatar src={authorAvatar} />
         <Stack>
           <Typography component="h6" variant="body1" fontWeight="500">
-            {authorFirstName} {authorLastName && authorLastName}
+            {authorFirstName
+              ? `${authorFirstName} ${authorLastName || ''}`
+              : 'Anonymous'}
           </Typography>
           <Typography variant="body2" color="gray">
             {creationTime}

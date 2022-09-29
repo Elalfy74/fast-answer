@@ -65,6 +65,7 @@ const AskQuestion = () => {
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitleValue(event.target.value);
   };
+
   const handleTagsChange = (
     _event: React.SyntheticEvent<Element, Event>,
     value: Tag[]
@@ -74,14 +75,13 @@ const AskQuestion = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!currentUser) return;
 
     if (!validateForm) {
       setQuestionFormIsValid(validateForm);
       return;
     }
     mutate({
-      authorId: currentUser.uid,
+      authorId: currentUser?.uid,
       title: titleValue,
       body: bodyValue,
       tags: tagsValue,
@@ -184,7 +184,7 @@ const AskQuestion = () => {
               fontSize: '14px',
             }}
           >
-            Post your question
+            {currentUser ? 'Post your question' : 'Ask Anonymously'}
           </LoadingButton>
         </Box>
       </Box>

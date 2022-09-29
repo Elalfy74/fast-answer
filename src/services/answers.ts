@@ -2,6 +2,8 @@ import {
   addDoc,
   collection,
   doc,
+  DocumentData,
+  DocumentReference,
   getDocs,
   orderBy,
   query,
@@ -15,7 +17,7 @@ import { AnswerType, RececviedAnswerType } from '../data/types';
 import { db } from '../firebase-config';
 import { getLastThreeDaysDate } from '../utils/last-week-date';
 import { formatAllAnswers } from './answers-helpers';
-import { getUserByRef } from './users';
+import { getUserById } from './users';
 
 const answersCollectionRef = collection(db, 'answers');
 
@@ -48,25 +50,40 @@ export const getAllAnswersOfQuestion = async ({
   return answersList;
 };
 
+type SaveAnswerParams = {
+  authorId?: string;
+  questionId: string;
+  body: string;
+};
+
+type NewAnswer = Omit<SaveAnswerParams, 'authorId' | 'questionId'> & {
+  author?: DocumentReference<DocumentData>;
+  creationTime: Timestamp;
+  question: DocumentReference<DocumentData>;
+};
+
 export const saveAnswer = async ({
   authorId,
   questionId,
   body,
-}: {
-  authorId: string;
-  questionId: string;
-  body: string;
-}) => {
-  const newAnswer = {
+}: SaveAnswerParams) => {
+  const newAnswer: NewAnswer = {
     creationTime: Timestamp.fromDate(new Date()),
     body,
     question: doc(db, 'questions', questionId),
-    author: doc(db, 'users', authorId),
   };
+
+  if (authorId) {
+    newAnswer.author = doc(db, 'users', authorId);
+  }
 
   const savedAnswer = await addDoc(answersCollectionRef, newAnswer);
 
-  const author = await getUserByRef(newAnswer.author);
+  let author;
+
+  if (authorId) {
+    author = await getUserById(authorId);
+  }
 
   return {
     ...newAnswer,

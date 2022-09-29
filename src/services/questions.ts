@@ -3,6 +3,7 @@ import {
   collection,
   doc,
   DocumentData,
+  DocumentReference,
   getDoc,
   getDocs,
   limit,
@@ -72,32 +73,46 @@ export const getAllQuestions = async ({
 
 // Save Question API
 type QuestionParams = {
-  authorId: string;
+  authorId?: string;
   title: string;
   body: string;
   tags: Tag[];
 };
+
+type FormatedQuestion = Omit<QuestionParams, 'authorId' | 'tags'> & {
+  author?: DocumentReference<DocumentData>;
+  tags: DocumentReference<DocumentData>[];
+  creationTime: Timestamp;
+};
+
 export const saveQuestion = async (params: QuestionParams) => {
   const { authorId, title, body, tags } = params;
 
   const currentTime = Timestamp.fromDate(new Date());
 
-  const formatedQuestion = {
-    author: doc(db, 'users', authorId),
+  const formatedQuestion: FormatedQuestion = {
     title,
     body,
     creationTime: currentTime,
     tags: tags.map((tag: Tag) => doc(db, 'tags', tag.id)),
   };
 
+  if (authorId) {
+    formatedQuestion.author = doc(db, 'users', authorId);
+  }
+
   const savedQuestion = await addDoc(questionsCollectionRef, formatedQuestion);
 
-  const authorData = await getDoc(doc(db, 'users', authorId));
+  let authorData;
+
+  if (authorId) {
+    authorData = await getDoc(doc(db, 'users', authorId));
+  }
   const formatedDate = moment.unix(currentTime.seconds).fromNow();
 
   return {
     ...formatedQuestion,
-    author: authorData.data(),
+    author: authorId && authorData && authorData.data(),
     creationTime: formatedDate,
     id: savedQuestion.id,
     tags,
@@ -132,6 +147,7 @@ export const getQuestionById = async ({
   const questionDoc = doc(db, 'questions', questionId);
 
   const questionFromServer = await getDoc(questionDoc);
+
   if (!questionFromServer.data()) {
     throw new Error('Question Not Found');
   }

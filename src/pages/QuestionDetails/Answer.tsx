@@ -17,9 +17,9 @@ const Answer = ({ answer }: AnswerProps) => {
         }}
       />
       <QA
-        authorFirstName={answer.author.FirstName}
-        authorLastName={answer.author.LastName}
-        authorAvatar={answer.author.PhotoUrl}
+        authorFirstName={answer.author?.FirstName}
+        authorLastName={answer.author?.LastName}
+        authorAvatar={answer.author?.PhotoUrl}
         body={answer.body}
         creationTime={answer.creationTime}
       />

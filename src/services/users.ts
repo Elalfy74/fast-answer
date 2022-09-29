@@ -101,9 +101,11 @@ export const getTopUsers = async () => {
   } = {};
 
   asnwersOfLastThreeDays.forEach((answer) => {
-    countsOfUsers[answer.author.id] = countsOfUsers[answer.author.id]
-      ? countsOfUsers[answer.author.id] + 1
-      : 1;
+    if (answer.author) {
+      countsOfUsers[answer.author.id] = countsOfUsers[answer.author.id]
+        ? countsOfUsers[answer.author.id] + 1
+        : 1;
+    }
   });
 
   const sortedUsers = Object.keys(countsOfUsers).sort(

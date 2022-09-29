@@ -103,8 +103,13 @@ const LeftSideBar = () => {
   return (
     <>
       <OverView status={status} handleClose={handleClose}>
-        <Typography>Hello</Typography>
-        <Button onClick={handleClose}>Close</Button>
+        <Typography>You are not logged in</Typography>
+        <Button variant="outlined" component={Link} to="/auth/login">
+          Login
+        </Button>
+        <Button variant="text" component={Link} to="/ask-question">
+          Ask Anoyomuus
+        </Button>
       </OverView>
       <Box component="nav">
         <List
@@ -165,12 +170,6 @@ const LeftSideBar = () => {
             </ListItem>
           ))}
           <ListItem sx={{ px: { xs: 0, xl: '32px' }, mb: '10px', mt: 4 }}>
-            {/* <Link
-              to="/ask-question"
-              style={{
-                width: '100%',
-              }}
-            > */}
             <Button variant="outlined" fullWidth onClick={handleAsk}>
               Ask
             </Button>

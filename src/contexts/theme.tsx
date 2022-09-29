@@ -50,7 +50,10 @@ export const theme = responsiveFontSizes(
       MuiAvatar: {
         styleOverrides: {
           img: {
-            objectFit: 'inherit',
+            objectFit: 'contain',
+          },
+          circular: {
+            border: '1px solid rgba(0, 0, 0, 0.12)',
           },
         },
       },

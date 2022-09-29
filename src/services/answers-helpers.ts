@@ -3,6 +3,7 @@ import moment from 'moment';
 import PQueue from 'p-queue';
 
 import { AnswerType, RececviedAnswerType } from '../data/types';
+import { getVotesNumber } from '../utils/votes';
 import { getUserByRef } from './users';
 
 export const queue = new PQueue({ concurrency: 1 });
@@ -15,14 +16,27 @@ export const formatAnswer = async (
     id: answer.id,
   } as RececviedAnswerType;
 
-  const author = await getUserByRef(answerData.author);
+  let author;
+  if (answerData.author) {
+    author = await getUserByRef(answerData.author);
+  }
 
   const formatedDate = moment.unix(answerData.creationTime.seconds).fromNow();
+
+  let upVotes = 0;
+  let downVotes = 0;
+
+  if (answerData.votes) {
+    upVotes = getVotesNumber('up', answerData.votes);
+    downVotes = getVotesNumber('down', answerData.votes);
+  }
 
   return {
     ...answerData,
     author,
     creationTime: formatedDate,
+    upVotes,
+    downVotes,
   } as AnswerType;
 };
 
@@ -41,14 +55,6 @@ export const formatAllAnswers = async (
       };
     })
   );
-
-  for (let i = 0; i < answersList.length; i++) {
-    // Assign upVotes and downVotes
-    answersList[i].upVotes =
-      answersList[i].votes?.filter((vote) => vote.value === 'up').length || 0;
-    answersList[i].downVotes =
-      answersList[i].votes?.filter((vote) => vote.value === 'down').length || 0;
-  }
 
   return answersList;
 };

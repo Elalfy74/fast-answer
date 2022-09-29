@@ -201,8 +201,12 @@ const RightSideBar = () => {
                 >
                   Asked by
                 </Typography>
+
                 <Typography sx={{ fontWeight: '600', fontSize: '12px' }}>
-                  {question.author.FirstName} {question.author.LastName || ''}
+                  {question.author
+                    ? `${question.author.FirstName} ${question.author.LastName}` ||
+                      ''
+                    : 'Anonymous'}
                 </Typography>
               </Box>
             </Stack>

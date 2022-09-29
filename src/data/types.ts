@@ -43,14 +43,14 @@ export type ReceivedQuestionType = {
     nanoseconds: number;
   };
   votes?: Vote[];
-  author: DocumentReference<DocumentData>;
+  author?: DocumentReference<DocumentData>;
 };
 
 export type QuestionType = Omit<
   ReceivedQuestionType,
   'author' | 'tags' | 'creationTime'
 > & {
-  author: User;
+  author?: User;
   tags: Tag[];
   answersNumber: number;
   creationTime: string;
@@ -65,7 +65,7 @@ export type RececviedAnswerType = {
     seconds: number;
     nanoseconds: number;
   };
-  author: DocumentReference<DocumentData>;
+  author?: DocumentReference<DocumentData>;
   votes?: Vote[];
 };
 
@@ -73,7 +73,7 @@ export type AnswerType = Omit<
   RececviedAnswerType,
   'author' | 'creationTime'
 > & {
-  author: User;
+  author?: User;
   creationTime: string;
   upVotes: number;
   downVotes: number;
