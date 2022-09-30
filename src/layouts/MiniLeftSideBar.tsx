@@ -64,9 +64,11 @@ const MiniLeftSideBar = () => {
             borderRadius: '8px',
           }}
         >
-          <ListItem>
-            <Logo />
-          </ListItem>
+          <Link to="/">
+            <ListItem>
+              <Logo />
+            </ListItem>
+          </Link>
           {linksList.map((item) => (
             <ListItem
               key={item.label}
@@ -97,7 +99,7 @@ const MiniLeftSideBar = () => {
               </NavLink>
             </ListItem>
           ))}
-          <ListItem sx={{ px: { xs: 0, xl: '32px' }, mb: '10px' }}>
+          <ListItem sx={{ px: { xs: 0, xl: '32px' }, mb: '10px', mt: 3 }}>
             <ListItemIcon
               sx={{
                 width: '100%',
@@ -106,7 +108,16 @@ const MiniLeftSideBar = () => {
               }}
             >
               <Tooltip title="Ask">
-                <IconButton onClick={handleAsk}>
+                <IconButton
+                  onClick={handleAsk}
+                  sx={{
+                    bgcolor: '#eae1f6',
+                    p: 0,
+                    '&:hover': {
+                      bgcolor: '#d4c5e8',
+                    },
+                  }}
+                >
                   <Ask />
                 </IconButton>
               </Tooltip>

@@ -49,7 +49,7 @@ const Message = ({ message }: MessageProps) => {
     <Box display="flex" mb={2}>
       {/* <Stack alignItems="center"> */}
       <Avatar
-        src={message.senderData.PhotoUrl || undefined}
+        src={message.senderData.avatar}
         sx={{
           width: 50,
           height: 50,

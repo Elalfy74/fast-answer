@@ -1,22 +1,13 @@
-import {
-  Box,
-  CircularProgress,
-  Container,
-  Stack,
-  Typography,
-} from '@mui/material';
-import { useCallback } from 'react';
-import { useQuery, useQueryClient } from 'react-query';
+import { CircularProgress, Container, Stack, Typography } from '@mui/material';
+import { useQuery } from 'react-query';
 
 import { useAuth } from '../../contexts/AuthContext';
-import { User } from '../../data/types';
 import { getUserById } from '../../services/users';
 import AvatarBox from './AvatarBox';
 import UserDetails from './UserDetails';
 
 const EditAccount = () => {
   const { currentUser } = useAuth();
-  const queryClinet = useQueryClient();
 
   const { data, isLoading } = useQuery(
     'Profile Data',
@@ -27,25 +18,12 @@ const EditAccount = () => {
   );
 
   const initialValues = {
-    FirstName: data?.FirstName || '',
-    LastName: data?.LastName || '',
-    Email: data?.Email || '',
-    Birthdate: data?.Birthdate || '',
-    Country: data?.Country || '',
-    PhoneNumber: data?.PhoneNumber || '',
-    Major: data?.Major || '',
-    College: data?.College || '',
-    UniversityLevel: data?.UniversityLevel || '',
+    firstName: data?.firstName || '',
+    lastName: data?.lastName || '',
+    email: data?.email || '',
+    birthdate: data?.birthdate || '',
+    country: data?.country || '',
   };
-
-  const handleChangeImg = useCallback(
-    (value: string, newValue: string) => {
-      queryClinet.setQueryData('Profile Data', (oldData: User | undefined) => {
-        return { ...oldData, [value]: newValue } as User;
-      });
-    },
-    [queryClinet]
-  );
 
   if (isLoading) {
     return (
@@ -81,9 +59,9 @@ const EditAccount = () => {
         {/* Avatar Box */}
         <AvatarBox
           initialValues={{
-            PhotoUrl: data?.PhotoUrl || '',
-            Bio: data?.Bio || '',
-            UserName: data?.UserName || '',
+            avatar: data?.avatar || '',
+            bio: data?.bio || '',
+            userName: data?.userName || '',
           }}
         />
       </Stack>

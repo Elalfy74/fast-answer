@@ -23,13 +23,13 @@ import { storage } from '../../firebase-config';
 import { updateUserData } from '../../services/users';
 
 export const validationSchema = Yup.object({
-  UserName: Yup.string().required('Required'),
+  userName: Yup.string().required('Required'),
 });
 
 type FormikValues = {
-  PhotoUrl: string;
-  Bio: string;
-  UserName: string;
+  avatar: string;
+  bio: string;
+  userName: string;
 };
 
 type AvatarBoxProps = {
@@ -74,7 +74,7 @@ const AvatarBox = ({ initialValues }: AvatarBoxProps) => {
     setIsLoading(false);
   };
 
-  const uploadFile = (UserName: string, Bio: string, resetForm: ResetForm) => {
+  const uploadFile = (userName: string, bio: string, resetForm: ResetForm) => {
     if (!file) return;
     const name = new Date().getTime() + file.name;
 
@@ -91,9 +91,9 @@ const AvatarBox = ({ initialValues }: AvatarBoxProps) => {
       async () => {
         const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
         await handleSaveUserData(resetForm, {
-          PhotoUrl: downloadURL,
-          UserName,
-          Bio,
+          avatar: downloadURL,
+          userName,
+          bio,
         });
       }
     );
@@ -104,7 +104,7 @@ const AvatarBox = ({ initialValues }: AvatarBoxProps) => {
     validationSchema,
     onSubmit: (values, submitProps) => {
       if (file) {
-        uploadFile(values.UserName, values.Bio, submitProps.resetForm);
+        uploadFile(values.userName, values.bio, submitProps.resetForm);
         return;
       }
       handleSaveUserData(submitProps.resetForm, formik.values);
@@ -144,7 +144,7 @@ const AvatarBox = ({ initialValues }: AvatarBoxProps) => {
         <Stack alignItems="center">
           <Avatar
             alt="user avatar"
-            src={formik.values.PhotoUrl}
+            src={formik.values.avatar}
             sx={{
               width: 200,
               height: 200,
@@ -154,7 +154,7 @@ const AvatarBox = ({ initialValues }: AvatarBoxProps) => {
             }}
           />
           <Stack>
-            <InputLabel htmlFor="PhotoUrl">
+            <InputLabel htmlFor="avatar">
               <Tooltip
                 title="Upload"
                 sx={{
@@ -167,8 +167,8 @@ const AvatarBox = ({ initialValues }: AvatarBoxProps) => {
             </InputLabel>
             <input
               type="file"
-              id="PhotoUrl"
-              name="PhotoUrl"
+              id="avatar"
+              name="avatar"
               accept="image/png, image/gif, image/jpeg"
               onChange={handleImgChange}
               style={{ display: 'none' }}
@@ -185,7 +185,7 @@ const AvatarBox = ({ initialValues }: AvatarBoxProps) => {
               sx={{ mt: 2 }}
             >
               <Typography fontWeight="500">
-                @{formik.values.UserName}
+                @{formik.values.userName}
               </Typography>
               <IconButton onClick={() => setUserNameEdit(true)}>
                 <EditIcon fontSize="small" />
@@ -195,7 +195,7 @@ const AvatarBox = ({ initialValues }: AvatarBoxProps) => {
           {userNameEdit && (
             <TextField
               name="UserName"
-              value={formik.values.UserName}
+              value={formik.values.userName}
               onChange={formik.handleChange}
               size="small"
             />
@@ -222,7 +222,7 @@ const AvatarBox = ({ initialValues }: AvatarBoxProps) => {
               <Typography
                 sx={{ mt: 2, alignSelf: 'center', fontStyle: 'italic' }}
               >
-                {formik.values.Bio || 'No bio'}
+                {formik.values.bio || 'No bio'}
               </Typography>
             </>
           )}
@@ -234,7 +234,7 @@ const AvatarBox = ({ initialValues }: AvatarBoxProps) => {
                 width: '100%',
               }}
               name="Bio"
-              value={formik.values.Bio}
+              value={formik.values.bio}
               onChange={formik.handleChange}
               multiline
               maxRows={6}

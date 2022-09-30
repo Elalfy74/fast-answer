@@ -1,4 +1,3 @@
-import { PlayArrow, PlayArrowOutlined } from '@mui/icons-material';
 import { IconButton, Stack, Typography } from '@mui/material';
 import { doc, DocumentData, DocumentReference } from 'firebase/firestore';
 import { useState } from 'react';
@@ -10,7 +9,7 @@ import {
   UpVoteOutlined,
 } from '../../components/svg';
 import { useAuth } from '../../contexts/AuthContext';
-import { Vote } from '../../data/types';
+import { Vote } from '../../data/global.types';
 import { db } from '../../firebase-config';
 import { updateVotes } from '../../services/votes';
 import { getVotesNumber } from '../../utils/votes';

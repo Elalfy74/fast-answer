@@ -58,7 +58,7 @@ const Wrapper = () => {
           item
           xs={12}
           sm={10}
-          md={10}
+          md={10.5}
           xl={9}
           sx={{
             pt: '5px',

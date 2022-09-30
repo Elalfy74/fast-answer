@@ -6,7 +6,7 @@ import {
   ThemeProvider,
 } from '@mui/material';
 
-import { ChildrenProps } from '../data/types';
+import { ChildrenProps } from '../data/global.types';
 
 export const theme = responsiveFontSizes(
   createTheme({

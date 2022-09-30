@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 import { useParams } from 'react-router-dom';
 
-import { QuestionType } from '../../data/types';
+import { QuestionType } from '../../data/global.types';
 import { getQuestionById } from '../../services/questions';
 import { AllAnswers, Question } from '.';
 

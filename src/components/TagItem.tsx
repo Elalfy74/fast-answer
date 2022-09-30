@@ -1,6 +1,6 @@
 import { SxProps, Theme, Typography } from '@mui/material';
 
-import { Tag } from '../data/types';
+import { Tag } from '../data/global.types';
 
 const style: SxProps<Theme> = {
   p: '1px 3px',

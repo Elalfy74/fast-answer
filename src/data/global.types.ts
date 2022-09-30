@@ -1,26 +1,23 @@
-import { DocumentData, DocumentReference } from 'firebase/firestore';
+import { DocumentData, DocumentReference, Timestamp } from 'firebase/firestore';
 
 export type ChildrenProps = {
   children: React.ReactNode;
 };
 
-export type Loading = 'idle' | 'pending' | 'succeeded' | 'failed' | 'finished';
-
 export type User = {
   id: string;
-  UserName?: string;
-  FirstName: string;
-  LastName?: string;
-  Email: string;
-  Bio?: string;
-  UniversityLevel?: string;
-  PhotoUrl?: string;
-  College?: string;
-  Major?: string;
-  Country?: string;
+  userName?: string;
+  firstName: string;
+  lastName?: string;
+  email: string;
+  bio?: string;
+  gender: 'male' | 'female';
+  avatar?: string;
+  country?: string;
   Birthdate?: string;
-  // As My fake Data is already a string
-  PhoneNumber?: string;
+  jobTitle?: string;
+  birthdate?: string;
+  university?: string;
 };
 
 export type Tag = {
@@ -38,10 +35,7 @@ export type ReceivedQuestionType = {
   title: string;
   body: string;
   tags: DocumentReference<DocumentData>[];
-  creationTime: {
-    seconds: number;
-    nanoseconds: number;
-  };
+  creationTime: Timestamp;
   votes?: Vote[];
   author?: DocumentReference<DocumentData>;
 };
@@ -58,16 +52,7 @@ export type QuestionType = Omit<
   downVotes: number;
 };
 
-export type RececviedAnswerType = {
-  id: string;
-  body: string;
-  creationTime: {
-    seconds: number;
-    nanoseconds: number;
-  };
-  author?: DocumentReference<DocumentData>;
-  votes?: Vote[];
-};
+export type RececviedAnswerType = Omit<ReceivedQuestionType, 'title' | 'tags'>;
 
 export type AnswerType = Omit<
   RececviedAnswerType,

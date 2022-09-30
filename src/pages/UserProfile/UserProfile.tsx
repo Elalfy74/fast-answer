@@ -94,7 +94,7 @@ const UserProfile = () => {
         }}
       >
         <Avatar
-          src={data?.PhotoUrl}
+          src={data?.avatar}
           alt="user-avatar"
           sx={{
             objectFit: 'contain',
@@ -105,12 +105,12 @@ const UserProfile = () => {
         <Stack mt={2}>
           <Stack direction="row" gap={2}>
             <Typography variant="h5" component="h1">
-              {data?.FirstName} {data?.LastName}
+              {data?.firstName} {data?.lastName}
             </Typography>
             <Stack direction="row" alignItems="center" color="gray">
               <LocationOnOutlined />
               <Typography variant="body2" component="p">
-                {data?.Country}
+                {data?.country}
               </Typography>
             </Stack>
           </Stack>
@@ -176,7 +176,7 @@ const UserProfile = () => {
               sx={{ textAlign: { xs: 'center', lg: 'start' } }}
               variant="body2"
             >
-              {data?.Bio}
+              {data?.bio}
             </Typography>
             <Divider
               textAlign="left"
@@ -225,7 +225,7 @@ const UserProfile = () => {
                 Email:
               </Typography>
               <Typography variant="body2" color="primary">
-                {data?.Email}
+                {data?.email}
               </Typography>
             </ListItem>
             <ListItem disableGutters>

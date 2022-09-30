@@ -1,6 +1,6 @@
 import { List } from '@mui/material';
 
-import { Tag } from '../data/types';
+import { Tag } from '../data/global.types';
 import { TagItem } from '.';
 
 type TagsListProps = {

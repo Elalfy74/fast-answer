@@ -10,7 +10,7 @@ import { useEffect } from 'react';
 import { useQueryClient } from 'react-query';
 
 import { useAuth } from '../contexts/AuthContext';
-import { User } from '../data/types';
+import { User } from '../data/global.types';
 import { db } from '../firebase-config';
 import { ReceviveMessage } from '../pages/Chat/ChatDetails';
 

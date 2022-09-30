@@ -1,11 +1,22 @@
-import { Box, Container, Grid } from '@mui/material';
+import { Box, Container, Grid, SxProps, Theme } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import { LeftSideBar, MiniLeftSideBar, RightSideBar } from '.';
 import BottomNavigationBar from './BottomNavigationBar';
 
-const Wrapper = () => {
+const styles: { [key: string]: SxProps<Theme> } = {
+  container: { py: '20px' },
+  leftGrid: {
+    display: { xs: 'none', sm: 'block' },
+  },
+};
+
+type WrapperProps = {
+  full: boolean;
+};
+
+const Wrapper = ({ full }: WrapperProps) => {
   const [mobile, setMobile] = useState(true);
 
   useEffect(() => {
@@ -15,18 +26,10 @@ const Wrapper = () => {
   }, []);
 
   return (
-    <Container maxWidth="lg" sx={{ py: '20px' }}>
+    <Container maxWidth="lg" sx={styles.container}>
       <Grid container columnSpacing={{ xs: 3, lg: 4 }}>
         {!mobile && (
-          <Grid
-            item
-            sm={2}
-            md={1.5}
-            xl={3}
-            sx={{
-              display: { xs: 'none', sm: 'block' },
-            }}
-          >
+          <Grid item sm={2} md={1.5} xl={3} sx={styles.leftGrid}>
             <Box
               sx={{
                 display: {
@@ -54,30 +57,52 @@ const Wrapper = () => {
             </Box>
           </Grid>
         )}
-        <Grid
-          item
-          xs={12}
-          sm={10}
-          md={8}
-          xl={6.5}
-          sx={{
-            pb: {
-              xs: 15,
-              sm: 0,
-            },
-          }}
-        >
-          <Outlet />
-        </Grid>
-        {!mobile && (
+        {full && (
+          <>
+            <Grid
+              item
+              xs={12}
+              sm={10}
+              md={8}
+              xl={6.5}
+              sx={{
+                pb: {
+                  xs: 15,
+                  sm: 0,
+                },
+              }}
+            >
+              <Outlet />
+            </Grid>
+            {!mobile && (
+              <Grid
+                item
+                md={2.5}
+                sx={{
+                  display: { xs: 'none', md: 'block' },
+                }}
+              >
+                <RightSideBar />
+              </Grid>
+            )}
+          </>
+        )}
+
+        {!full && (
           <Grid
             item
-            md={2.5}
+            xs={12}
+            sm={10}
+            md={10.5}
+            xl={9}
             sx={{
-              display: { xs: 'none', md: 'block' },
+              pb: {
+                xs: 15,
+                sm: 0,
+              },
             }}
           >
-            <RightSideBar />
+            <Outlet />
           </Grid>
         )}
       </Grid>

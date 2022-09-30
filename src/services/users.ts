@@ -4,35 +4,27 @@ import {
   DocumentData,
   DocumentReference,
   getDoc,
-  getDocs,
-  orderBy,
-  query,
   setDoc,
   updateDoc,
 } from 'firebase/firestore';
 import PQueue from 'p-queue';
 
-import { User } from '../data/types';
+import { User } from '../data/global.types';
 import { db } from '../firebase-config';
-import UserDetails, { FormikValues } from '../pages/EditAccount/UserDetails';
 import { getLastThreeDaysAnswers } from './answers';
+import {
+  SaveUserDataParams,
+  UpdateUserAvatarParams,
+  UpdateUserDetailsParams,
+} from './users.type';
 
 const queue = new PQueue({ concurrency: 1 });
 
 const usersCollectionRef = collection(db, 'users');
 
-// export const saveUserData = async (userId: string, user: any) => {
-//   // eslint-disable-next-line no-param-reassign
-//   delete user.PasswordHash;
-//   await setDoc(doc(usersCollectionRef, userId), user);
-// };
+// Apis
 
-export const getAllUsersIds = async () => {
-  const users = await getDocs(usersCollectionRef);
-
-  return users.docs.map((userDoc) => userDoc.id);
-};
-
+// Get
 export const getUserByRef = async (
   userRef: DocumentReference<DocumentData>
 ) => {
@@ -41,6 +33,7 @@ export const getUserByRef = async (
   return { ...userDoc.data(), id: userDoc.id } as User;
 };
 
+// Get
 export const getUserById = async (id: string) => {
   const userRef = doc(db, 'users', id);
 
@@ -49,40 +42,22 @@ export const getUserById = async (id: string) => {
   return userData;
 };
 
-export const saveUserData = async (user: {
-  id: string;
-  Email: string;
-  FirstName: string;
-  LastName?: string;
-}) => {
+// Post
+export const saveUserData = async (
+  userId: string,
+  user: SaveUserDataParams
+) => {
   const newUser = {
     ...user,
-    UserName: null,
-    LastName: user.LastName || null,
-    Bio: null,
-    UniversityLevel: null,
-    PhotoUrl: null,
-    College: null,
-    Major: null,
-    Birthdate: null,
-    PhoneNumber: null,
+    userName: user.firstName + user.lastName,
   };
-  await setDoc(doc(usersCollectionRef, user.id), newUser);
+
+  await setDoc(doc(usersCollectionRef, userId), newUser);
 };
 
-type UpdateUserAvatarParams = {
-  id: string;
-  PhotoUrl: string;
-  Bio: string;
-  UserName: string;
-};
-
-type UserDetailsParams = Omit<FormikValues, 'Email'> & {
-  id: string;
-};
-
+// Update
 export const updateUserData = async (
-  user: UpdateUserAvatarParams | UserDetailsParams
+  user: UpdateUserAvatarParams | UpdateUserDetailsParams
 ) => {
   const userRef = doc(db, 'users', user.id);
   const updateResult = await updateDoc(userRef, user);
@@ -90,6 +65,7 @@ export const updateUserData = async (
   return updateResult;
 };
 
+// Get
 export const getTopUsers = async () => {
   const asnwersOfLastThreeDays = await getLastThreeDaysAnswers();
 

@@ -26,19 +26,13 @@ export const CodeBlock = {
 };
 
 type QAProps = {
-  authorFirstName?: string;
-  authorLastName?: string;
+  authorUserName?: string;
   authorAvatar?: string;
   body: string;
   creationTime: string;
 };
-const QA = ({
-  authorFirstName,
-  authorLastName,
-  authorAvatar,
-  creationTime,
-  body,
-}: QAProps) => {
+
+const QA = ({ authorUserName, authorAvatar, creationTime, body }: QAProps) => {
   return (
     <Box>
       {/* Author display */}
@@ -46,9 +40,7 @@ const QA = ({
         <Avatar src={authorAvatar} />
         <Stack>
           <Typography component="h6" variant="body1" fontWeight="500">
-            {authorFirstName
-              ? `${authorFirstName} ${authorLastName || ''}`
-              : 'Anonymous'}
+            {authorUserName || 'Anonymous'}
           </Typography>
           <Typography variant="body2" color="gray">
             {creationTime}

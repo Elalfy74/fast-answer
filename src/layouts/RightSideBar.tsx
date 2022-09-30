@@ -88,7 +88,7 @@ const RightSideBar = () => {
             <Stack direction="row" gap={1} alignItems="center" key={user.id}>
               <Avatar
                 alt="user avatar"
-                src={user.PhotoUrl || undefined}
+                src={user.avatar}
                 sx={{
                   width: {
                     md: 30,
@@ -110,7 +110,7 @@ const RightSideBar = () => {
                     fontWeight: '500',
                   }}
                 >
-                  {user.FirstName} {user.LastName || ''}
+                  {user.userName}
                 </Typography>
                 <Typography
                   color="text.secondary"
@@ -203,10 +203,7 @@ const RightSideBar = () => {
                 </Typography>
 
                 <Typography sx={{ fontWeight: '600', fontSize: '12px' }}>
-                  {question.author
-                    ? `${question.author.FirstName} ${question.author.LastName}` ||
-                      ''
-                    : 'Anonymous'}
+                  {question.author?.userName || 'Anonymous'}
                 </Typography>
               </Box>
             </Stack>

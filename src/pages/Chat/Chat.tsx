@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react';
 import { Route, Routes, useParams } from 'react-router-dom';
 
 import { useAuth } from '../../contexts/AuthContext';
-import { User } from '../../data/types';
+import { User } from '../../data/global.types';
 import { db } from '../../firebase-config';
 import { MiniLeftSideBar } from '../../layouts';
 import BottomNavigationBar from '../../layouts/BottomNavigationBar';

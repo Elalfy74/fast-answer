@@ -18,7 +18,7 @@ import {
 import moment from 'moment';
 import { QueryFunctionContext } from 'react-query';
 
-import { QuestionType, Tag } from '../data/types';
+import { QuestionType, Tag } from '../data/global.types';
 import { db } from '../firebase-config';
 import { getLastThreeDaysDate } from '../utils/last-week-date';
 import { formatAllQuestions, formatQuestion } from './questions-helpers';
@@ -127,6 +127,8 @@ export const saveFakeQuestion = async (
   tags: any,
   votesArray: any
 ) => {
+  // console.log(uId, question, tags, votesArray);
+
   const formatedQuestion = {
     ...question,
     creationTime: Timestamp.fromDate(new Date()),

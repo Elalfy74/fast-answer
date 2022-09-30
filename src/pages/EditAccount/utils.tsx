@@ -2,15 +2,12 @@ import { HTMLInputTypeAttribute } from 'react';
 
 export type Input = {
   name:
-    | 'Email'
-    | 'FirstName'
-    | 'LastName'
-    | 'Birthdate'
-    | 'Country'
-    | 'PhoneNumber'
-    | 'Major'
-    | 'UniversityLevel'
-    | 'College';
+    | 'email'
+    | 'firstName'
+    | 'lastName'
+    | 'birthdate'
+    | 'country'
+    | 'college';
   label: string;
   type?: HTMLInputTypeAttribute;
   readonly?: boolean;
@@ -18,17 +15,17 @@ export type Input = {
 
 export const GeneralInfoList: Input[] = [
   {
-    name: 'FirstName',
+    name: 'firstName',
     label: 'First Name',
     type: 'text',
   },
   {
-    name: 'LastName',
+    name: 'lastName',
     label: 'Last Name',
     type: 'text',
   },
   {
-    name: 'Email',
+    name: 'email',
     label: 'Email',
     type: 'email',
     readonly: true,
@@ -37,33 +34,20 @@ export const GeneralInfoList: Input[] = [
 
 export const PersonalInfoList: Input[] = [
   {
-    name: 'Birthdate',
+    name: 'birthdate',
     label: 'Birth Date',
     type: 'date',
   },
   {
-    name: 'Country',
+    name: 'country',
     label: 'Country',
     type: 'text',
-  },
-  {
-    name: 'PhoneNumber',
-    label: 'Phone Number',
-    type: 'number',
   },
 ];
 
 export const EducationalInfoList: Input[] = [
   {
-    name: 'Major',
-    label: 'Major',
-  },
-  {
-    name: 'UniversityLevel',
-    label: 'University Level',
-  },
-  {
-    name: 'College',
+    name: 'college',
     label: 'College',
   },
 ];

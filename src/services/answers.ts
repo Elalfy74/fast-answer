@@ -13,7 +13,7 @@ import {
 import moment from 'moment';
 import { QueryFunctionContext } from 'react-query';
 
-import { AnswerType, RececviedAnswerType } from '../data/types';
+import { AnswerType, RececviedAnswerType } from '../data/global.types';
 import { db } from '../firebase-config';
 import { getLastThreeDaysDate } from '../utils/last-week-date';
 import { formatAllAnswers } from './answers-helpers';

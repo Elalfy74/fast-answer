@@ -118,9 +118,11 @@ const LeftSideBar = () => {
             borderRadius: '8px',
           }}
         >
-          <ListItem>
-            <Logo />
-          </ListItem>
+          <Link to="/">
+            <ListItem>
+              <Logo />
+            </ListItem>
+          </Link>
           {linksList.map((item) => (
             <ListItem
               key={item.label}
