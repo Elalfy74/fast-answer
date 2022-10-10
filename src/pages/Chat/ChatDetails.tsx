@@ -8,30 +8,15 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { DocumentData, DocumentReference, Timestamp } from 'firebase/firestore';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { useAuth } from '../../contexts/AuthContext';
-import { User } from '../../data/global.types';
 import { useReactQuerySubscription } from '../../hooks/useReactQuerySubscription';
-import { getAllMessages, saveMessage } from '../../services/messages';
+import { getAllMessages, saveMessage } from '../../services/messages/messages';
 import { Message } from '.';
-import { FormatedChat } from './Chat';
-
-export type ReceviveMessage = {
-  id: string;
-  body: string;
-  creationTime: Timestamp;
-  sender: DocumentReference<DocumentData>;
-  chat: DocumentReference<DocumentData>;
-  senderData: User;
-};
-
-type ChatDetailsProps = {
-  chats: FormatedChat[];
-};
+import { ChatDetailsProps } from './ChatDetails.types';
 
 const ChatDetails = ({ chats }: ChatDetailsProps) => {
   const [messageValue, setMessage] = useState('');
@@ -54,7 +39,7 @@ const ChatDetails = ({ chats }: ChatDetailsProps) => {
     () =>
       getAllMessages({
         chatId: chatId!,
-        otherUser,
+        otherUser: otherUser!,
       }),
     {
       staleTime: Infinity,

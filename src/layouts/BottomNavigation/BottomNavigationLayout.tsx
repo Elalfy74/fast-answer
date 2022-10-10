@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { BottomNavigationBar } from '.';
+import { BottomNavigationBar } from '..';
 
 const BottomNavigationLayout = () => {
   const [mobile, setMobile] = useState(true);

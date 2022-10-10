@@ -12,11 +12,11 @@ import {
 import { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 
-import { Logo } from '../components';
-import { useAuth } from '../contexts/AuthContext';
-import { MiniAuthActions } from '.';
+import { Logo } from '../../components/svg';
+import { useAuth } from '../../contexts/AuthContext';
+import { MiniAuthActions } from '..';
+import OverView from '../OverView';
 import { LeftSideBarListPrivate, LeftSideBarListPublic } from './LeftSideBar';
-import OverView from './OverView';
 
 const MiniLeftSideBar = () => {
   const [status, setStatus] = useState(false);

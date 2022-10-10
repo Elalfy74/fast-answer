@@ -17,9 +17,9 @@ import {
   getAllQuestionsIds,
   saveFakeQuestion,
   saveQuestion,
-} from '../services/questions';
+} from '../services/questions/questions';
 import { saveTag } from '../services/tags';
-import { saveUserData } from '../services/users';
+import { saveUserData } from '../services/users/users';
 
 const usersCollectionRef = collection(db, 'users');
 const tagsCollectionRef = collection(db, 'tags');

@@ -8,9 +8,9 @@ import {
 } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 
-import { FormatedChat } from './Chat';
+import { FormatedChat } from './Chat.types';
 
-type ChatItemProps = {
+export type ChatItemProps = {
   chat: FormatedChat;
 };
 

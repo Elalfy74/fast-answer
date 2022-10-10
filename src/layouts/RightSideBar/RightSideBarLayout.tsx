@@ -2,7 +2,7 @@ import { Grid } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { RightSideBar } from '.';
+import { RightSideBar } from '..';
 
 const RightSideBarLayout = () => {
   const [mobile, setMobile] = useState(true);

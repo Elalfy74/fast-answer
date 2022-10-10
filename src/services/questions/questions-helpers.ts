@@ -6,11 +6,15 @@ import {
 import moment from 'moment';
 import PQueue from 'p-queue';
 
-import { QuestionType, ReceivedQuestionType, Tag } from '../data/global.types';
-import { getVotesNumber } from '../utils/votes';
-import { getAnswersOfQuestion } from './answers';
-import { getTags } from './tags';
-import { getUserByRef } from './users';
+import {
+  QuestionType,
+  ReceivedQuestionType,
+  Tag,
+} from '../../data/global.types';
+import { getVotesNumber } from '../../utils/votes';
+import { getAnswersOfQuestion } from '../answers/answers';
+import { getTags } from '../tags';
+import { getUserByRef } from '../users/users';
 
 // Functions replaces tags reference with real tags and author with real author data for a single question
 export const formatQuestion = async (

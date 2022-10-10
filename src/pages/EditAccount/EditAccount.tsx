@@ -2,7 +2,7 @@ import { CircularProgress, Stack, Typography } from '@mui/material';
 import { useQuery } from 'react-query';
 
 import { useAuth } from '../../contexts/AuthContext';
-import { getUserById } from '../../services/users';
+import { getUserById } from '../../services/users/users';
 import AvatarBox from './AvatarBox';
 import UserDetails from './UserDetails';
 

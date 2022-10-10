@@ -7,7 +7,10 @@ import { Link } from 'react-router-dom';
 import { MDEditorField } from '../../components';
 import { useAuth } from '../../contexts/AuthContext';
 import { AnswerType } from '../../data/global.types';
-import { getAllAnswersOfQuestion, saveAnswer } from '../../services/answers';
+import {
+  getAllAnswersOfQuestion,
+  saveAnswer,
+} from '../../services/answers/answers';
 import Answer from './Answer';
 
 const AllAnswers = ({ qId }: { qId: string }) => {

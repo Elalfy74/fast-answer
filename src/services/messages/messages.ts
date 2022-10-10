@@ -9,10 +9,17 @@ import {
   where,
 } from 'firebase/firestore';
 
-import { db } from '../firebase-config';
-import { ReceviveMessage } from '../pages/Chat/ChatDetails';
+import { db } from '../../firebase-config';
+import { ReceviveMessage } from '../../pages/Chat/ChatDetails.types';
+import { GetAllMessagesParams, SaveMessageParams } from './messages.type';
 
-export const getAllMessages = async ({ chatId, otherUser }: any) => {
+// *********** APIS ***********
+
+// GET All Messages
+export const getAllMessages = async ({
+  chatId,
+  otherUser,
+}: GetAllMessagesParams) => {
   const chatRef = doc(db, 'chat', chatId);
 
   const q = query(
@@ -34,12 +41,7 @@ export const getAllMessages = async ({ chatId, otherUser }: any) => {
   return formatedMessages;
 };
 
-type SaveMessageParams = {
-  body: string;
-  chatId: string;
-  userId: string;
-};
-
+// POST Save Message
 export const saveMessage = async ({
   body,
   chatId,

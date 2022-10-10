@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import MDEditor from '@uiw/react-md-editor';
 import ReactMarkdown from 'react-markdown';
 
-import { CodeBlock } from '../pages/QuestionDetails/QA';
+import { CodeBlock } from '.';
 
 const MDEditorField = ({
   value,

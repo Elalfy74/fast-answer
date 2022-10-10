@@ -22,10 +22,10 @@ import {
 import { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 
-import { Logo } from '../components';
-import { useAuth } from '../contexts/AuthContext';
-import { AuthActions } from '.';
-import OverView from './OverView';
+import { Logo } from '../../components/svg';
+import { useAuth } from '../../contexts/AuthContext';
+import { AuthActions } from '..';
+import OverView from '../OverView';
 
 export const LeftSideBarListPublic = [
   {
@@ -79,7 +79,7 @@ export const LeftSideBarListPrivate = [
 ];
 const LeftSideBar = () => {
   const [status, setStatus] = useState(false);
-  const { currentUser, logout } = useAuth();
+  const { currentUser } = useAuth();
 
   const navigate = useNavigate();
 

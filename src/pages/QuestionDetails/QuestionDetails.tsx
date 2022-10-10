@@ -4,7 +4,7 @@ import { useQuery, useQueryClient } from 'react-query';
 import { useParams } from 'react-router-dom';
 
 import { QuestionType } from '../../data/global.types';
-import { getQuestionById } from '../../services/questions';
+import { getQuestionById } from '../../services/questions/questions';
 import { AllAnswers, Question } from '.';
 
 const QuestionDetails = () => {

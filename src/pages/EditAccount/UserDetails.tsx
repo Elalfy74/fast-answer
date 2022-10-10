@@ -13,8 +13,9 @@ import { useState } from 'react';
 import { useMutation } from 'react-query';
 import * as Yup from 'yup';
 
-import { updateUserData } from '../../services/users';
+import { updateUserData } from '../../services/users/users';
 import FieldsStack from './FieldsStack';
+import { FormikValues, UserDetailsProps } from './UserDetails.types';
 import {
   EducationalInfoList,
   GeneralInfoList,
@@ -25,22 +26,6 @@ const validationSchema = Yup.object({
   firstName: Yup.string().required('Required'),
   lastName: Yup.string().required('Required'),
 });
-
-export type FormikValues = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  birthdate: string;
-  country: string;
-  gender: string;
-  university: string;
-  jobTitle: string;
-};
-
-type UserDetailsProps = {
-  initialValues: FormikValues;
-  userId: string;
-};
 
 const UserDetails = ({ initialValues, userId }: UserDetailsProps) => {
   const [successOpen, setSucess] = useState(false);

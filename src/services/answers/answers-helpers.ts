@@ -2,9 +2,9 @@ import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
 import moment from 'moment';
 import PQueue from 'p-queue';
 
-import { AnswerType, RececviedAnswerType } from '../data/global.types';
-import { getVotesNumber } from '../utils/votes';
-import { getUserByRef } from './users';
+import { AnswerType, RececviedAnswerType } from '../../data/global.types';
+import { getVotesNumber } from '../../utils/votes';
+import { getUserByRef } from '../users/users';
 
 export const queue = new PQueue({ concurrency: 1 });
 

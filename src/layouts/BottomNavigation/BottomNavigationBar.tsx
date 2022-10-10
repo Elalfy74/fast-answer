@@ -15,8 +15,7 @@ import {
 import { BottomNavigationAction, Box, Paper } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 
-import { Ask } from '../components/svg';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../../contexts/AuthContext';
 
 const publicList = [
   {

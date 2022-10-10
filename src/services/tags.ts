@@ -13,11 +13,7 @@ import { db } from '../firebase-config';
 
 const tagsCollectionRef = collection(db, 'tags');
 
-export const saveTag = async (tag: { name: string }) => {
-  await addDoc(tagsCollectionRef, tag);
-};
-
-// get All Tags of Question API
+// GET All Tags of Question API
 export const getTags = async (tagsRef: DocumentReference<DocumentData>[]) => {
   const tags: Tag[] = [];
   const tagsIds = tagsRef.map((tag) => tag.id);
@@ -36,7 +32,7 @@ export const getTags = async (tagsRef: DocumentReference<DocumentData>[]) => {
   return tags;
 };
 
-// get Tags By Query API
+// GET Tags By Query API
 export const getTagsByQuery = async (queryText: string) => {
   const tagsQuery = query(
     tagsCollectionRef,
@@ -55,4 +51,9 @@ export const getTagsByQuery = async (queryText: string) => {
   });
 
   return tags;
+};
+
+// POST add Tag
+export const saveTag = async (tag: { name: string }) => {
+  await addDoc(tagsCollectionRef, tag);
 };

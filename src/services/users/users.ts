@@ -9,9 +9,9 @@ import {
 } from 'firebase/firestore';
 import PQueue from 'p-queue';
 
-import { User } from '../data/global.types';
-import { db } from '../firebase-config';
-import { getLastThreeDaysAnswers } from './answers';
+import { User } from '../../data/global.types';
+import { db } from '../../firebase-config';
+import { getLastThreeDaysAnswers } from '../answers/answers';
 import {
   SaveUserDataParams,
   UpdateUserAvatarParams,
@@ -22,9 +22,8 @@ const queue = new PQueue({ concurrency: 1 });
 
 const usersCollectionRef = collection(db, 'users');
 
-// Apis
-
-// Get
+// *********** APIS ***********
+// GET
 export const getUserByRef = async (
   userRef: DocumentReference<DocumentData>
 ) => {
@@ -33,7 +32,7 @@ export const getUserByRef = async (
   return { ...userDoc.data(), id: userDoc.id } as User;
 };
 
-// Get
+// GET
 export const getUserById = async (id: string) => {
   const userRef = doc(db, 'users', id);
 
@@ -42,30 +41,7 @@ export const getUserById = async (id: string) => {
   return userData;
 };
 
-// Post
-export const saveUserData = async (
-  userId: string,
-  user: SaveUserDataParams
-) => {
-  const newUser = {
-    ...user,
-    userName: user.firstName + user.lastName,
-  };
-
-  await setDoc(doc(usersCollectionRef, userId), newUser);
-};
-
-// Update
-export const updateUserData = async (
-  user: UpdateUserAvatarParams | UpdateUserDetailsParams
-) => {
-  const userRef = doc(db, 'users', user.id);
-  const updateResult = await updateDoc(userRef, user);
-
-  return updateResult;
-};
-
-// Get
+// GET
 export const getTopUsers = async () => {
   const asnwersOfLastThreeDays = await getLastThreeDaysAnswers();
 
@@ -100,4 +76,27 @@ export const getTopUsers = async () => {
   );
 
   return topUsersData;
+};
+
+// POST
+export const saveUserData = async (
+  userId: string,
+  user: SaveUserDataParams
+) => {
+  const newUser = {
+    ...user,
+    userName: user.firstName + user.lastName,
+  };
+
+  await setDoc(doc(usersCollectionRef, userId), newUser);
+};
+
+// UPDATE
+export const updateUserData = async (
+  user: UpdateUserAvatarParams | UpdateUserDetailsParams
+) => {
+  const userRef = doc(db, 'users', user.id);
+  const updateResult = await updateDoc(userRef, user);
+
+  return updateResult;
 };

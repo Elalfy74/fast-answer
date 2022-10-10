@@ -2,7 +2,7 @@ import { LoadingButton } from '@mui/lab';
 import { useMutation } from 'react-query';
 
 import { useAuth } from '../contexts/AuthContext';
-import { getUserById, saveUserData } from '../services/users';
+import { getUserById, saveUserData } from '../services/users/users';
 import { GoogleLogo } from './svg';
 
 const GoogleLogin = () => {

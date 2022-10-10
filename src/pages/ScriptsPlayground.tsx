@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { useAuth } from '../contexts/AuthContext';
 import { users } from '../data/user';
-import { getAllQuestionsIds } from '../services/questions';
+import { getAllQuestionsIds } from '../services/questions/questions';
 import {
   addAnswer,
   addQuestion,

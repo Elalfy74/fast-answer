@@ -13,6 +13,9 @@ import { db } from '../firebase-config';
 
 const chatCollectionRef = collection(db, 'chat');
 
+// *********** APIS ***********
+
+// GET chat
 const getChat = async (
   firstUser: DocumentReference<DocumentData>,
   secondUser: DocumentReference<DocumentData>
@@ -34,6 +37,7 @@ const getChat = async (
   return chatDoc.docs[0].id;
 };
 
+// POST Open Chat ROOM
 export const openChat = async (senderId: string, receciverId: string) => {
   const senderIdRef = doc(db, 'users', senderId);
   const receciverRef = doc(db, 'users', receciverId);

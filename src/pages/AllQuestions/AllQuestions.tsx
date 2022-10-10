@@ -2,7 +2,7 @@ import { CircularProgress, Stack, Typography } from '@mui/material';
 import { Fragment, useEffect } from 'react';
 import { useInfiniteQuery } from 'react-query';
 
-import { getAllQuestions } from '../../services/questions';
+import { getAllQuestions } from '../../services/questions/questions';
 import { Question } from '.';
 
 const AllQuestions = () => {

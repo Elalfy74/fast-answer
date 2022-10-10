@@ -1,7 +1,7 @@
 import { Avatar, Box, Typography } from '@mui/material';
 
 import { useAuth } from '../../contexts/AuthContext';
-import { ReceviveMessage } from './ChatDetails';
+import { ReceviveMessage } from './ChatDetails.types';
 
 type MessageProps = {
   message: ReceviveMessage;
@@ -55,10 +55,6 @@ const Message = ({ message }: MessageProps) => {
           height: 50,
         }}
       />
-      {/* <Typography variant="body2" fontWeight="500">
-          09:00
-        </Typography> */}
-      {/* </Stack> */}
       <Box
         ml={1}
         p={3}

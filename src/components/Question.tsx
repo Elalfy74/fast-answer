@@ -10,8 +10,8 @@ import {
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { TagsList } from '../../components';
-import { QuestionType } from '../../data/global.types';
+import { QuestionType } from '../data/global.types';
+import { TagsList } from '.';
 
 type QuestionProps = {
   question: QuestionType;

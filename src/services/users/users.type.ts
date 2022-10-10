@@ -1,4 +1,4 @@
-import { FormikValues } from '../pages/EditAccount/UserDetails';
+import { FormikValues } from '../../pages/EditAccount/UserDetails.types';
 
 export type SaveUserDataParams = {
   email: string;

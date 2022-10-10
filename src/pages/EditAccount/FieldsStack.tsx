@@ -1,7 +1,7 @@
 import { Stack, TextField, Typography } from '@mui/material';
 import { FormikProps } from 'formik';
 
-import { FormikValues } from './UserDetails';
+import { FormikValues } from './UserDetails.types';
 import { Input } from './utils';
 
 type FieldsStackProps = {

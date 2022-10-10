@@ -11,8 +11,8 @@ import {
 import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 
-import { getFeaturedQuestions } from '../services/questions';
-import { getTopUsers } from '../services/users';
+import { getFeaturedQuestions } from '../../services/questions/questions';
+import { getTopUsers } from '../../services/users/users';
 
 const RightSideBar = () => {
   const { data, isLoading } = useQuery(

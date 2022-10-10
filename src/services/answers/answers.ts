@@ -2,8 +2,6 @@ import {
   addDoc,
   collection,
   doc,
-  DocumentData,
-  DocumentReference,
   getDocs,
   orderBy,
   query,
@@ -13,15 +11,18 @@ import {
 import moment from 'moment';
 import { QueryFunctionContext } from 'react-query';
 
-import { AnswerType, RececviedAnswerType } from '../data/global.types';
-import { db } from '../firebase-config';
-import { getLastThreeDaysDate } from '../utils/last-week-date';
+import { AnswerType, RececviedAnswerType } from '../../data/global.types';
+import { db } from '../../firebase-config';
+import { getLastThreeDaysDate } from '../../utils/last-three-days';
+import { getUserById } from '../users/users';
+import { NewAnswer, SaveAnswerParams } from './answers.types';
 import { formatAllAnswers } from './answers-helpers';
-import { getUserById } from './users';
 
 const answersCollectionRef = collection(db, 'answers');
 
-// Start Of APIS
+// *********** APIS ***********
+
+// GET Answers
 // Only the docs
 export const getAnswersOfQuestion = async (qId: string) => {
   const questionRef = doc(db, 'questions', qId);
@@ -37,7 +38,8 @@ export const getAnswersOfQuestion = async (qId: string) => {
   return answersFromServer.docs;
 };
 
-// The answers with the users
+// GET Answers
+// The answers with the authors
 export const getAllAnswersOfQuestion = async ({
   queryKey,
 }: QueryFunctionContext<[string, string | null | undefined]>) => {
@@ -50,18 +52,29 @@ export const getAllAnswersOfQuestion = async ({
   return answersList;
 };
 
-type SaveAnswerParams = {
-  authorId?: string;
-  questionId: string;
-  body: string;
+// GET Last Answers
+export const getLastThreeDaysAnswers = async () => {
+  const q = query(
+    answersCollectionRef,
+    where('creationTime', '>', getLastThreeDaysDate()),
+    orderBy('creationTime', 'desc')
+  );
+
+  const answersFromServer = await getDocs(q);
+
+  const answersList: RececviedAnswerType[] = answersFromServer.docs.map(
+    (answerDoc) => {
+      return {
+        id: answerDoc.id,
+        ...answerDoc.data(),
+      } as RececviedAnswerType;
+    }
+  );
+
+  return answersList;
 };
 
-type NewAnswer = Omit<SaveAnswerParams, 'authorId' | 'questionId'> & {
-  author?: DocumentReference<DocumentData>;
-  creationTime: Timestamp;
-  question: DocumentReference<DocumentData>;
-};
-
+// POST Add Answer
 export const saveAnswer = async ({
   authorId,
   questionId,
@@ -93,25 +106,4 @@ export const saveAnswer = async ({
     upVotes: 0,
     downVotes: 0,
   } as AnswerType;
-};
-
-export const getLastThreeDaysAnswers = async () => {
-  const q = query(
-    answersCollectionRef,
-    where('creationTime', '>', getLastThreeDaysDate()),
-    orderBy('creationTime', 'desc')
-  );
-
-  const answersFromServer = await getDocs(q);
-
-  const answersList: RececviedAnswerType[] = answersFromServer.docs.map(
-    (answerDoc) => {
-      return {
-        id: answerDoc.id,
-        ...answerDoc.data(),
-      } as RececviedAnswerType;
-    }
-  );
-
-  return answersList;
 };

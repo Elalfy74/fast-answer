@@ -1,4 +1,5 @@
 import { HTMLInputTypeAttribute } from 'react';
+import * as Yup from 'yup';
 
 export type Input = {
   name:

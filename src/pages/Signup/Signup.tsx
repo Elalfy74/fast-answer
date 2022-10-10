@@ -11,10 +11,11 @@ import React from 'react';
 import { useMutation } from 'react-query';
 import { Link } from 'react-router-dom';
 
-import { GoogleLogin, Logo } from '../../components';
+import { GoogleLogin } from '../../components';
+import { Logo } from '../../components/svg';
 import { useAuth } from '../../contexts/AuthContext';
 import useInput from '../../hooks/use-input';
-import { saveUserData } from '../../services/users';
+import { saveUserData } from '../../services/users/users';
 import { isFirebaseError } from '../../utils/firebase-error';
 import {
   errorMessages,

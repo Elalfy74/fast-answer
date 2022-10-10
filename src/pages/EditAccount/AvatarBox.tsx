@@ -16,31 +16,18 @@ import {
   Typography,
 } from '@mui/material';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
-import { FormikState, useFormik } from 'formik';
+import { useFormik } from 'formik';
 import { ChangeEventHandler, useState } from 'react';
 import * as Yup from 'yup';
 
 import { useAuth } from '../../contexts/AuthContext';
 import { storage } from '../../firebase-config';
-import { updateUserData } from '../../services/users';
+import { updateUserData } from '../../services/users/users';
+import { AvatarBoxProps, FormikValues, ResetForm } from './AvatarBox.types';
 
 export const validationSchema = Yup.object({
   userName: Yup.string().required('Required'),
 });
-
-type FormikValues = {
-  avatar: string;
-  bio: string;
-  userName: string;
-};
-
-type AvatarBoxProps = {
-  initialValues: FormikValues;
-};
-
-type ResetForm = (
-  nextState?: Partial<FormikState<FormikValues>> | undefined
-) => void;
 
 const AvatarBox = ({ initialValues }: AvatarBoxProps) => {
   const { currentUser } = useAuth();

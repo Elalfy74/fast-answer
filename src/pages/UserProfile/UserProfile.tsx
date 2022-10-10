@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 import { Navigate, useParams } from 'react-router-dom';
 
 import { useAuth } from '../../contexts/AuthContext';
-import { getUserById } from '../../services/users';
+import { getUserById } from '../../services/users/users';
 import { ProfileTabs, UserData } from '.';
 
 const UserProfile = () => {

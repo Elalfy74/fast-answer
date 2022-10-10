@@ -1,7 +1,7 @@
 import { List } from '@mui/material';
 
 import { ChatItem } from '.';
-import { FormatedChat } from './Chat';
+import { FormatedChat } from './Chat.types';
 
 type ChatListProps = {
   chats: FormatedChat[];

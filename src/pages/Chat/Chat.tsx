@@ -1,33 +1,16 @@
 import { Box, CircularProgress, Stack, Typography } from '@mui/material';
-import {
-  collection,
-  doc,
-  DocumentData,
-  DocumentReference,
-  onSnapshot,
-  query,
-  where,
-} from 'firebase/firestore';
+import { collection, doc, onSnapshot, query, where } from 'firebase/firestore';
 import PQueue from 'p-queue';
 import { useEffect, useState } from 'react';
 import { Route, Routes, useParams } from 'react-router-dom';
 
 import { useAuth } from '../../contexts/AuthContext';
-import { User } from '../../data/global.types';
 import { db } from '../../firebase-config';
-import { getUserByRef } from '../../services/users';
+import { getUserByRef } from '../../services/users/users';
 import { ChatDetails, ChatList } from '.';
+import { FormatedChat, ReceviedChat } from './Chat.types';
 
 const queue = new PQueue({ concurrency: 1 });
-
-type ReceviedChat = {
-  id: string;
-  users: DocumentReference<DocumentData>[];
-};
-
-export type FormatedChat = ReceviedChat & {
-  otherUser: User;
-};
 
 const Chat = () => {
   const [sm, setSm] = useState(true);

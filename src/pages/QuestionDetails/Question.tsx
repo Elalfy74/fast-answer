@@ -4,7 +4,8 @@ import { useMutation, useQueryClient } from 'react-query';
 
 import { useAuth } from '../../contexts/AuthContext';
 import { QuestionType } from '../../data/global.types';
-import { saveBookMark } from '../../services/questions';
+import { handleBookMark } from '../../services/questions/questions';
+import { BookMarkAction } from '../../services/questions/questions.types';
 import { QA, Votes } from '.';
 
 type QuestionProps = {
@@ -14,14 +15,18 @@ type QuestionProps = {
 const Question = ({ question }: QuestionProps) => {
   const { currentUser } = useAuth();
 
-  const { mutate } = useMutation(saveBookMark);
+  const { mutate } = useMutation(handleBookMark);
   const queryClient = useQueryClient();
 
   const isFavorite = question.bookMarkers?.includes(currentUser!.uid);
 
   const handleSaveBookMark = () => {
     mutate(
-      { userId: currentUser!.uid, questionId: question.id },
+      {
+        userId: currentUser!.uid,
+        questionId: question.id,
+        action: isFavorite ? BookMarkAction.REMOVE : BookMarkAction.ADD,
+      },
       {
         onSuccess: () => {
           queryClient.setQueryData<QuestionType | undefined>(
@@ -52,11 +57,7 @@ const Question = ({ question }: QuestionProps) => {
       <Stack direction="row" justifyContent="space-between">
         <Votes type="question" votes={question.votes} id={question.id} />
         {currentUser && (
-          <IconButton
-            onClick={handleSaveBookMark}
-            disableRipple
-            disabled={isFavorite}
-          >
+          <IconButton onClick={handleSaveBookMark} disableRipple>
             {isFavorite && <Bookmark color="primary" />}
             {!isFavorite && <BookmarkAddOutlined color="info" />}
           </IconButton>

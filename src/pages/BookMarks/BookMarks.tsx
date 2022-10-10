@@ -2,7 +2,7 @@ import { CircularProgress, Stack, Typography } from '@mui/material';
 import { useQuery } from 'react-query';
 
 import { useAuth } from '../../contexts/AuthContext';
-import { getBookMarks } from '../../services/questions';
+import { getBookMarks } from '../../services/questions/questions';
 import { Question } from '../AllQuestions';
 
 const BookMarks = () => {

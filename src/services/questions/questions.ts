@@ -1,10 +1,10 @@
 import {
   addDoc,
+  arrayRemove,
   arrayUnion,
   collection,
   doc,
   DocumentData,
-  DocumentReference,
   getDoc,
   getDocs,
   limit,
@@ -20,17 +20,24 @@ import {
 import moment from 'moment';
 import { QueryFunctionContext } from 'react-query';
 
-import { QuestionType, Tag } from '../data/global.types';
-import { db } from '../firebase-config';
-import { getLastThreeDaysDate } from '../utils/last-week-date';
+import { QuestionType, Tag } from '../../data/global.types';
+import { db } from '../../firebase-config';
+import { getLastThreeDaysDate } from '../../utils/last-three-days';
+import {
+  BookMarkAction,
+  FormatedQuestion,
+  SaveBookMarkParams,
+  SaveQuestionParams,
+} from './questions.types';
 import { formatAllQuestions, formatQuestion } from './questions-helpers';
 
 const questionsCollectionRef = collection(db, 'questions');
 
-// Start Of APIS
+// *********** APIS ***********
 
+// *************** QUESTIONS ************** //
 let lastDoc: QueryDocumentSnapshot<DocumentData> | null = null;
-// Get All Questions API
+// GET All Questions API
 export const getAllQuestions = async ({
   pageParam = 1,
 }: {
@@ -73,21 +80,44 @@ export const getAllQuestions = async ({
   return questionsList;
 };
 
-// Save Question API
-type QuestionParams = {
-  authorId?: string;
-  title: string;
-  body: string;
-  tags: Tag[];
+// GET Question By Id API
+export const getQuestionById = async ({
+  queryKey,
+}: QueryFunctionContext<[string, string | null | undefined]>) => {
+  const questionId = queryKey[1]!;
+
+  const questionDoc = doc(db, 'questions', questionId);
+
+  const questionFromServer = await getDoc(questionDoc);
+
+  if (!questionFromServer.data()) {
+    throw new Error('Question Not Found');
+  }
+  const question = await formatQuestion(questionFromServer);
+  return question;
 };
 
-type FormatedQuestion = Omit<QuestionParams, 'authorId' | 'tags'> & {
-  author?: DocumentReference<DocumentData>;
-  tags: DocumentReference<DocumentData>[];
-  creationTime: Timestamp;
+// GET Featured Questions
+export const getFeaturedQuestions = async () => {
+  const q = query(
+    questionsCollectionRef,
+    where('creationTime', '>', getLastThreeDaysDate()),
+    orderBy('creationTime', 'desc')
+  );
+  const questionsFromServer = await getDocs(q);
+  const questionsList: QuestionType[] = await formatAllQuestions(
+    questionsFromServer.docs
+  );
+
+  questionsList.sort((a, b) => a.upVotes - b.upVotes);
+
+  questionsList.splice(3);
+
+  return questionsList;
 };
 
-export const saveQuestion = async (params: QuestionParams) => {
+// POST Question API
+export const saveQuestion = async (params: SaveQuestionParams) => {
   const { authorId, title, body, tags } = params;
 
   const currentTime = Timestamp.fromDate(new Date());
@@ -123,30 +153,12 @@ export const saveQuestion = async (params: QuestionParams) => {
   } as QuestionType;
 };
 
-// BookMark Post
-type SaveBookMarkParams = {
-  userId: string;
-  questionId: string;
-};
-
-export const saveBookMark = async ({
-  userId,
-  questionId,
-}: SaveBookMarkParams) => {
-  const questionRef = doc(db, 'questions', questionId);
-
-  const result = await updateDoc(questionRef, {
-    bookMarkers: arrayUnion(userId),
-  });
-
-  return result;
-};
-
+// *************** BOOKMARKS ************** //
+// BookMark GET
 export const getBookMarks = async (userId: string) => {
   const q = query(
     questionsCollectionRef,
     where('bookMarkers', 'array-contains', userId)
-    // orderBy('creationTime', 'desc')
   );
 
   const questionsFromServer = await getDocs(q);
@@ -158,6 +170,33 @@ export const getBookMarks = async (userId: string) => {
   return questionsList;
 };
 
+// BookMark POST
+export const handleBookMark = async ({
+  userId,
+  questionId,
+  action,
+}: SaveBookMarkParams) => {
+  const questionRef = doc(db, 'questions', questionId);
+
+  const result = await updateDoc(questionRef, {
+    bookMarkers:
+      action === BookMarkAction.ADD ? arrayUnion(userId) : arrayRemove(userId),
+  });
+
+  return result;
+};
+
+// GET ALL Questions ID -- FAKE PURPOSE
+export const getAllQuestionsIds = async () => {
+  const questions = await getDocs(questionsCollectionRef);
+  const ids: string[] = [];
+  questions.forEach((question) => {
+    ids.push(question.id);
+  });
+  return ids;
+};
+
+// POST Question -- FAKE PURPOSE
 export const saveFakeQuestion = async (
   uId: string,
   question: any,
@@ -175,49 +214,4 @@ export const saveFakeQuestion = async (
   };
 
   await addDoc(questionsCollectionRef, formatedQuestion);
-};
-
-// Get Question By Id API
-export const getQuestionById = async ({
-  queryKey,
-}: QueryFunctionContext<[string, string | null | undefined]>) => {
-  const questionId = queryKey[1]!;
-
-  const questionDoc = doc(db, 'questions', questionId);
-
-  const questionFromServer = await getDoc(questionDoc);
-
-  if (!questionFromServer.data()) {
-    throw new Error('Question Not Found');
-  }
-  const question = await formatQuestion(questionFromServer);
-  return question;
-};
-// End Of APIS
-
-export const getAllQuestionsIds = async () => {
-  const questions = await getDocs(questionsCollectionRef);
-  const ids: string[] = [];
-  questions.forEach((question) => {
-    ids.push(question.id);
-  });
-  return ids;
-};
-
-export const getFeaturedQuestions = async () => {
-  const q = query(
-    questionsCollectionRef,
-    where('creationTime', '>', getLastThreeDaysDate()),
-    orderBy('creationTime', 'desc')
-  );
-  const questionsFromServer = await getDocs(q);
-  const questionsList: QuestionType[] = await formatAllQuestions(
-    questionsFromServer.docs
-  );
-
-  questionsList.sort((a, b) => a.upVotes - b.upVotes);
-
-  questionsList.splice(3);
-
-  return questionsList;
 };
