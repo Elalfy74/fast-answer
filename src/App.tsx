@@ -31,9 +31,12 @@ const App = () => {
               <Route path="/questions/:qId" element={<QuestionDetails />} />
             </Route>
 
+            <Route element={<Wrapper full={false} />}>
+              <Route path="/users/:userId" element={<UserProfile />} />
+            </Route>
+
             <Route element={<ProtectedRoute />}>
               <Route element={<Wrapper full={false} />}>
-                <Route path="/users/:userId" element={<UserProfile />} />
                 <Route path="/profile" element={<UserProfile />} />
               </Route>
               <Route path="/profile-settings" element={<EditAccount />} />
