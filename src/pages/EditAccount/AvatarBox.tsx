@@ -115,7 +115,7 @@ const AvatarBox = ({ initialValues }: AvatarBoxProps) => {
     setFile(e.target.files![0]);
 
     formik.setFieldValue(
-      'PhotoUrl',
+      'avatar',
       URL.createObjectURL(e.target.files![0]) || ''
     );
   };
@@ -194,7 +194,7 @@ const AvatarBox = ({ initialValues }: AvatarBoxProps) => {
           )}
           {userNameEdit && (
             <TextField
-              name="UserName"
+              name="userName"
               value={formik.values.userName}
               onChange={formik.handleChange}
               size="small"
@@ -233,7 +233,7 @@ const AvatarBox = ({ initialValues }: AvatarBoxProps) => {
                 alignSelf: 'center',
                 width: '100%',
               }}
-              name="Bio"
+              name="bio"
               value={formik.values.bio}
               onChange={formik.handleChange}
               multiline

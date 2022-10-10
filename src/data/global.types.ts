@@ -11,7 +11,7 @@ export type User = {
   lastName?: string;
   email: string;
   bio?: string;
-  gender: 'male' | 'female';
+  gender: 'Male' | 'Female';
   avatar?: string;
   country?: string;
   Birthdate?: string;

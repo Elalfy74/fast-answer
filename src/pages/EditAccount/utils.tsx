@@ -7,7 +7,9 @@ export type Input = {
     | 'lastName'
     | 'birthdate'
     | 'country'
-    | 'college';
+    | 'university'
+    | 'gender'
+    | 'jobTitle';
   label: string;
   type?: HTMLInputTypeAttribute;
   readonly?: boolean;
@@ -43,11 +45,20 @@ export const PersonalInfoList: Input[] = [
     label: 'Country',
     type: 'text',
   },
+  {
+    name: 'gender',
+    label: 'Gender',
+    type: 'text',
+  },
 ];
 
 export const EducationalInfoList: Input[] = [
   {
-    name: 'college',
-    label: 'College',
+    name: 'university',
+    label: 'University',
+  },
+  {
+    name: 'jobTitle',
+    label: 'Job Title',
   },
 ];

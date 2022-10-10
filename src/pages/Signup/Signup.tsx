@@ -106,7 +106,9 @@ const Signup = () => {
       }}
     >
       <Box textAlign="center" mb={3}>
-        <Logo />
+        <Link to="/">
+          <Logo />
+        </Link>
         <Typography component="h1" variant="h5" fontWeight="500" mt={2}>
           Signup To Fast Answer
         </Typography>

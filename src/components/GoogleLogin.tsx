@@ -10,16 +10,17 @@ const GoogleLogin = () => {
 
   const { mutate, isLoading } = useMutation(signInWithGoogle, {
     onSuccess: async (data) => {
+      // check if the user is already signed Before
       const user = await getUserById(data.user.uid);
 
       const displayNameAsArray = data.user.displayName?.split(' ');
 
-      if (!user.Email) {
-        await saveUserData({
-          id: data.user.uid,
-          Email: data.user.email!,
-          FirstName: displayNameAsArray![0],
-          LastName: displayNameAsArray ? displayNameAsArray[1] : undefined,
+      // if new User, then Save data
+      if (!user.email) {
+        await saveUserData(data.user.uid, {
+          email: data.user.email!,
+          firstName: displayNameAsArray![0],
+          lastName: displayNameAsArray ? displayNameAsArray[1] : '',
         });
       }
     },

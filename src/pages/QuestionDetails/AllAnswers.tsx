@@ -29,6 +29,7 @@ const AllAnswers = ({ qId }: { qId: string }) => {
           return [data, ...(oldData ?? [])];
         }
       );
+      queryClient.resetQueries(['questions']);
     },
   });
 

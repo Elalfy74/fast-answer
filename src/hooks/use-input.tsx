@@ -21,6 +21,7 @@ function inputReducer(state: InputState, action: InputAction) {
     case InputActionKind.CHANGE:
       return { value: action.value!, isTouched: state.isTouched };
     case InputActionKind.BLUR:
+      // only set touched if the user typed at least one character
       if (state.value.length > 0) {
         return { value: state.value, isTouched: true };
       }

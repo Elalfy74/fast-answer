@@ -41,7 +41,7 @@ function TabPanel(props: TabPanelProps) {
 const UserProfile = () => {
   const [value, setValue] = useState(0);
 
-  const { currentUser } = useAuth();
+  const { currentUser, logout } = useAuth();
   const { userId } = useParams();
   const navigate = useNavigate();
 
@@ -63,6 +63,10 @@ const UserProfile = () => {
     if (!currentUser) return;
     const chatId = await openChat(currentUser.uid, userId!);
     navigate(`/chat/${chatId}`);
+  };
+
+  const handleLogOut = () => {
+    logout();
   };
 
   if (currentUser && userId === currentUser.uid) {
@@ -114,9 +118,11 @@ const UserProfile = () => {
               </Typography>
             </Stack>
           </Stack>
-          <Typography variant="body2" component="p" mt={1} color="primary">
-            Frontend Developer
-          </Typography>
+          {data?.jobTitle && (
+            <Typography variant="body2" component="p" mt={1} color="primary">
+              {data.jobTitle}
+            </Typography>
+          )}
           {/* Chat/follow buttons */}
           {userId && (
             <Stack
@@ -151,14 +157,36 @@ const UserProfile = () => {
             </Stack>
           )}
           {!userId && (
-            <Button
-              variant="contained"
-              component={Link}
-              to="/profile-settings"
-              sx={{ mt: 4, width: { md: '50%' } }}
+            <Stack
+              direction="row"
+              alignItems="center"
+              mt={4}
+              sx={{
+                gap: {
+                  xs: 4,
+                  md: 6,
+                },
+                justifyContent: { xs: 'center', md: 'flex-start' },
+              }}
             >
-              Edit Profile
-            </Button>
+              <Button
+                variant="contained"
+                component={Link}
+                to="/profile-settings"
+                sx={{ width: '120px' }}
+              >
+                Edit Profile
+              </Button>
+              <Button
+                onClick={handleLogOut}
+                variant="outlined"
+                sx={{
+                  width: '120px',
+                }}
+              >
+                Logout
+              </Button>
+            </Stack>
           )}
           {/* Bio and tags */}
           <Stack sx={{ maxWidth: '300px' }}>
@@ -186,7 +214,7 @@ const UserProfile = () => {
                 fontWeight: '500',
               }}
             >
-              Tags
+              Interests
             </Divider>
             <TagsList
               tags={[
@@ -230,11 +258,9 @@ const UserProfile = () => {
             </ListItem>
             <ListItem disableGutters>
               <Typography variant="body2" mr={2} fontWeight="500">
-                Address:
+                Conutry:
               </Typography>
-              <Typography variant="body2">
-                6th of October, Cairo, Egypt
-              </Typography>
+              <Typography variant="body2">{data?.country}</Typography>
             </ListItem>
           </List>
           <Typography variant="overline" fontWeight="500">
@@ -245,7 +271,7 @@ const UserProfile = () => {
               <Typography variant="body2" mr={2} fontWeight="500">
                 Birthdate:
               </Typography>
-              <Typography variant="body2">{data?.Birthdate}</Typography>
+              <Typography variant="body2">{data?.birthdate}</Typography>
             </ListItem>
           </List>
         </TabPanel>

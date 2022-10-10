@@ -23,6 +23,9 @@ export type FormikValues = {
   email: string;
   birthdate: string;
   country: string;
+  gender: string;
+  university: string;
+  jobTitle: string;
 };
 
 type UserDetailsProps = {

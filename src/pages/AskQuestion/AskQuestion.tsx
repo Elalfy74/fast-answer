@@ -109,8 +109,8 @@ const AskQuestion = () => {
           flexDirection: 'column',
           boxShadow: 3,
           borderRadius: 2,
-          p: 2,
-          my: 5,
+          px: 2,
+          py: 5,
         }}
       >
         <MarginBox>

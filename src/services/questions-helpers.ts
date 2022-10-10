@@ -12,8 +12,6 @@ import { getAnswersOfQuestion } from './answers';
 import { getTags } from './tags';
 import { getUserByRef } from './users';
 
-const queue = new PQueue({ concurrency: 1 });
-
 // Functions replaces tags reference with real tags and author with real author data for a single question
 export const formatQuestion = async (
   question: QueryDocumentSnapshot<DocumentData> | DocumentSnapshot<DocumentData>
@@ -59,6 +57,7 @@ export const formatAllQuestions = async (
   questions: QueryDocumentSnapshot<DocumentData>[]
 ) => {
   const result: QuestionType[] = [];
+  const queue = new PQueue({ concurrency: 1 });
 
   await queue.addAll(
     questions.map((question) => {

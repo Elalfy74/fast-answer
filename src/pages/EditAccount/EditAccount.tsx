@@ -23,6 +23,9 @@ const EditAccount = () => {
     email: data?.email || '',
     birthdate: data?.birthdate || '',
     country: data?.country || '',
+    gender: data?.gender || '',
+    university: data?.university || '',
+    jobTitle: data?.jobTitle || '',
   };
 
   if (isLoading) {

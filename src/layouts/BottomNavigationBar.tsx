@@ -1,6 +1,10 @@
 import {
   Bookmark,
   BookmarkBorderOutlined,
+  BorderColor,
+  BorderColorOutlined,
+  Mail,
+  MailOutlined,
   Person,
   PersonOutlined,
   QuestionAnswer,
@@ -11,7 +15,26 @@ import {
 import { BottomNavigationAction, Box, Paper } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 
-const BottomList = [
+import { Ask } from '../components/svg';
+import { useAuth } from '../contexts/AuthContext';
+
+const publicList = [
+  {
+    label: 'Questions',
+    activeIcon: <QuestionAnswer />,
+    icon: <QuestionAnswerOutlined />,
+    path: '/',
+  },
+
+  {
+    label: 'Profile',
+    activeIcon: <Person />,
+    icon: <PersonOutlined />,
+    path: '/auth/login',
+  },
+];
+
+const privateList = [
   {
     label: 'Questions',
     activeIcon: <QuestionAnswer />,
@@ -19,26 +42,42 @@ const BottomList = [
     path: '/',
   },
   {
-    label: 'Favourites',
-    activeIcon: <Bookmark />,
-    icon: <BookmarkBorderOutlined />,
-    path: '/favorites',
+    label: 'Messages',
+    activeIcon: <Mail />,
+    icon: <MailOutlined />,
+    path: '/chat',
   },
   {
-    label: 'Tags',
-    activeIcon: <Tag />,
-    icon: <TagOutlined />,
-    path: '/tags',
+    label: 'Ask',
+    activeIcon: <BorderColor />,
+    icon: <BorderColorOutlined />,
+    path: '/ask-question',
   },
+  // {
+  //   label: 'Favourites',
+  //   activeIcon: <Bookmark />,
+  //   icon: <BookmarkBorderOutlined />,
+  //   path: '/favorites',
+  // },
+  // {
+  //   label: 'Tags',
+  //   activeIcon: <Tag />,
+  //   icon: <TagOutlined />,
+  //   path: '/tags',
+  // },
   {
     label: 'Profile',
     activeIcon: <Person />,
     icon: <PersonOutlined />,
-    path: '/user',
+    path: '/profile',
   },
 ];
 
 const BottomNavigationBar = () => {
+  const { currentUser } = useAuth();
+
+  const linksList = currentUser ? privateList : publicList;
+
   return (
     <Paper
       sx={{
@@ -60,7 +99,7 @@ const BottomNavigationBar = () => {
           justifyContent: 'space-around',
         }}
       >
-        {BottomList.map((link) => (
+        {linksList.map((link) => (
           <NavLink to={link.path} key={link.label} end>
             {({ isActive }) => (
               <BottomNavigationAction

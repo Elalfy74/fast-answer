@@ -1,4 +1,11 @@
-import { Box, CircularProgress, Container, Grid, Stack } from '@mui/material';
+import {
+  Box,
+  CircularProgress,
+  Container,
+  Grid,
+  Stack,
+  Typography,
+} from '@mui/material';
 import {
   collection,
   doc,
@@ -87,6 +94,8 @@ const Chat = () => {
 
         if (chatResult.length) {
           formatAndSaveChats(chatResult);
+        } else {
+          setLoading(false);
         }
       });
       return unsub;
@@ -151,7 +160,12 @@ const Chat = () => {
               <CircularProgress />
             </Box>
           )}
-          {!isLoading && (
+          {!isLoading && chats.length === 0 && (
+            <Box mt={10} textAlign="center">
+              <Typography variant="h6">No Chats available</Typography>
+            </Box>
+          )}
+          {!isLoading && chats.length !== 0 && (
             <Stack
               direction="row"
               gap={3}

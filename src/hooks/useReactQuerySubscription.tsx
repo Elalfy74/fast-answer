@@ -19,6 +19,7 @@ type ChatDetailsProps = {
   chatId: string;
 };
 
+// This Hook is Used To Listen to real Time Messages and changing the query value
 export const useReactQuerySubscription = ({
   otherUser,
   chatId,

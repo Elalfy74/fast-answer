@@ -100,30 +100,34 @@ const RightSideBar = () => {
                   },
                 }}
               />
-              <Stack>
-                <Typography
-                  sx={{
-                    fontSize: {
-                      md: '12px',
-                      lg: '14px',
-                    },
-                    fontWeight: '500',
-                  }}
-                >
-                  {user.userName}
-                </Typography>
-                <Typography
-                  color="text.secondary"
-                  sx={{
-                    fontSize: {
-                      md: '10px',
-                      lg: '12px',
-                    },
-                  }}
-                >
-                  {user.answersCount} Contrubutions
-                </Typography>
-              </Stack>
+              {user && (
+                <Stack>
+                  <Typography
+                    component={Link}
+                    to={`/users/${user.id}`}
+                    sx={{
+                      fontSize: {
+                        md: '12px',
+                        lg: '14px',
+                      },
+                      fontWeight: '500',
+                    }}
+                  >
+                    {user.userName}
+                  </Typography>
+                  <Typography
+                    color="text.secondary"
+                    sx={{
+                      fontSize: {
+                        md: '10px',
+                        lg: '12px',
+                      },
+                    }}
+                  >
+                    {user.answersCount} Contrubutions
+                  </Typography>
+                </Stack>
+              )}
             </Stack>
           ))}
         </Stack>
@@ -202,7 +206,11 @@ const RightSideBar = () => {
                   Asked by
                 </Typography>
 
-                <Typography sx={{ fontWeight: '600', fontSize: '12px' }}>
+                <Typography
+                  sx={{ fontWeight: '600', fontSize: '12px' }}
+                  component={question.author ? Link : 'p'}
+                  to={`/users/${question.author?.id}`}
+                >
                   {question.author?.userName || 'Anonymous'}
                 </Typography>
               </Box>

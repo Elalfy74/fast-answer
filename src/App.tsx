@@ -4,7 +4,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
 import QueryProvider from './contexts/QueryProvider';
 import AppTheme from './contexts/theme';
-import { ProtectedRoute, SecondaryWrapper, Wrapper } from './layouts';
+import { BottomNavigationLayout, ProtectedRoute, Wrapper } from './layouts';
 import {
   AllQuestions,
   Chat,
@@ -25,21 +25,25 @@ const App = () => {
       <QueryProvider>
         {/* <ScriptsPlayground /> */}
         <Routes>
-          <Route path="/" element={<Wrapper full />}>
-            <Route path="/" element={<AllQuestions />} />
-            <Route path="/users/:userId" element={<UserProfile />} />
-            <Route path="/questions/:qId" element={<QuestionDetails />} />
-          </Route>
-
-          <Route element={<ProtectedRoute />}>
-            <Route element={<Wrapper full={false} />}>
-              <Route path="/profile" element={<UserProfile />} />
+          <Route element={<BottomNavigationLayout />}>
+            <Route path="/" element={<Wrapper full />}>
+              <Route path="/" element={<AllQuestions />} />
+              <Route path="/questions/:qId" element={<QuestionDetails />} />
             </Route>
-            <Route path="/profile-settings" element={<EditAccount />} />
-            <Route path="/chat/*" element={<Chat />} />
-          </Route>
 
-          <Route path="/ask-question" element={<AskQuestion />} />
+            <Route element={<ProtectedRoute />}>
+              <Route element={<Wrapper full={false} />}>
+                <Route path="/users/:userId" element={<UserProfile />} />
+                <Route path="/profile" element={<UserProfile />} />
+              </Route>
+              <Route path="/profile-settings" element={<EditAccount />} />
+              <Route path="/chat/*" element={<Chat />} />
+            </Route>
+
+            <Route path="/ask-question" element={<AskQuestion />} />
+            {/* <Route path="*" element={<Navigate to="/not-found" />} /> */}
+            {/* <Routes path="/not-found" element={<NotFound />} /> */}
+          </Route>
           <Route
             path="/auth/login"
             element={!currentUser ? <Login /> : <Navigate to="/" />}
@@ -48,8 +52,6 @@ const App = () => {
             path="/auth/signup"
             element={!currentUser ? <Signup /> : <Navigate to="/" />}
           />
-          {/* <Route path="*" element={<Navigate to="/not-found" />} /> */}
-          {/* <Routes path="/not-found" element={<NotFound />} /> */}
         </Routes>
         <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
       </QueryProvider>

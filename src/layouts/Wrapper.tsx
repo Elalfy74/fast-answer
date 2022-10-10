@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import { LeftSideBar, MiniLeftSideBar, RightSideBar } from '.';
-import BottomNavigationBar from './BottomNavigationBar';
 
 const styles: { [key: string]: SxProps<Theme> } = {
   container: { py: '20px' },
@@ -106,7 +105,6 @@ const Wrapper = ({ full }: WrapperProps) => {
           </Grid>
         )}
       </Grid>
-      {mobile && <BottomNavigationBar />}
     </Container>
   );
 };

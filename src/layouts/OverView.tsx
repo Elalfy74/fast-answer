@@ -1,5 +1,4 @@
 import { Box, Modal, SxProps, Theme } from '@mui/material';
-import { useState } from 'react';
 import ReactDOM from 'react-dom';
 
 import { ChildrenProps } from '../data/global.types';

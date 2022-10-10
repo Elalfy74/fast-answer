@@ -97,7 +97,9 @@ const LoginForm = () => {
         }}
       >
         <Box textAlign="center" mb={3}>
-          <Logo />
+          <Link to="/">
+            <Logo />
+          </Link>
           <Typography variant="h5" fontWeight="500">
             Login To Fast Answer
           </Typography>
