@@ -131,7 +131,7 @@ const ChatDetails = ({ chats }: ChatDetailsProps) => {
         </Box>
       </Paper>
 
-      <Stack height="100%" justifyContent="flex-end">
+      <Stack height="100%" justifyContent="flex-end" pb={10}>
         <Stack overflow="auto" px={2}>
           {data?.map((message) => (
             <Message key={message.id} message={message} />
@@ -145,6 +145,11 @@ const ChatDetails = ({ chats }: ChatDetailsProps) => {
           gap={1}
           pt={1}
           onSubmit={sendMessageHandler}
+          sx={{
+            position: 'sticky',
+            bottom: '20px',
+            left: '0',
+          }}
         >
           <TextField
             fullWidth
@@ -166,6 +171,7 @@ const ChatDetails = ({ chats }: ChatDetailsProps) => {
             }}
           />
           <IconButton
+            disabled={!messageValue}
             type="submit"
             size="large"
             sx={{

@@ -1,11 +1,4 @@
-import {
-  Box,
-  CircularProgress,
-  Container,
-  Grid,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Box, CircularProgress, Stack, Typography } from '@mui/material';
 import {
   collection,
   doc,
@@ -22,8 +15,6 @@ import { Route, Routes, useParams } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { User } from '../../data/global.types';
 import { db } from '../../firebase-config';
-import { MiniLeftSideBar } from '../../layouts';
-import BottomNavigationBar from '../../layouts/BottomNavigationBar';
 import { getUserByRef } from '../../services/users';
 import { ChatDetails, ChatList } from '.';
 
@@ -39,7 +30,6 @@ export type FormatedChat = ReceviedChat & {
 };
 
 const Chat = () => {
-  const [mobile, setMobile] = useState(true);
   const [sm, setSm] = useState(true);
 
   const param = useParams();
@@ -103,103 +93,49 @@ const Chat = () => {
   }, [currentUser]);
 
   useEffect(() => {
-    if (window.innerWidth > 600) {
-      setMobile(false);
-    }
     if (window.innerWidth > 900) {
       setSm(false);
     }
   }, []);
 
   return (
-    <Container
-      maxWidth="lg"
-      sx={{
-        py: {
-          xs: 0,
-          sm: '20px',
-        },
-        height: '100vh',
-        px: {
-          xs: 0,
-          sm: 1,
-          md: 2,
-        },
-      }}
-    >
-      <Grid
-        container
-        columnSpacing={{ xs: 3, lg: 4 }}
-        sx={{
-          height: '100%',
-          width: '100%',
-        }}
-      >
-        {!mobile && (
-          <Grid
-            item
-            sm={1.5}
-            sx={{
-              position: 'sticky',
-              top: 20,
-            }}
-          >
-            <MiniLeftSideBar />
-          </Grid>
-        )}
-        <Grid
-          item
-          xs={12}
-          sm={10.5}
+    <>
+      {isLoading && (
+        <Box pt={4} textAlign="center">
+          <CircularProgress />
+        </Box>
+      )}
+      {!isLoading && chats.length === 0 && (
+        <Box mt={10} textAlign="center">
+          <Typography variant="h6">No Chats available</Typography>
+        </Box>
+      )}
+      {!isLoading && chats.length !== 0 && (
+        <Stack
+          direction="row"
+          gap={3}
           sx={{
             height: '100%',
           }}
         >
-          {isLoading && (
-            <Box pt={4} textAlign="center">
-              <CircularProgress />
-            </Box>
+          {/* Show Chat List and Chat Details seperated (Routes) On small Screens */}
+          {((sm && !param['*']) || !sm) && <ChatList chats={chats} />}
+          {((sm && param['*']) || !sm) && (
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <Box mx="auto" mt={20}>
+                    Please Select A chat
+                  </Box>
+                }
+              />
+              <Route path=":chatId" element={<ChatDetails chats={chats} />} />
+            </Routes>
           )}
-          {!isLoading && chats.length === 0 && (
-            <Box mt={10} textAlign="center">
-              <Typography variant="h6">No Chats available</Typography>
-            </Box>
-          )}
-          {!isLoading && chats.length !== 0 && (
-            <Stack
-              direction="row"
-              gap={3}
-              sx={{
-                height: '100%',
-              }}
-            >
-              {((sm && !param['*']) || !sm) && (
-                <>
-                  <ChatList chats={chats} />
-                  {mobile && <BottomNavigationBar />}
-                </>
-              )}
-              {((sm && param['*']) || !sm) && (
-                <Routes>
-                  <Route
-                    path="/"
-                    element={
-                      <Box mx="auto" mt={20}>
-                        Please Select A chat
-                      </Box>
-                    }
-                  />
-                  <Route
-                    path=":chatId"
-                    element={<ChatDetails chats={chats} />}
-                  />
-                </Routes>
-              )}
-            </Stack>
-          )}
-        </Grid>
-      </Grid>
-    </Container>
+        </Stack>
+      )}
+    </>
   );
 };
 

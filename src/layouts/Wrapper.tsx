@@ -2,7 +2,7 @@ import { Box, Container, Grid, SxProps, Theme } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { LeftSideBar, MiniLeftSideBar, RightSideBar } from '.';
+import { LeftSideBar, MiniLeftSideBar } from '.';
 
 const styles: { [key: string]: SxProps<Theme> } = {
   container: { py: '20px' },
@@ -11,11 +11,7 @@ const styles: { [key: string]: SxProps<Theme> } = {
   },
 };
 
-type WrapperProps = {
-  full: boolean;
-};
-
-const Wrapper = ({ full }: WrapperProps) => {
+const Wrapper = () => {
   const [mobile, setMobile] = useState(true);
 
   useEffect(() => {
@@ -56,7 +52,7 @@ const Wrapper = ({ full }: WrapperProps) => {
             </Box>
           </Grid>
         )}
-        {full && (
+        {/* {full && (
           <>
             <Grid
               item
@@ -85,25 +81,25 @@ const Wrapper = ({ full }: WrapperProps) => {
               </Grid>
             )}
           </>
-        )}
+        )} */}
 
-        {!full && (
-          <Grid
-            item
-            xs={12}
-            sm={10}
-            md={10.5}
-            xl={9}
-            sx={{
-              pb: {
-                xs: 15,
-                sm: 0,
-              },
-            }}
-          >
-            <Outlet />
-          </Grid>
-        )}
+        <Grid
+          item
+          container
+          columnSpacing={3}
+          xs={12}
+          sm={10}
+          md={10.5}
+          xl={9}
+          sx={{
+            pb: {
+              xs: 15,
+              sm: 0,
+            },
+          }}
+        >
+          <Outlet />
+        </Grid>
       </Grid>
     </Container>
   );

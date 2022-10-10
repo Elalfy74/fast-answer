@@ -1,4 +1,4 @@
-import { Login, Logout } from '@mui/icons-material';
+import { BorderColor } from '@mui/icons-material';
 import {
   Box,
   Button,
@@ -13,14 +13,14 @@ import { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 
 import { Logo } from '../components';
-import { Ask } from '../components/svg';
 import { useAuth } from '../contexts/AuthContext';
+import { MiniAuthActions } from '.';
 import { LeftSideBarListPrivate, LeftSideBarListPublic } from './LeftSideBar';
 import OverView from './OverView';
 
 const MiniLeftSideBar = () => {
   const [status, setStatus] = useState(false);
-  const { currentUser, logout } = useAuth();
+  const { currentUser } = useAuth();
 
   const navigate = useNavigate();
 
@@ -36,7 +36,6 @@ const MiniLeftSideBar = () => {
       navigate('/ask-question');
     } else {
       setStatus(true);
-      // navigate('/auth/login');
     }
   };
 
@@ -111,77 +110,20 @@ const MiniLeftSideBar = () => {
                 <IconButton
                   onClick={handleAsk}
                   sx={{
-                    bgcolor: '#eae1f6',
-                    p: 0,
-                    '&:hover': {
-                      bgcolor: '#d4c5e8',
-                    },
+                    bgcolor: 'primary.main',
                   }}
+                  disableRipple
                 >
-                  <Ask />
+                  <BorderColor
+                    sx={{
+                      color: 'white',
+                    }}
+                  />
                 </IconButton>
               </Tooltip>
             </ListItemIcon>
           </ListItem>
-          {currentUser && (
-            <ListItem
-              sx={{
-                px: { xs: 0, xl: '32px' },
-                mb: '10px',
-                mt: 8,
-                mx: 'auto',
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  width: '100%',
-                  display: { xs: 'none', sm: 'flex' },
-                  justifyContent: 'center',
-                }}
-              >
-                <Tooltip title="Logout">
-                  <IconButton color="primary" onClick={logout}>
-                    <Logout />
-                  </IconButton>
-                </Tooltip>
-              </ListItemIcon>
-            </ListItem>
-          )}
-          {!currentUser && (
-            <ListItem
-              sx={{
-                width: '70%',
-                justifyContent: 'center',
-                px: { xs: 0, xl: '32px' },
-                mx: 'auto',
-                mb: '10px',
-                mt: 8,
-                borderTop: '1px solid ',
-                borderColor: 'divider',
-              }}
-            >
-              <Link
-                to="/auth/login"
-                style={{
-                  width: '100%',
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    width: '100%',
-                    display: { xs: 'none', sm: 'flex' },
-                    justifyContent: 'center',
-                  }}
-                >
-                  <Tooltip title="Login">
-                    <IconButton color="primary">
-                      <Login />
-                    </IconButton>
-                  </Tooltip>
-                </ListItemIcon>
-              </Link>
-            </ListItem>
-          )}
+          <MiniAuthActions />
         </List>
       </Box>
     </>

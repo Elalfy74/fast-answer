@@ -1,6 +1,15 @@
 import { LoadingButton } from '@mui/lab';
-import { Box, Button, Divider, Stack, Typography } from '@mui/material';
+import {
+  Alert,
+  Box,
+  Button,
+  Divider,
+  Snackbar,
+  Stack,
+  Typography,
+} from '@mui/material';
 import { FormikProps, useFormik } from 'formik';
+import { useState } from 'react';
 import { useMutation } from 'react-query';
 import * as Yup from 'yup';
 
@@ -34,8 +43,10 @@ type UserDetailsProps = {
 };
 
 const UserDetails = ({ initialValues, userId }: UserDetailsProps) => {
+  const [successOpen, setSucess] = useState(false);
+
   const { mutate, isLoading } = useMutation(updateUserData, {
-    onSuccess: () => {},
+    onSuccess: () => setSucess(true),
   });
 
   const formik: FormikProps<FormikValues> = useFormik({
@@ -50,6 +61,17 @@ const UserDetails = ({ initialValues, userId }: UserDetailsProps) => {
     },
   });
 
+  const handleClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setSucess(false);
+  };
+
   return (
     <Box
       sx={{
@@ -59,7 +81,7 @@ const UserDetails = ({ initialValues, userId }: UserDetailsProps) => {
         p: 2,
         order: {
           xs: 2,
-          md: 1,
+          lg: 1,
         },
       }}
     >
@@ -75,7 +97,7 @@ const UserDetails = ({ initialValues, userId }: UserDetailsProps) => {
         <Box
           sx={{
             display: 'flex',
-            flexDirection: { xs: 'column', md: 'row' },
+            flexDirection: { xs: 'column', lg: 'row' },
             gap: 2,
             mt: 2,
           }}
@@ -120,6 +142,15 @@ const UserDetails = ({ initialValues, userId }: UserDetailsProps) => {
           </Button>
         </Stack>
       </Stack>
+      <Snackbar
+        open={successOpen}
+        autoHideDuration={3000}
+        onClose={handleClose}
+      >
+        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+          Your data has been Changed Successfuly
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

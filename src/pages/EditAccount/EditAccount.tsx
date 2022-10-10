@@ -1,4 +1,4 @@
-import { CircularProgress, Container, Stack, Typography } from '@mui/material';
+import { CircularProgress, Stack, Typography } from '@mui/material';
 import { useQuery } from 'react-query';
 
 import { useAuth } from '../../contexts/AuthContext';
@@ -43,7 +43,7 @@ const EditAccount = () => {
       2. two major boxes in row direction
       3. action buttons
     */
-    <Container maxWidth="lg" sx={{ mt: 4, width: '100%' }}>
+    <>
       {/* Header */}
       <Typography variant="h4" fontWeight="500" sx={{ mb: 2 }}>
         Account
@@ -52,7 +52,7 @@ const EditAccount = () => {
       {/* flex Box contain two major boxes */}
       <Stack
         sx={{
-          flexDirection: { xs: 'column', md: 'row' },
+          flexDirection: { xs: 'column', lg: 'row' },
           gap: 2,
         }}
       >
@@ -68,7 +68,7 @@ const EditAccount = () => {
           }}
         />
       </Stack>
-    </Container>
+    </>
   );
 };
 

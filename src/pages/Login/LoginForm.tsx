@@ -10,7 +10,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useMutation } from 'react-query';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { GoogleLogin, Logo } from '../../components';
 import { useAuth } from '../../contexts/AuthContext';

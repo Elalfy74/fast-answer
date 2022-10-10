@@ -13,12 +13,10 @@ import {
 import {
   Box,
   Button,
-  IconButton,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
-  Tooltip,
   Typography,
 } from '@mui/material';
 import { useState } from 'react';
@@ -26,6 +24,7 @@ import { Link, NavLink, useNavigate } from 'react-router-dom';
 
 import { Logo } from '../components';
 import { useAuth } from '../contexts/AuthContext';
+import { AuthActions } from '.';
 import OverView from './OverView';
 
 export const LeftSideBarListPublic = [
@@ -93,7 +92,6 @@ const LeftSideBar = () => {
       navigate('/ask-question');
     } else {
       setStatus(true);
-      // navigate('/auth/login');
     }
   };
 
@@ -178,84 +176,7 @@ const LeftSideBar = () => {
             </Button>
             {/* </Link> */}
           </ListItem>
-          {currentUser && (
-            <ListItem
-              sx={{
-                width: '90%',
-                justifyContent: 'center',
-                mt: 8,
-                mx: 'auto',
-                mb: '10px',
-                px: { xs: 0, xl: 4 },
-                borderTop: '1px solid ',
-                borderColor: 'divider',
-              }}
-            >
-              <Button
-                variant="text"
-                type="button"
-                onClick={logout}
-                sx={{ display: { xs: 'none', xl: 'flex' }, mt: 2 }}
-              >
-                Logout
-              </Button>
-              <ListItemIcon
-                sx={{
-                  width: '100%',
-                  display: { xs: 'none', sm: 'flex', xl: 'none' },
-                  justifyContent: 'center',
-                }}
-              >
-                <Tooltip title="Logout">
-                  <IconButton color="primary" onClick={logout}>
-                    <Logout />
-                  </IconButton>
-                </Tooltip>
-              </ListItemIcon>
-            </ListItem>
-          )}
-          {!currentUser && (
-            <ListItem
-              sx={{
-                width: '90%',
-                mt: 8,
-                mx: 'auto',
-                mb: '10px',
-                px: { xs: 0, xl: 4 },
-                borderTop: '1px solid ',
-                borderColor: 'divider',
-              }}
-            >
-              <Link
-                to="/auth/login"
-                style={{
-                  width: '100%',
-                  marginTop: '16px',
-                }}
-              >
-                <Button
-                  variant="text"
-                  type="button"
-                  sx={{ display: { xs: 'none', xl: 'flex' }, mx: 'auto' }}
-                >
-                  Login
-                </Button>
-                <ListItemIcon
-                  sx={{
-                    width: '100%',
-                    display: { xs: 'none', sm: 'flex', xl: 'none' },
-                    justifyContent: 'center',
-                  }}
-                >
-                  <Tooltip title="Login">
-                    <IconButton color="primary">
-                      <Login />
-                    </IconButton>
-                  </Tooltip>
-                </ListItemIcon>
-              </Link>
-            </ListItem>
-          )}
+          <AuthActions />
         </List>
       </Box>
     </>

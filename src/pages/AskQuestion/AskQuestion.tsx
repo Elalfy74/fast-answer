@@ -35,7 +35,7 @@ const AskQuestion = () => {
 
   const queryClient = useQueryClient();
 
-  const { mutate, isLoading, error } = useMutation(saveQuestion, {
+  const { mutate, isLoading } = useMutation(saveQuestion, {
     onSuccess: (newQues) => {
       queryClient.setQueryData('questions', (questions: any) => {
         if (questions) {
@@ -89,7 +89,7 @@ const AskQuestion = () => {
   };
 
   return (
-    <Container sx={{ display: 'flex', flexDirection: 'column', pt: 6 }}>
+    <>
       <Typography
         variant="h4"
         sx={{
@@ -189,7 +189,7 @@ const AskQuestion = () => {
           </LoadingButton>
         </Box>
       </Box>
-    </Container>
+    </>
   );
 };
 

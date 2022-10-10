@@ -1,3 +1,4 @@
+import { Box } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
@@ -14,7 +15,10 @@ const BottomNavigationLayout = () => {
 
   return (
     <>
-      <Outlet /> {mobile && <BottomNavigationBar />}
+      {/* <Box pb={mobile ? 10 : 0}> */}
+      <Outlet />
+      {/* </Box> */}
+      {mobile && <BottomNavigationBar />}
     </>
   );
 };

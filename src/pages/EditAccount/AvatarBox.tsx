@@ -2,12 +2,14 @@ import EditIcon from '@mui/icons-material/Edit';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import { LoadingButton } from '@mui/lab';
 import {
+  Alert,
   Avatar,
   Box,
   Button,
   Divider,
   IconButton,
   InputLabel,
+  Snackbar,
   Stack,
   TextField,
   Tooltip,
@@ -48,6 +50,8 @@ const AvatarBox = ({ initialValues }: AvatarBoxProps) => {
   const [userNameEdit, setUserNameEdit] = useState(false);
   const [bioEdit, setBioEdit] = useState(false);
 
+  const [successOpen, setSucess] = useState(false);
+
   const handleCancel = (resetForm: ResetForm, values?: FormikValues) => {
     setBioEdit(false);
     setUserNameEdit(false);
@@ -72,6 +76,7 @@ const AvatarBox = ({ initialValues }: AvatarBoxProps) => {
 
     handleCancel(resetForm, values);
     setIsLoading(false);
+    setSucess(true);
   };
 
   const uploadFile = (userName: string, bio: string, resetForm: ResetForm) => {
@@ -120,6 +125,17 @@ const AvatarBox = ({ initialValues }: AvatarBoxProps) => {
     );
   };
 
+  const handleClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setSucess(false);
+  };
+
   return (
     <Box
       component="form"
@@ -129,10 +145,10 @@ const AvatarBox = ({ initialValues }: AvatarBoxProps) => {
         boxShadow: 2,
         borderRadius: 2,
         p: 2,
-        width: { sm: '100%', md: '28%' },
+        width: { sm: '100%', lg: '28%' },
         order: {
           xs: 1,
-          md: 2,
+          lg: 2,
         },
       }}
     >
@@ -264,6 +280,15 @@ const AvatarBox = ({ initialValues }: AvatarBoxProps) => {
           </Button>
         )}
       </Stack>
+      <Snackbar
+        open={successOpen}
+        autoHideDuration={3000}
+        onClose={handleClose}
+      >
+        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+          Your data has been Changed Successfuly
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };
