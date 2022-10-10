@@ -1,7 +1,10 @@
-import { BookmarkAddOutlined } from '@mui/icons-material';
-import { Box, Stack, Typography } from '@mui/material';
+import { Bookmark, BookmarkAddOutlined } from '@mui/icons-material';
+import { Box, IconButton, Stack, Typography } from '@mui/material';
+import { useMutation, useQueryClient } from 'react-query';
 
+import { useAuth } from '../../contexts/AuthContext';
 import { QuestionType } from '../../data/global.types';
+import { saveBookMark } from '../../services/questions';
 import { QA, Votes } from '.';
 
 type QuestionProps = {
@@ -9,6 +12,31 @@ type QuestionProps = {
 };
 
 const Question = ({ question }: QuestionProps) => {
+  const { currentUser } = useAuth();
+
+  const { mutate } = useMutation(saveBookMark);
+  const queryClient = useQueryClient();
+
+  const isFavorite = question.bookMarkers?.includes(currentUser!.uid);
+
+  const handleSaveBookMark = () => {
+    mutate(
+      { userId: currentUser!.uid, questionId: question.id },
+      {
+        onSuccess: () => {
+          queryClient.setQueryData<QuestionType | undefined>(
+            ['question details', question.id],
+            (oldData) =>
+              oldData && {
+                ...oldData,
+                bookMarkers: [currentUser!.uid, ...(oldData.bookMarkers || [])],
+              }
+          );
+        },
+      }
+    );
+  };
+
   return (
     <Box width="100%">
       <Typography component="h1" variant="h5" fontWeight="600" mb={2}>
@@ -23,7 +51,16 @@ const Question = ({ question }: QuestionProps) => {
       {/* UpVotes and Save Question */}
       <Stack direction="row" justifyContent="space-between">
         <Votes type="question" votes={question.votes} id={question.id} />
-        <BookmarkAddOutlined color="info" />
+        {currentUser && (
+          <IconButton
+            onClick={handleSaveBookMark}
+            disableRipple
+            disabled={isFavorite}
+          >
+            {isFavorite && <Bookmark color="primary" />}
+            {!isFavorite && <BookmarkAddOutlined color="info" />}
+          </IconButton>
+        )}
       </Stack>
     </Box>
   );

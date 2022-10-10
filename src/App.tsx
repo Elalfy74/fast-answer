@@ -13,6 +13,7 @@ import {
 } from './layouts';
 import {
   AllQuestions,
+  BookMarks,
   Chat,
   Login,
   QuestionDetails,
@@ -35,6 +36,7 @@ const App = () => {
             <Route element={<Wrapper />}>
               <Route element={<RightSideBarLayout />}>
                 <Route path="/" element={<AllQuestions />} />
+                <Route path="/bookmarks" element={<BookMarks />} />
                 <Route path="/questions/:qId" element={<QuestionDetails />} />
               </Route>
 

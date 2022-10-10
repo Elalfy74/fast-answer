@@ -1,5 +1,6 @@
 import {
   addDoc,
+  arrayUnion,
   collection,
   doc,
   DocumentData,
@@ -13,6 +14,7 @@ import {
   QueryDocumentSnapshot,
   startAfter,
   Timestamp,
+  updateDoc,
   where,
 } from 'firebase/firestore';
 import moment from 'moment';
@@ -119,6 +121,41 @@ export const saveQuestion = async (params: QuestionParams) => {
     upVotes: 0,
     downVotes: 0,
   } as QuestionType;
+};
+
+// BookMark Post
+type SaveBookMarkParams = {
+  userId: string;
+  questionId: string;
+};
+
+export const saveBookMark = async ({
+  userId,
+  questionId,
+}: SaveBookMarkParams) => {
+  const questionRef = doc(db, 'questions', questionId);
+
+  const result = await updateDoc(questionRef, {
+    bookMarkers: arrayUnion(userId),
+  });
+
+  return result;
+};
+
+export const getBookMarks = async (userId: string) => {
+  const q = query(
+    questionsCollectionRef,
+    where('bookMarkers', 'array-contains', userId)
+    // orderBy('creationTime', 'desc')
+  );
+
+  const questionsFromServer = await getDocs(q);
+
+  const questionsList: QuestionType[] = await formatAllQuestions(
+    questionsFromServer.docs
+  );
+
+  return questionsList;
 };
 
 export const saveFakeQuestion = async (

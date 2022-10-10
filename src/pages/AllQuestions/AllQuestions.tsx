@@ -1,4 +1,4 @@
-import { CircularProgress, Stack } from '@mui/material';
+import { CircularProgress, Stack, Typography } from '@mui/material';
 import { Fragment, useEffect } from 'react';
 import { useInfiniteQuery } from 'react-query';
 
@@ -48,7 +48,8 @@ const AllQuestions = () => {
   }
 
   return (
-    <Stack direction="column" alignItems="center" spacing={4}>
+    <Stack direction="column" spacing={4}>
+      <Typography variant="h5">All Question</Typography>
       {data?.pages.map((group, i) => (
         <Fragment key={i}>
           {group.map((question) => (
@@ -56,7 +57,9 @@ const AllQuestions = () => {
           ))}
         </Fragment>
       ))}
-      {isFetchingNextPage && <CircularProgress sx={{ mt: 10 }} />}
+      {isFetchingNextPage && (
+        <CircularProgress sx={{ mt: 10, alignSelf: 'center' }} />
+      )}
     </Stack>
   );
 };

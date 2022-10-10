@@ -50,6 +50,7 @@ export type QuestionType = Omit<
   creationTime: string;
   upVotes: number;
   downVotes: number;
+  bookMarkers?: string[];
 };
 
 export type RececviedAnswerType = Omit<ReceivedQuestionType, 'title' | 'tags'>;

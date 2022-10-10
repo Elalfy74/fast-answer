@@ -46,11 +46,11 @@ export const LeftSideBarListPrivate = [
     icon: <QuestionAnswer />,
     path: '/',
   },
-  // {
-  //   label: 'Favorites',
-  //   icon: <Bookmark />,
-  //   path: '/favorites',
-  // },
+  {
+    label: 'Bookmarks',
+    icon: <Bookmark />,
+    path: '/bookmarks',
+  },
   // {
   //   label: 'Tags',
   //   icon: <Tag />,
