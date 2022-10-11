@@ -12,7 +12,7 @@ import { useQueryClient } from 'react-query';
 import { useAuth } from '../contexts/AuthContext';
 import { User } from '../data/global.types';
 import { db } from '../firebase-config';
-import { ReceviveMessage } from '../pages/Chat/ChatDetails';
+import { ReceviveMessage } from '../pages/Chat/ChatDetails.types';
 
 type ChatDetailsProps = {
   otherUser: User;
