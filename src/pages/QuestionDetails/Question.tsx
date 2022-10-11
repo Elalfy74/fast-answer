@@ -18,7 +18,11 @@ const Question = ({ question }: QuestionProps) => {
   const { mutate } = useMutation(handleBookMark);
   const queryClient = useQueryClient();
 
-  const isFavorite = question.bookMarkers?.includes(currentUser!.uid);
+  let isFavorite: boolean | undefined;
+
+  if (currentUser) {
+    isFavorite = question.bookMarkers?.includes(currentUser.uid);
+  }
 
   const handleSaveBookMark = () => {
     mutate(
