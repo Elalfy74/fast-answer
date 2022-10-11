@@ -1,6 +1,6 @@
 import { Box, Divider } from '@mui/material';
 
-import { AnswerType } from '../../data/types';
+import { AnswerType } from '../../data/global.types';
 import { QA, Votes } from '.';
 
 type AnswerProps = {
@@ -17,12 +17,12 @@ const Answer = ({ answer }: AnswerProps) => {
         }}
       />
       <QA
-        authorFirstName={answer.author.FirstName}
-        authorLastName={answer.author.LastName}
+        authorUserName={answer.author?.userName}
+        authorAvatar={answer.author?.avatar}
         body={answer.body}
         creationTime={answer.creationTime}
       />
-      <Votes votes={answer.votes} id={answer.id} />
+      <Votes type="answer" votes={answer.votes} id={answer.id} />
     </Box>
   );
 };

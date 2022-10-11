@@ -1,16 +1,15 @@
-import { CircularProgress, Stack } from '@mui/material';
+import { CircularProgress, Stack, Typography } from '@mui/material';
 import { Fragment, useEffect } from 'react';
 import { useInfiniteQuery } from 'react-query';
 
-import { getAllQuestions } from '../../services/questions';
+import { getAllQuestions } from '../../services/questions/questions';
 import { Question } from '.';
 
 const AllQuestions = () => {
   const { data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    useInfiniteQuery('questions', () => getAllQuestions(), {
+    useInfiniteQuery('questions', getAllQuestions, {
       refetchOnWindowFocus: false,
       staleTime: Infinity,
-      cacheTime: Infinity,
       refetchOnMount: false,
       getNextPageParam: (lastPage, pages) => {
         if (lastPage.length === 0 || lastPage.length < 6) {
@@ -49,7 +48,8 @@ const AllQuestions = () => {
   }
 
   return (
-    <Stack direction="column" alignItems="center" spacing={4}>
+    <Stack direction="column" spacing={4}>
+      <Typography variant="h5">All Question</Typography>
       {data?.pages.map((group, i) => (
         <Fragment key={i}>
           {group.map((question) => (
@@ -57,7 +57,9 @@ const AllQuestions = () => {
           ))}
         </Fragment>
       ))}
-      {isFetchingNextPage && <CircularProgress sx={{ mt: 10 }} />}
+      {isFetchingNextPage && (
+        <CircularProgress sx={{ mt: 10, alignSelf: 'center' }} />
+      )}
     </Stack>
   );
 };

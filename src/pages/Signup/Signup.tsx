@@ -7,14 +7,15 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import React, { useRef } from 'react';
+import React from 'react';
 import { useMutation } from 'react-query';
 import { Link } from 'react-router-dom';
 
-import { GoogleLogin, Logo } from '../../components';
+import { GoogleLogin } from '../../components';
+import { Logo } from '../../components/svg';
 import { useAuth } from '../../contexts/AuthContext';
 import useInput from '../../hooks/use-input';
-import { saveUserData } from '../../services/users';
+import { saveUserData } from '../../services/users/users';
 import { isFirebaseError } from '../../utils/firebase-error';
 import {
   errorMessages,
@@ -51,18 +52,24 @@ const Signup = () => {
     onChangeHandler: firstNameChangeHandler,
     onBlurHandler: firstNameBlurHandler,
   } = useInput(validateFirstName, errorMessages.firstNameMessage);
-  // End Input Hook Usage
 
-  const lastNameValue = useRef<HTMLInputElement>(null);
+  const {
+    value: lastNameValue,
+    isValid: lastNameIsValid,
+    error: lastNameError,
+    onChangeHandler: lastNameChangeHandler,
+    onBlurHandler: lastNameBlurHandler,
+  } = useInput(validateFirstName, 'Requied');
+
+  // End Input Hook Usage
 
   const signupAndSaveUserData = async () => {
     const user = await signup({ email: emailValue, password: passwordValue });
 
-    await saveUserData({
-      userId: user.user.uid,
-      FirstName: firstNameValue,
-      LastName: lastNameValue.current?.value,
-      Email: emailValue,
+    await saveUserData(user.user.uid, {
+      firstName: firstNameValue,
+      lastName: lastNameValue,
+      email: emailValue,
     });
   };
 
@@ -80,7 +87,8 @@ const Signup = () => {
 
   const signupError = getErrorMessage();
 
-  const formIsValid = firstNameIsValid && emailIsValid && passwordIsValid;
+  const formIsValid =
+    firstNameIsValid && lastNameIsValid && emailIsValid && passwordIsValid;
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -99,7 +107,9 @@ const Signup = () => {
       }}
     >
       <Box textAlign="center" mb={3}>
-        <Logo />
+        <Link to="/">
+          <Logo />
+        </Link>
         <Typography component="h1" variant="h5" fontWeight="500" mt={2}>
           Signup To Fast Answer
         </Typography>
@@ -141,7 +151,11 @@ const Signup = () => {
               label="Last Name"
               name="lastName"
               autoComplete="family-name"
-              inputRef={lastNameValue}
+              value={lastNameValue}
+              onChange={lastNameChangeHandler}
+              onBlur={lastNameBlurHandler}
+              error={!!lastNameError}
+              helperText={lastNameError}
             />
           </Grid>
           {/* End Of First Name And Last Name */}

@@ -1,15 +1,11 @@
 export const validateEmail = (email: string) => {
-  return String(email)
-    .toLowerCase()
-    .match(
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    );
+  return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+    email
+  );
 };
 
 export const validateFirstName = (firstName: string) => {
-  return String(firstName)
-    .toLowerCase()
-    .match(/^[A-Za-z]+(([,.] |[ '-])[A-Za-z]+)*([.,'-]?)$/);
+  return /^[A-Za-z]+(([,.] |[ '-])[A-Za-z]+)*([.,'-]?)$/.test(firstName);
 };
 
 export const validateUserName = (username: string) => {

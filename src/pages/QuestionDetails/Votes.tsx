@@ -1,15 +1,21 @@
-import { PlayArrow, PlayArrowOutlined } from '@mui/icons-material';
-import { IconButton, Stack } from '@mui/material';
+import { IconButton, Stack, Typography } from '@mui/material';
 import { doc, DocumentData, DocumentReference } from 'firebase/firestore';
 import { useState } from 'react';
 
+import {
+  DownVote,
+  DownVoteOutlined,
+  UpVote,
+  UpVoteOutlined,
+} from '../../components/svg';
 import { useAuth } from '../../contexts/AuthContext';
-import { Vote } from '../../data/types';
+import { Vote } from '../../data/global.types';
 import { db } from '../../firebase-config';
 import { updateVotes } from '../../services/votes';
 import { getVotesNumber } from '../../utils/votes';
 
 type VotesProps = {
+  type: 'question' | 'answer';
   id: string;
   votes?: {
     author: DocumentReference<DocumentData>;
@@ -17,7 +23,7 @@ type VotesProps = {
   }[];
 };
 
-const Votes = ({ id, votes }: VotesProps) => {
+const Votes = ({ type, id, votes }: VotesProps) => {
   const { currentUser } = useAuth();
 
   const [allVotes, setVotes] = useState(votes);
@@ -57,7 +63,7 @@ const Votes = ({ id, votes }: VotesProps) => {
     // update the votes in the database
     setLoading(true);
     await updateVotes({
-      type: 'answer',
+      type,
       targetId: id,
       votes: newVotesArray,
     });
@@ -70,50 +76,36 @@ const Votes = ({ id, votes }: VotesProps) => {
   return (
     <Stack direction="row" gap={2} mt={2}>
       <Stack direction="row" alignItems="center">
-        {upVotes}{' '}
+        <Typography component="span" width={15}>
+          {upVotes}{' '}
+        </Typography>
         {isVoted?.value === 'up' ? (
-          <PlayArrow
-            color="primary"
-            sx={{
-              transform: 'rotate(-90deg)',
-            }}
-          />
+          <UpVote />
         ) : (
           <IconButton
-            disabled={loading}
+            disabled={loading || !currentUser}
             onClick={() => handleVote('up')}
             disableRipple
             size="small"
           >
-            <PlayArrowOutlined
-              sx={{
-                transform: 'rotate(-90deg)',
-              }}
-            />
+            <UpVoteOutlined />
           </IconButton>
         )}
       </Stack>
       <Stack direction="row" alignItems="center">
-        {downVotes}{' '}
+        <Typography component="span" width={15}>
+          {downVotes}{' '}
+        </Typography>
         {isVoted?.value === 'down' ? (
-          <PlayArrow
-            color="primary"
-            sx={{
-              transform: 'rotate(90deg)',
-            }}
-          />
+          <DownVote />
         ) : (
           <IconButton
-            disabled={loading}
+            disabled={loading || !currentUser}
             onClick={() => handleVote('down')}
             disableRipple
             size="small"
           >
-            <PlayArrowOutlined
-              sx={{
-                transform: 'rotate(90deg)',
-              }}
-            />
+            <DownVoteOutlined />
           </IconButton>
         )}
       </Stack>

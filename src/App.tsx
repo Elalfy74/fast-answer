@@ -1,52 +1,75 @@
-import { CssBaseline, ThemeProvider } from '@mui/material';
-import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-import AuthProvider, { useAuth } from './contexts/AuthContext';
-import { theme } from './contexts/theme';
-import { Wrapper } from './layouts';
+import { useAuth } from './contexts/AuthContext';
+import QueryProvider from './contexts/QueryProvider';
+import AppTheme from './contexts/theme';
+import {
+  BottomNavigationLayout,
+  MiniWrapper,
+  ProtectedRoute,
+  RightSideBarLayout,
+  Wrapper,
+} from './layouts';
 import {
   AllQuestions,
+  BookMarks,
+  Chat,
   Login,
   QuestionDetails,
   ScriptsPlayground,
   Signup,
+  UserProfile,
 } from './pages';
+import AskQuestion from './pages/AskQuestion/AskQuestion';
+import EditAccount from './pages/EditAccount/EditAccount';
 
 const App = () => {
   const { currentUser } = useAuth();
 
-  const queryClient = new QueryClient();
-
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          {/* <ScriptsPlayground /> */}
-          <Routes>
-            <Route path="/" element={<Wrapper />}>
-              <Route path="/" element={<AllQuestions />} />
+    <AppTheme>
+      <QueryProvider>
+        {/* <ScriptsPlayground /> */}
+        <Routes>
+          <Route element={<BottomNavigationLayout />}>
+            <Route element={<Wrapper />}>
+              <Route element={<RightSideBarLayout />}>
+                <Route path="/" element={<AllQuestions />} />
+                <Route path="/bookmarks" element={<BookMarks />} />
+                <Route path="/questions/:qId" element={<QuestionDetails />} />
+              </Route>
+
+              <Route element={<ProtectedRoute />}>
+                <Route path="/profile" element={<UserProfile />} />
+              </Route>
+
+              <Route path="/users/:userId" element={<UserProfile />} />
             </Route>
-            <Route path="/questions/:qId" element={<Wrapper />}>
-              <Route path="/questions/:qId" element={<QuestionDetails />} />
+
+            <Route element={<MiniWrapper />}>
+              <Route path="/ask-question" element={<AskQuestion />} />
+              <Route element={<ProtectedRoute />}>
+                <Route path="/profile-settings" element={<EditAccount />} />
+                <Route path="/chat/*" element={<Chat />} />
+              </Route>
             </Route>
-            <Route
-              path="/auth/login"
-              element={!currentUser ? <Login /> : <Navigate to="/" />}
-            />
-            <Route
-              path="/auth/signup"
-              element={!currentUser ? <Signup /> : <Navigate to="/" />}
-            />
-            {/* <Route path="*" element={<Navigate to="/not-found" />} />
-            <Routes path="/not-found" element={<NotFound />} /> */}
-          </Routes>
-        </AuthProvider>
+
+            {/* <Route path="*" element={<Navigate to="/not-found" />} /> */}
+            {/* <Routes path="/not-found" element={<NotFound />} /> */}
+          </Route>
+          <Route
+            path="/auth/login"
+            element={!currentUser ? <Login /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/auth/signup"
+            element={!currentUser ? <Signup /> : <Navigate to="/" />}
+          />
+        </Routes>
         <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
-      </QueryClientProvider>
-    </ThemeProvider>
+      </QueryProvider>
+    </AppTheme>
   );
 };
 

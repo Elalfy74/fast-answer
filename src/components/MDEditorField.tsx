@@ -2,11 +2,17 @@ import { Box } from '@mui/material';
 import MDEditor from '@uiw/react-md-editor';
 import ReactMarkdown from 'react-markdown';
 
-import { CodeBlock } from '../pages/QuestionDetails/QA';
+import { CodeBlock } from '.';
 
-const MDEditorField = ({ value, onChange }: any) => {
+const MDEditorField = ({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: any;
+}) => {
   return (
-    <Box data-color-mode="light" width="100%" mt={4}>
+    <Box width="100%" mt={4}>
       <MDEditor
         value={value}
         onChange={onChange}

@@ -1,4 +1,4 @@
-import { Vote } from '../data/types';
+import { Vote } from '../data/global.types';
 
 export const getVotesNumber = (
   voteValue: string,

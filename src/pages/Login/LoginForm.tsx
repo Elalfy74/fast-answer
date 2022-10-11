@@ -12,7 +12,8 @@ import {
 import { useMutation } from 'react-query';
 import { Link } from 'react-router-dom';
 
-import { GoogleLogin, Logo } from '../../components';
+import { GoogleLogin } from '../../components';
+import { Logo } from '../../components/svg';
 import { useAuth } from '../../contexts/AuthContext';
 import useInput from '../../hooks/use-input';
 import { isFirebaseError } from '../../utils/firebase-error';
@@ -97,7 +98,9 @@ const LoginForm = () => {
         }}
       >
         <Box textAlign="center" mb={3}>
-          <Logo />
+          <Link to="/">
+            <Logo />
+          </Link>
           <Typography variant="h5" fontWeight="500">
             Login To Fast Answer
           </Typography>
@@ -161,7 +164,7 @@ const LoginForm = () => {
           >
             Log In
           </LoadingButton>
-          <Divider textAlign="center">OR</Divider>
+          <Divider>OR</Divider>
           <GoogleLogin />
           <Typography variant="body2" textAlign="center" mt={2} color="gray">
             Do not have an account?{' '}

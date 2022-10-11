@@ -8,16 +8,12 @@ import {
   where,
 } from 'firebase/firestore';
 
-import { Tag } from '../data/types';
+import { Tag } from '../data/global.types';
 import { db } from '../firebase-config';
 
 const tagsCollectionRef = collection(db, 'tags');
 
-export const saveTag = async (tag: { name: string }) => {
-  await addDoc(tagsCollectionRef, tag);
-};
-
-// get All Tags of Question API
+// GET All Tags of Question API
 export const getTags = async (tagsRef: DocumentReference<DocumentData>[]) => {
   const tags: Tag[] = [];
   const tagsIds = tagsRef.map((tag) => tag.id);
@@ -36,8 +32,28 @@ export const getTags = async (tagsRef: DocumentReference<DocumentData>[]) => {
   return tags;
 };
 
-export const getAllTagsId = async () => {
-  const tags = await getDocs(tagsCollectionRef);
+// GET Tags By Query API
+export const getTagsByQuery = async (queryText: string) => {
+  const tagsQuery = query(
+    tagsCollectionRef,
+    where('name', '>=', queryText),
+    // eslint-disable-next-line prefer-template
+    where('name', '<=', queryText + '\uf8ff')
+  );
 
-  return tags.docs.map((doc) => doc.id);
+  const tagsFromServer = await getDocs(tagsQuery);
+
+  const tags = tagsFromServer.docs.map((tag) => {
+    return {
+      ...tag.data(),
+      id: tag.id,
+    };
+  });
+
+  return tags;
+};
+
+// POST add Tag
+export const saveTag = async (tag: { name: string }) => {
+  await addDoc(tagsCollectionRef, tag);
 };

@@ -1,17 +1,21 @@
 import { LoadingButton } from '@mui/lab';
-import { CircularProgress, Typography } from '@mui/material';
+import { Button, CircularProgress, Stack, Typography } from '@mui/material';
 import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { Link } from 'react-router-dom';
 
 import { MDEditorField } from '../../components';
 import { useAuth } from '../../contexts/AuthContext';
-import { AnswerType } from '../../data/types';
-import { getAllAnswersOfQuestion, saveAnswer } from '../../services/answers';
+import { AnswerType } from '../../data/global.types';
+import {
+  getAllAnswersOfQuestion,
+  saveAnswer,
+} from '../../services/answers/answers';
 import Answer from './Answer';
 
 const AllAnswers = ({ qId }: { qId: string }) => {
   const { currentUser } = useAuth();
-  const [value, setValue] = useState<unknown>('');
+  const [value, setValue] = useState('');
 
   const { data: answers, isLoading } = useQuery(
     ['answers', qId],
@@ -28,15 +32,16 @@ const AllAnswers = ({ qId }: { qId: string }) => {
           return [data, ...(oldData ?? [])];
         }
       );
+      queryClient.resetQueries(['questions']);
     },
   });
 
   const handleSubmit = async () => {
-    if (!value || !currentUser) return;
+    if (!value) return;
 
     const newAnswer = {
       body: value as string,
-      authorId: currentUser.uid,
+      authorId: currentUser?.uid,
       questionId: qId as string,
     };
 
@@ -50,17 +55,29 @@ const AllAnswers = ({ qId }: { qId: string }) => {
   return (
     <>
       <MDEditorField value={value} onChange={setValue} />
-      <LoadingButton
-        loading={postLoading}
-        variant="contained"
-        sx={{
-          mt: 2,
-          alignSelf: 'flex-start',
-        }}
-        onClick={handleSubmit}
+      <Stack
+        direction="row"
+        alignItems="center"
+        alignSelf="flex-start"
+        gap={2}
+        mt={2}
       >
-        Submit
-      </LoadingButton>
+        {!currentUser && (
+          <Stack direction="row" alignItems="center" gap={2}>
+            <Button variant="contained" component={Link} to="/auth/login">
+              Login
+            </Button>
+            <Typography component="span">OR</Typography>
+          </Stack>
+        )}
+        <LoadingButton
+          loading={postLoading}
+          variant={currentUser ? 'contained' : 'text'}
+          onClick={handleSubmit}
+        >
+          {currentUser ? 'Answer' : 'Answer Anonymously'}
+        </LoadingButton>
+      </Stack>
       <Typography
         component="h6"
         variant="body1"

@@ -1,3 +1,3 @@
-import Question from './Question';
+import Question from '../../components/Question';
 
 export { Question };
