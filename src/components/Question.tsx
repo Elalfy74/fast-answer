@@ -25,7 +25,7 @@ const Question = ({ question }: QuestionProps) => {
         <Stack direction="row" justifyContent="space-between" gap={2}>
           {/* Start Question Title and body */}
           <Box overflow="hidden">
-            <Link to={`questions/${question.id}`}>
+            <Link to={`/questions/${question.id}`}>
               <Typography
                 component="h3"
                 color="secondary.main"
