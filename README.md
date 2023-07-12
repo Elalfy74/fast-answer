@@ -15,12 +15,12 @@ Access project at [Fastanswer.tech](https://www.fastanswer.tech)
 
 ## General info
 
-This Project is for learning purpose Only. The Project is Full-stack app like stack overflow where users can ask, answer and even chat with each others and many other features.
+This Project is for learning Purposes Only. The Project is a Full-stack app like stack overflow where users can ask, answer and even chat with each other and many other features.
 
 The Project has two versions,
 
-1. With only react custom Hooks you can found it [Here](https://github.com/Elalfy74/fast-answer/tree/test-eslint)
-2. With Formik and React-Query To make use of browser cahcing (Final Version)
+1. With only react custom Hooks you can find it [Here](https://github.com/Elalfy74/fast-answer/tree/test-eslint)
+2. With Formik and React-Query To make use of browser caching (Final Version)
 
 ## Features
 
@@ -32,7 +32,7 @@ Completed
 - Answer a Question
 - Answer Anonymously
 - Upvote and DomVote
-- BookMark Question
+- Bookmark Question
 - User Profile
 - User Settings
 - Real-Time Chat
@@ -44,7 +44,7 @@ Still on Progress
 
 ## Technologies
 
-Project is created with vite and:
+The project is created with Vite and:
 
 - React
 - MUI
